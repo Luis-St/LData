@@ -1,0 +1,22 @@
+/* Set the color of the body */
+body{
+    background-color: #f2f2f2;
+    color: #4CAF50;
+}
+
+h1 {
+    color: #4CAF50;
+}
+
+p, h1 {
+    font-family: "Times New Roman", Times, serif;
+}
+
+/* Set the border of the heading */
+tr td {
+    border: 1px solid #000;
+}
+
+
+
+
