@@ -1,0 +1,8 @@
+# gradle
+build
+/.gradle
+
+# project files
+setup.bat
+/.idea/
+LNetCore.iml
