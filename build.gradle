@@ -27,6 +27,13 @@ dependencies {
 	testRuntimeOnly "org.junit.jupiter:junit-jupiter-engine:5.8.1"
 }
 
+tasks.register("run", JavaExec) {
+	group = "runs"
+	getMainClass().set("net.luis.data.Main")
+	classpath = sourceSets.main.runtimeClasspath
+	enableAssertions = true
+}
+
 test {
 	useJUnitPlatform()
 }
