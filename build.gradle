@@ -19,6 +19,7 @@ dependencies {
 	implementation "org.apache.logging.log4j:log4j-api:${Log4jAPI}" // Logging
 	implementation "org.apache.logging.log4j:log4j-core:${Log4jCore}" // Logging
 	implementation "org.apache.commons:commons-lang3:${ApacheLang}" // Utility
+	implementation "commons-io:commons-io:${ApacheIO}" // Utility
 	// Other
 	implementation "org.jetbrains:annotations:${JetBrainsAnnotations}" // Annotations
 	// Test
