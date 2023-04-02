@@ -1,19 +1,68 @@
 plugins {
-    id 'java'
+	id "java"
+	id "maven-publish"
 }
 
-group = 'org.example'
-version = '1.0-SNAPSHOT'
-
 repositories {
-    mavenCentral()
+	mavenCentral()
+	maven {
+		url uri("${projectDir}/maven/repositories")
+	}
 }
 
 dependencies {
-    testImplementation platform('org.junit:junit-bom:5.9.1')
-    testImplementation 'org.junit.jupiter:junit-jupiter'
+	// Local
+	implementation "net.luis:LUtils:${LUtils}" // Utility
+	// Google
+	implementation "com.google.guava:guava:${GoogleGuava}" // Utility
+	// Apache
+	implementation "org.apache.logging.log4j:log4j-api:${Log4jAPI}" // Logging
+	implementation "org.apache.logging.log4j:log4j-core:${Log4jCore}" // Logging
+	implementation "org.apache.commons:commons-lang3:${ApacheLang}" // Utility
+	// Other
+	implementation "org.jetbrains:annotations:${JetBrainsAnnotations}" // Annotations
+	// Test
+	testImplementation "org.junit.jupiter:junit-jupiter-api:5.8.1"
+	testRuntimeOnly "org.junit.jupiter:junit-jupiter-engine:5.8.1"
 }
 
 test {
-    useJUnitPlatform()
+	useJUnitPlatform()
+}
+
+java {
+	withSourcesJar()
+}
+
+artifacts {
+	archives sourcesJar
+}
+
+publishing {
+	publications {
+		mavenJava(MavenPublication) {
+			groupId = "net.luis"
+			artifactId = "LData"
+			version = "1.0"
+			artifact jar
+			artifact sourcesJar
+		}
+	}
+	repositories {
+		maven {
+			url uri("C:/Users/luiss/.m2/repository")
+		}
+		maven {
+			url uri("${projectDir}/maven/repositories")
+		}
+	}
+}
+
+jar {
+	manifest {
+		attributes([
+				"Built-By": "Luis Staudt",
+				"Multi-Release": "true"
+		])
+	}
 }
