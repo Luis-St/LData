@@ -18,7 +18,7 @@ import java.util.Properties;
  *
  */
 
-public class PropertiesWriter implements Flushable, Closeable {
+public class PropertiesWriter {
 	
 	private static final List<String> ALLOWED_EXTENSIONS = List.of(".props", ".properties", ".cfg", ".conf", ".config", ".configuration", ".ini", ".settings", ".prefs", ".preferences");
 	
@@ -153,14 +153,20 @@ public class PropertiesWriter implements Flushable, Closeable {
 		}
 	}
 	
-	@Override
-	public void flush() throws IOException {
-		this.writer.flush();
+	public void flush() {
+		try {
+			this.writer.flush();
+		} catch (Exception e) {
+			throw new RuntimeException(e);
+		}
 	}
 	
-	@Override
-	public void close() throws IOException {
-		this.writtenProperties.clear();
-		this.writer.close();
+	public void close() {
+		try {
+			this.writtenProperties.clear();
+			this.writer.close();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 }

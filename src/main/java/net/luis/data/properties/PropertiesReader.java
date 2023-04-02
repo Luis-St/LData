@@ -15,7 +15,7 @@ import java.util.Properties;
  *
  */
 
-public class PropertiesReader implements Closeable {
+public class PropertiesReader {
 	
 	private final Map<String, String> properties;
 	
@@ -116,8 +116,7 @@ public class PropertiesReader implements Closeable {
 		return this.properties.get(key);
 	}
 	
-	@Override
-	public void close() throws IOException {
+	public void close(){
 		this.properties.clear();
 	}
 }
