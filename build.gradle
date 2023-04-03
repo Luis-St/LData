@@ -69,7 +69,7 @@ publishing {
 jar {
 	manifest {
 		attributes([
-				"Built-By": "Luis Staudt",
+				"Built-By"     : "Luis Staudt",
 				"Multi-Release": "true"
 		])
 	}

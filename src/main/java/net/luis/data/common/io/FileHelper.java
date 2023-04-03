@@ -1,13 +1,10 @@
-package net.luis.data.common;
+package net.luis.data.common.io;
 
 import org.apache.commons.io.FileUtils;
 
 import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
 import java.nio.charset.Charset;
 import java.util.List;
-import java.util.stream.Stream;
 
 /**
  *

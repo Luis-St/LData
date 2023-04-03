@@ -1,6 +1,6 @@
-package net.luis.data.properties;
+package net.luis.data.properties.config;
 
-import net.luis.data.common.DataConfig;
+import net.luis.data.common.config.DataConfig;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Objects;
@@ -47,7 +47,7 @@ public class PropertiesConfig implements DataConfig {
 	}
 	
 	public static @NotNull PropertiesConfig.Builder builder() {
-	    return new PropertiesConfig.Builder();
+		return new PropertiesConfig.Builder();
 	}
 	
 	//region Getters
@@ -136,7 +136,7 @@ public class PropertiesConfig implements DataConfig {
 	
 	@Override
 	public int hashCode() {
-		return Objects.hash(this.delimiter, this.prettyPrint , this.allowAppend, this.allowComments, this.allowEmptyValues, this.allowDuplicateValues, this.allowEscapedDelimiter, this.allowCustomExtensions);
+		return Objects.hash(this.delimiter, this.prettyPrint, this.allowAppend, this.allowComments, this.allowEmptyValues, this.allowDuplicateValues, this.allowEscapedDelimiter, this.allowCustomExtensions);
 	}
 	
 	@Override

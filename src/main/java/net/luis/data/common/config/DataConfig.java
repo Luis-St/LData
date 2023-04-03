@@ -1,4 +1,4 @@
-package net.luis.data.common;
+package net.luis.data.common.config;
 
 import net.luis.utils.annotation.IndicationInterface;
 
