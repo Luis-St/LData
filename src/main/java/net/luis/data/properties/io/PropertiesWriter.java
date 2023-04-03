@@ -1,16 +1,20 @@
-package net.luis.data.properties;
+package net.luis.data.properties.io;
 
 import com.google.common.collect.Maps;
-import org.apache.commons.io.FileUtils;
+import net.luis.data.properties.Properties;
+import net.luis.data.properties.Property;
+import net.luis.data.properties.config.PropertiesConfig;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.jetbrains.annotations.NotNull;
 
-import java.io.*;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
-import java.util.Properties;
 
 /**
  *
@@ -53,12 +57,12 @@ public class PropertiesWriter {
 		if (!file.canWrite()) {
 			throw new IllegalArgumentException("File cannot be written to");
 		}
-		if (!ALLOWED_EXTENSIONS.contains(FilenameUtils.getExtension(file.getName())) || !this.config.allowCustomExtensions()) {
+		if (!ALLOWED_EXTENSIONS.contains(FilenameUtils.getExtension(file.getName())) && !this.config.allowCustomExtensions()) {
 			throw new IllegalArgumentException("File extension is not allowed");
 		}
 		//endregion
 		try {
-			this.writer = new BufferedWriter(new FileWriter(file, this.config.allowAppend()));
+			this.writer = new BufferedWriter(new FileWriter(file.getAbsoluteFile(), this.config.allowAppend()));
 		} catch (Exception e) {
 			throw new RuntimeException(e);
 		}
@@ -72,55 +76,53 @@ public class PropertiesWriter {
 		}
 	}
 	
-	//region Write properties
-	public void writeProperties(@NotNull Map<String, String> properties) throws IOException {
-		properties.forEach(this::writeProperty);
+	public void write(@NotNull Properties properties) {
+		properties.forEach(this::write);
 	}
-	
-	public void writeProperties(@NotNull Properties properties) throws IOException {
-		properties.forEach((key, value) -> this.writeProperty(key.toString(), value.toString()));
-	}
-	//endregion
 	
 	//region Write overloads
-	public void writeProperty(String key, int value) {
-		this.writeProperty(key, String.valueOf(value));
+	public void write(String key, int value) {
+		this.write(key, String.valueOf(value));
 	}
 	
-	public void writeProperty(String key, long value) {
-		this.writeProperty(key, String.valueOf(value));
+	public void write(String key, long value) {
+		this.write(key, String.valueOf(value));
 	}
 	
-	public void writeProperty(String key, double value) {
-		this.writeProperty(key, String.valueOf(value));
+	public void write(String key, double value) {
+		this.write(key, String.valueOf(value));
 	}
 	
-	public void writeProperty(String key, boolean value) {
-		this.writeProperty(key, String.valueOf(value));
+	public void write(String key, boolean value) {
+		this.write(key, String.valueOf(value));
 	}
 	
-	public void writeProperty(String key, int[] value) {
-		this.writeProperty(key, Arrays.toString(value));
+	public void write(String key, int[] value) {
+		this.write(key, Arrays.toString(value));
 	}
 	
-	public void writeProperty(String key, long[] value) {
-		this.writeProperty(key, Arrays.toString(value));
+	public void write(String key, long[] value) {
+		this.write(key, Arrays.toString(value));
 	}
 	
-	public void writeProperty(String key, double[] value) {
-		this.writeProperty(key, Arrays.toString(value));
+	public void write(String key, double[] value) {
+		this.write(key, Arrays.toString(value));
 	}
 	
-	public void writeProperty(String key, boolean[] value) {
-		this.writeProperty(key, Arrays.toString(value));
+	public void write(String key, boolean[] value) {
+		this.write(key, Arrays.toString(value));
 	}
 	
-	public void writeProperty(String key, String[] value) {
-		this.writeProperty(key, Arrays.toString(value));
+	public void write(String key, String[] value) {
+		this.write(key, Arrays.toString(value));
 	}
 	//endregion
 	
-	public void writeProperty(String key, String value) {
+	public void write(@NotNull Property property) {
+		this.write(property.getKey(), property.get());
+	}
+	
+	public void write(String key, String value) {
 		String trimmedKey = StringUtils.trimToEmpty(key);
 		String trimmedValue = StringUtils.trimToEmpty(value);
 		//region Validation
@@ -128,7 +130,7 @@ public class PropertiesWriter {
 			throw new IllegalArgumentException("Property with key " + trimmedKey + " already exists");
 		}
 		if (this.writtenProperties.containsValue(trimmedValue) && !this.config.allowDuplicateValues()) {
-			throw new IllegalArgumentException("Property with value " + trimmedValue + " already exists because the configuration does not allow it");
+			throw new IllegalArgumentException("Property with value " + trimmedValue + " already exists and the configuration does not allow duplicate values");
 		}
 		if (StringUtils.isEmpty(trimmedValue) && !this.config.allowEmptyValues()) {
 			throw new IllegalArgumentException("Property value cannot be empty because the configuration does not allow it");
@@ -153,6 +155,7 @@ public class PropertiesWriter {
 		}
 	}
 	
+	//region IO operations
 	public void flush() {
 		try {
 			this.writer.flush();
@@ -169,4 +172,10 @@ public class PropertiesWriter {
 			e.printStackTrace();
 		}
 	}
+	
+	public void flushAndClose() {
+		this.flush();
+		this.close();
+	}
+	//endregion
 }
