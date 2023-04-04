@@ -14,7 +14,7 @@ import java.util.Objects;
  *
  */
 
-public class Property {
+public class Property implements Comparable<Property> {
 	
 	private final String key;
 	private final String value;
@@ -46,31 +46,28 @@ public class Property {
 	//endregion
 	
 	//region Array constructors
-	public Property(String key, int[] value) {
+	public Property(String key, int... value) {
 		this(key, Arrays.toString(value));
 	}
 	
-	public Property(String key, long[] value) {
+	public Property(String key, long... value) {
 		this(key, Arrays.toString(value));
 	}
 	
-	public Property(String key, double[] value) {
+	public Property(String key, double... value) {
 		this(key, Arrays.toString(value));
 	}
 	
-	public Property(String key, boolean[] value) {
+	public Property(String key, boolean... value) {
 		this(key, Arrays.toString(value));
 	}
 	
-	public Property(String key, char[] value) {
+	public Property(String key, String... value) {
 		this(key, Arrays.toString(value));
 	}
 	
-	public Property(String key, String[] value) {
-		this(key, Arrays.toString(value));
-	}
-	
-	public <T> Property(String key, T[] value, @NotNull StringConverter<T> converter) {
+	@SafeVarargs
+	public <T> Property(String key, @NotNull StringConverter<T> converter, T... value) {
 		this(key, Arrays.toString(Arrays.stream(value).map(converter::toString).toArray(String[]::new)));
 	}
 	//endregion
@@ -194,10 +191,6 @@ public class Property {
 		}
 	}
 	
-	public char[] getAsCharArray() {
-		return this.value.replace("[", "").replace("]", "").strip().toCharArray();
-	}
-	
 	@SuppressWarnings("unchecked")
 	public <T> T[] getAsArray(@NotNull StringConverter<T> converter) {
 		String[] array = this.getAsArray();
@@ -208,6 +201,11 @@ public class Property {
 		return (T[]) result;
 	}
 	//endregion
+	
+	@Override
+	public int compareTo(@NotNull Property property) {
+		return this.key.compareTo(property.key);
+	}
 	
 	//region Object overrides
 	@Override

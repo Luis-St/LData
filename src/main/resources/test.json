@@ -1,13 +1,48 @@
 {
 	"name": "John Doe",
 	"age": 30,
-	"email": "johndoe@example.com",
 	"address": {
 		"street": "123 Main St",
-		"city": "Anytown",
+		"city": "Any-town",
 		"state": "CA",
 		"zip": "12345"
 	},
+	"children": [
+		{
+			"name": "Jane Doe",
+			"age": 5
+		},
+		{
+			"name": "Jim Doe",
+			"age": 8
+		}
+	],
+	"car": {
+		"make": "Ford",
+		"model": "Fusion",
+		"year": 2012
+	},
+	"house": {
+		"sqft": 1200,
+		"bedrooms": 3,
+		"bathrooms": 2,
+		"hasGarage": true
+	},
+	"email": "johndoe@example.com",
+	"pets": [
+		{
+			"name": "Fluffy",
+			"age": 5,
+			"breed": "Husky",
+			"species": "Dog"
+		},
+		{
+			"name": "Whiskers",
+			"age": 2,
+			"breed": "Siamese",
+			"species": "Cat"
+		}
+	],
 	"phone": [
 		{
 			"type": "home",
