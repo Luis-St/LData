@@ -6,6 +6,6 @@ build
 setup.bat
 /.idea/
 LNetCore.iml
-src/main/java/net/luis/data/Main.java
+#src/main/java/net/luis/data/Main.java
 LData.iml
 test.properties

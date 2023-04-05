@@ -2,7 +2,7 @@
 	"name": "John Doe",
 	"age": 30,
 	"address": {
-		"street": "123 Main St",
+		"street": "123 Main\" St",
 		"city": "Any-town",
 		"state": "CA",
 		"zip": "12345"
