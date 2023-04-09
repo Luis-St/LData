@@ -11,10 +11,6 @@
 		{
 			"name": "Jane Doe",
 			"age": 5
-		},
-		{
-			"name": "Jim Doe",
-			"age": 8
 		}
 	],
 	"car": {
@@ -26,7 +22,13 @@
 		"sqft": 1200,
 		"bedrooms": 3,
 		"bathrooms": 2,
-		"hasGarage": true
+		"hasGarage": true,
+		"garage": {
+			"sqft": 400,
+			"hasWorkshop": true
+		},
+		"hasPool": false,
+		"pool": {}
 	},
 	"email": "johndoe@example.com",
 	"pets": [
@@ -46,11 +48,57 @@
 	"phone": [
 		{
 			"type": "home",
-			"number": "123-456-7890"
+			"number": "123-456-7890",
+			"number_parts": [
+				{
+					"type": "area_code",
+					"value": "123"
+				},
+				{
+					"type": "prefix",
+					"value": "456"
+				},
+				{
+					"type": "line_number",
+					"value": "7890"
+				}
+			]
 		},
 		{
 			"type": "work",
-			"number": "123-456-7890"
+			"number": "123-456-7890",
+			"number_parts": [
+				{
+					"type": "area_code",
+					"value": "123"
+				},
+				{
+					"type": "prefix",
+					"value": "456"
+				},
+				{
+					"type": "line_number",
+					"value": "7890"
+				}
+			]
+		},
+		{
+			"type": "cell",
+			"number": "123-456-7890",
+			"number_parts": [
+				{
+					"type": "area_code",
+					"value": "123"
+				},
+				{
+					"type": "prefix",
+					"value": "456"
+				},
+				{
+					"type": "line_number",
+					"value": "7890"
+				}
+			]
 		}
 	]
 }
