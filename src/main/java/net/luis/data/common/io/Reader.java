@@ -1,6 +1,5 @@
 package net.luis.data.common.io;
 
-import net.luis.data.json.JsonElement;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Iterator;

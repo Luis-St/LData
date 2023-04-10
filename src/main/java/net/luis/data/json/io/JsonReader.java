@@ -10,12 +10,13 @@ import net.luis.data.json.exception.JsonSyntaxException;
 import net.luis.data.json.primitive.JsonBoolean;
 import net.luis.data.json.primitive.JsonNumber;
 import net.luis.data.json.primitive.JsonString;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.File;
-import java.util.*;
+import java.util.Map;
+import java.util.Objects;
+import java.util.Optional;
+import java.util.Stack;
 import java.util.stream.Collectors;
 
 public class JsonReader implements Reader<JsonElement> {
@@ -195,7 +196,8 @@ public class JsonReader implements Reader<JsonElement> {
 			this.index++;
 		}
 		//endregion
-		int keyIndex = this.findNextInScope(this.index, ':').orElseThrow(() -> new JsonSyntaxException("Json is not a valid object, miss a separator (':') in " + this.substring(this.findNextInScope(this.index, ',').orElse(this.length - 1))));
+		int keyIndex = this.findNextInScope(this.index, ':')
+				.orElseThrow(() -> new JsonSyntaxException("Json is not a valid object, miss a separator (':') in " + this.substring(this.findNextInScope(this.index, ',').orElse(this.length - 1))));
 		int valueIndex = this.findNextInScope(this.index, ',').orElse(this.length - 1);
 		String key = validateKey(this.substring(keyIndex));
 		this.index = keyIndex + 1;

@@ -149,14 +149,14 @@ public class PropertiesConfig implements DataConfig {
 	//region Builder
 	public static class Builder implements DataConfig.Builder<PropertiesConfig> {
 		
-		private char delimiter = '=';
-		private boolean prettyPrint = true;
-		private boolean allowAppend = false;
-		private boolean allowComments = true;
-		private boolean allowEmptyValues = true;
-		private boolean allowDuplicateValues = true;
-		private boolean allowEscapedDelimiter = true;
-		private boolean allowCustomExtensions = false;
+		private char delimiter = PropertiesConfig.DEFAULT.getDelimiter();
+		private boolean prettyPrint = PropertiesConfig.DEFAULT.prettyPrint();
+		private boolean allowAppend = PropertiesConfig.DEFAULT.allowAppend();
+		private boolean allowComments = PropertiesConfig.DEFAULT.allowComments();
+		private boolean allowEmptyValues = PropertiesConfig.DEFAULT.allowEmptyValues();
+		private boolean allowDuplicateValues = PropertiesConfig.DEFAULT.allowDuplicateValues();
+		private boolean allowEscapedDelimiter = PropertiesConfig.DEFAULT.allowEscapedDelimiter();
+		private boolean allowCustomExtensions = PropertiesConfig.DEFAULT.allowCustomExtensions();
 		
 		private Builder() {
 		

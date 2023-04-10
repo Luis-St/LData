@@ -168,7 +168,7 @@ public class PropertiesWriter {
 			this.writtenProperties.clear();
 			this.writer.close();
 		} catch (Exception e) {
-			e.printStackTrace();
+			throw new RuntimeException(e);
 		}
 	}
 	
