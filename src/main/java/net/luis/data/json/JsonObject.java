@@ -2,14 +2,17 @@ package net.luis.data.json;
 
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
+import net.luis.data.common.io.Writable;
 import net.luis.data.json.config.JsonConfig;
 import net.luis.data.json.exception.JsonException;
+import net.luis.data.json.io.JsonWriter;
 import net.luis.data.json.primitive.JsonBoolean;
 import net.luis.data.json.primitive.JsonNumber;
 import net.luis.data.json.primitive.JsonPrimitive;
 import net.luis.data.json.primitive.JsonString;
 import org.jetbrains.annotations.NotNull;
 
+import java.io.File;
 import java.util.*;
 
 /**
@@ -18,7 +21,7 @@ import java.util.*;
  *
  */
 
-public class JsonObject implements JsonElement, Iterable<Map.Entry<String, JsonElement>> {
+public class JsonObject implements JsonElement, Iterable<Map.Entry<String, JsonElement>>, Writable<JsonWriter> {
 	
 	private final Map<String, JsonElement> elements = Maps.newTreeMap();
 	
@@ -176,6 +179,18 @@ public class JsonObject implements JsonElement, Iterable<Map.Entry<String, JsonE
 			return "{" + String.join(", ", values) + "}";
 		}
 		return "{" + System.lineSeparator() + String.join("," + System.lineSeparator(), values) + System.lineSeparator() + config.indent() + "}";
+	}
+	
+	@Override
+	public void write(@NotNull File file) {
+		JsonWriter writer = new JsonWriter(file);
+		writer.write(this);
+		writer.flushAndClose();
+	}
+	
+	@Override
+	public void write(@NotNull JsonWriter writer) {
+		writer.write(this);
 	}
 	
 	//region Helper methods
