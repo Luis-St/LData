@@ -50,36 +50,18 @@
 			"type": "home",
 			"number": "123-456-7890",
 			"number_parts": [
-				{
-					"type": "area_code",
-					"value": "123"
-				},
-				{
-					"type": "prefix",
-					"value": "456"
-				},
-				{
-					"type": "line_number",
-					"value": "7890"
-				}
+				"123",
+				"456",
+				"7890"
 			]
 		},
 		{
 			"type": "work",
 			"number": "123-456-7890",
 			"number_parts": [
-				{
-					"type": "area_code",
-					"value": "123"
-				},
-				{
-					"type": "prefix",
-					"value": "456"
-				},
-				{
-					"type": "line_number",
-					"value": "7890"
-				}
+				123,
+				456,
+				7890
 			]
 		},
 		{
