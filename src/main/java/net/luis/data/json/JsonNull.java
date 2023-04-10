@@ -1,5 +1,8 @@
 package net.luis.data.json;
 
+import net.luis.data.json.config.JsonConfig;
+import org.jetbrains.annotations.NotNull;
+
 /**
  *
  * @author Luis-St
@@ -15,12 +18,12 @@ public class JsonNull implements JsonElement {
 	}
 	
 	@Override
-	public JsonElement copy() {
+	public @NotNull JsonElement copy() {
 		return this;
 	}
 	
 	@Override
-	public String toJsonString() {
+	public @NotNull String toJson(JsonConfig config) {
 		return "null";
 	}
 }

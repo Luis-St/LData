@@ -2,6 +2,7 @@ package net.luis.data.json;
 
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
+import net.luis.data.json.config.JsonConfig;
 import net.luis.data.json.exception.JsonException;
 import net.luis.data.json.primitive.JsonBoolean;
 import net.luis.data.json.primitive.JsonNumber;
@@ -19,19 +20,10 @@ import java.util.*;
 
 public class JsonObject implements JsonElement, Iterable<Map.Entry<String, JsonElement>> {
 	
-	private final Map<String, JsonElement> map = Maps.newTreeMap();
+	private final Map<String, JsonElement> elements = Maps.newTreeMap();
 	
 	public JsonObject() {
 	
-	}
-	
-	@Override
-	public JsonElement copy() {
-		JsonObject object = new JsonObject();
-		for (Map.Entry<String, JsonElement> entry : this.map.entrySet()) {
-			object.add(entry.getKey(), entry.getValue().copy());
-		}
-		return object;
 	}
 	
 	//region Validation
@@ -49,48 +41,72 @@ public class JsonObject implements JsonElement, Iterable<Map.Entry<String, JsonE
 	}
 	//endregion
 	
+	public static @NotNull String correctIndents(@NotNull JsonElement element, JsonConfig config, String separator) {
+		if (element.isArray() || element.isObject()) {
+			List<String> lines = Lists.newArrayList(element.toJson(config).split(System.lineSeparator()));
+			if (2 > lines.size()) {
+				return config.indent() + separator + element.toJson(config);
+			} else {
+				for (int i = 1; i < lines.size() - 1; i++) {
+					lines.set(i, config.indent() + lines.get(i));
+				}
+				return config.indent() + separator + String.join(System.lineSeparator(), lines);
+			}
+		}
+		return config.indent() + separator + element.toJson(config);
+	}
+	
+	@Override
+	public @NotNull JsonElement copy() {
+		JsonObject object = new JsonObject();
+		for (Map.Entry<String, JsonElement> entry : this.elements.entrySet()) {
+			object.add(entry.getKey(), entry.getValue().copy());
+		}
+		return object;
+	}
+	
 	//region Adders
 	public void add(String key, JsonElement value) {
-		this.map.put(validateKey(key), value == null ? JsonNull.INSTANCE : value);
+		this.elements.put(validateKey(key), value == null ? JsonNull.INSTANCE : value);
 	}
 	
 	public void add(String key, String value) {
-		this.map.put(validateKey(key), value == null ? JsonNull.INSTANCE : new JsonString(value));
+		this.elements.put(validateKey(key), value == null ? JsonNull.INSTANCE : new JsonString(value));
 	}
 	
 	public void add(String key, Number value) {
-		this.map.put(validateKey(key), value == null ? JsonNull.INSTANCE : new JsonNumber(value));
+		this.elements.put(validateKey(key), value == null ? JsonNull.INSTANCE : new JsonNumber(value));
 	}
 	
 	public void add(String key, Boolean value) {
-		this.map.put(validateKey(key), value == null ? JsonNull.INSTANCE : new JsonBoolean(value));
+		this.elements.put(validateKey(key), value == null ? JsonNull.INSTANCE : new JsonBoolean(value));
 	}
 	
 	public void add(String key, JsonObject value) {
-		this.map.put(validateKey(key), value == null ? JsonNull.INSTANCE : value);
-	}
-	
-	public void add(String key, JsonArray value) {
-		this.map.put(validateKey(key), value == null ? JsonNull.INSTANCE : value);
+		this.elements.put(validateKey(key), value == null ? JsonNull.INSTANCE : value);
 	}
 	//endregion
 	
+	public void add(String key, JsonArray value) {
+		this.elements.put(validateKey(key), value == null ? JsonNull.INSTANCE : value);
+	}
+	
 	public int size() {
-		return this.map.size();
+		return this.elements.size();
 	}
 	
 	public Set<String> keySet() {
-		return this.map.keySet();
+		return this.elements.keySet();
 	}
 	
 	public boolean has(String key) {
-		return this.map.containsKey(key);
+		return this.elements.containsKey(key);
 	}
 	
 	//region Getters
 	public JsonElement get(String key) {
 		if (this.has(key)) {
-			return this.map.get(key);
+			return this.elements.get(key);
 		}
 		throw new IllegalStateException("No such key: " + key);
 	}
@@ -114,6 +130,7 @@ public class JsonObject implements JsonElement, Iterable<Map.Entry<String, JsonE
 		}
 		throw new IllegalStateException("No such key: " + key);
 	}
+	//endregion
 	
 	public JsonArray getAsArray(String key) {
 		if (this.has(key)) {
@@ -124,29 +141,56 @@ public class JsonObject implements JsonElement, Iterable<Map.Entry<String, JsonE
 		}
 		throw new IllegalStateException("No such key: " + key);
 	}
-	//endregion
 	
 	@Override
 	public @NotNull Iterator<Map.Entry<String, JsonElement>> iterator() {
-		return this.map.entrySet().iterator();
+		return this.elements.entrySet().iterator();
 	}
 	
 	@Override
-	public String toJsonString() {
-		if (this.map.isEmpty()) {
+	public @NotNull String toJson(JsonConfig config) {
+		if (this.elements.isEmpty()) {
 			return "{}";
 		}
+		boolean simplify = this.canBeSimplified(config);
 		List<String> values = Lists.newArrayList();
-		for (Map.Entry<String, JsonElement> entry : this.map.entrySet()) {
-			String key = entry.getKey();
-			if (key.charAt(0) == '"' && key.charAt(key.length() - 1) == '"') {
-				values.add("\"" + "\\\"" + key.substring(1, key.length() - 1) + "\\\"" + "\"" + ":" + entry.getValue().toJsonString());
+		for (Map.Entry<String, JsonElement> entry : this.elements.entrySet()) {
+			String key = JsonString.quote(entry.getKey(), config);
+			if (key.substring(1, key.length() - 1).isBlank() && !config.allowBlankKeys()) {
+				throw new JsonException("Key of value " + entry.getValue() + " is blank which is not allowed");
+			}
+			if (config.prettyPrint()) {
+				if (simplify) {
+					values.add(key + ": " + entry.getValue().toJson(config));
+				} else {
+					values.add(correctIndents(entry.getValue(), config, key + ": "));
+				}
 			} else {
-				values.add("\"" + key + "\":" + entry.getValue().toJsonString());
+				values.add(key + ":" + entry.getValue().toJson(config));
 			}
 		}
-		return "{" + String.join(",", values) + "}";
+		if (!config.prettyPrint()) {
+			return "{" + String.join(",", values) + "}";
+		}
+		if (simplify) {
+			return "{" + String.join(", ", values) + "}";
+		}
+		return "{" + System.lineSeparator() + String.join("," + System.lineSeparator(), values) + System.lineSeparator() + config.indent() + "}";
 	}
+	
+	//region Helper methods
+	private boolean canBeSimplified(@NotNull JsonConfig config) {
+		if (!config.simplifyPrimitiveArrays()) {
+			return false;
+		}
+		for (JsonElement element : this.elements.values()) {
+			if (!element.isPrimitive()) {
+				return false;
+			}
+		}
+		return true;
+	}
+	//endregion
 	
 	//region Object overrides
 	@Override
@@ -154,17 +198,17 @@ public class JsonObject implements JsonElement, Iterable<Map.Entry<String, JsonE
 		if (this == o) return true;
 		if (!(o instanceof JsonObject that)) return false;
 		
-		return this.map.equals(that.map);
+		return this.elements.equals(that.elements);
 	}
 	
 	@Override
 	public int hashCode() {
-		return Objects.hash(this.map);
+		return Objects.hash(this.elements);
 	}
 	
 	@Override
 	public String toString() {
-		return this.map.toString();
+		return this.elements.toString();
 	}
 	//endregion
 }

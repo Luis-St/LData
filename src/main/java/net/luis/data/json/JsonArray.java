@@ -1,6 +1,7 @@
 package net.luis.data.json;
 
 import com.google.common.collect.Lists;
+import net.luis.data.json.config.JsonConfig;
 import net.luis.data.json.primitive.JsonBoolean;
 import net.luis.data.json.primitive.JsonNumber;
 import net.luis.data.json.primitive.JsonString;
@@ -31,7 +32,7 @@ public class JsonArray implements JsonElement, Iterable<JsonElement> {
 	}
 	
 	@Override
-	public JsonElement copy() {
+	public @NotNull JsonElement copy() {
 		JsonArray array = new JsonArray();
 		for (JsonElement element : this.elements) {
 			array.add(element.copy());
@@ -57,6 +58,7 @@ public class JsonArray implements JsonElement, Iterable<JsonElement> {
 	}
 	//endregion
 	
+	//region List methods
 	public boolean addAll(@NotNull JsonArray array) {
 		return this.elements.addAll(array.elements);
 	}
@@ -93,6 +95,7 @@ public class JsonArray implements JsonElement, Iterable<JsonElement> {
 	public @NotNull Iterator<JsonElement> iterator() {
 		return this.elements.iterator();
 	}
+	//endregion
 	
 	//region Getters
 	public JsonElement get(int index) {
@@ -157,12 +160,39 @@ public class JsonArray implements JsonElement, Iterable<JsonElement> {
 	//endregion
 	
 	@Override
-	public String toJsonString() {
+	public @NotNull String toJson(JsonConfig config) {
 		if (this.elements.isEmpty()) {
 			return "[]";
 		}
-		return "[" + String.join(",", Utils.mapList(this.elements, JsonElement::toJsonString)) + "]";
+		boolean simplify = this.canBeSimplified(config);
+		List<String> values = Utils.mapList(this.elements, element -> {
+			if (config.prettyPrint() && !simplify) {
+				return JsonObject.correctIndents(element, config, "");
+			}
+			return element.toJson(config);
+		});
+		if (!config.prettyPrint()) {
+			return "[" + String.join(",", values) + "]";
+		}
+		if (simplify) {
+			return "[" + String.join(", ", values) + "]";
+		}
+		return "[" + System.lineSeparator() + String.join("," + System.lineSeparator(), values) + System.lineSeparator() + config.indent() + "]";
 	}
+	
+	//region Helper methods
+	private boolean canBeSimplified(@NotNull JsonConfig config) {
+		if (!config.simplifyPrimitiveArrays()) {
+			return false;
+		}
+		for (JsonElement element : this.elements) {
+			if (!element.isPrimitive()) {
+				return false;
+			}
+		}
+		return true;
+	}
+	//endregion
 	
 	//region Object overrides
 	@Override

@@ -1,7 +1,10 @@
 package net.luis.data.json.primitive;
 
 import net.luis.data.json.JsonElement;
+import net.luis.data.json.config.JsonConfig;
+import net.luis.data.json.exception.JsonException;
 import org.apache.commons.lang3.StringUtils;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.Objects;
 
@@ -19,8 +22,18 @@ public class JsonString extends JsonPrimitive {
 		this.value = StringUtils.defaultString(value);
 	}
 	
+	public static @NotNull String quote(@NotNull String value, JsonConfig config) {
+		if (value.charAt(0) == '"' && value.charAt(value.length() - 1) == '"') {
+			if (!config.allowQuotedStrings()) {
+				throw new JsonException("Quoted strings are not allowed");
+			}
+			return "\"" + "\\\"" + value.substring(1, value.length() - 1) + "\\\"" + "\"";
+		}
+		return "\"" + value + "\"";
+	}
+	
 	@Override
-	public JsonElement copy() {
+	public @NotNull JsonElement copy() {
 		return new JsonString(this.value);
 	}
 	
@@ -49,19 +62,16 @@ public class JsonString extends JsonPrimitive {
 	public double getAsDouble() {
 		return Double.parseDouble(this.value);
 	}
+	//endregion
 	
 	@Override
 	public String getAsString() {
 		return this.value;
 	}
-	//endregion
 	
 	@Override
-	public String toJsonString() {
-		if (this.value.charAt(0) == '"' && this.value.charAt(this.value.length() - 1) == '"') {
-			return "\"" + "\\\"" + this.value.substring(1, this.value.length() - 1) + "\\\"" + "\"";
-		}
-		return "\"" + this.value + "\"";
+	public @NotNull String toJson(JsonConfig config) {
+		return quote(this.value, config);
 	}
 	
 	//region Object overrides

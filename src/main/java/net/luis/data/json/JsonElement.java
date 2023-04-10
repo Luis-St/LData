@@ -1,7 +1,9 @@
 package net.luis.data.json;
 
+import net.luis.data.json.config.JsonConfig;
 import net.luis.data.json.exception.JsonException;
 import net.luis.data.json.primitive.JsonPrimitive;
+import org.jetbrains.annotations.NotNull;
 
 /**
  *
@@ -11,7 +13,7 @@ import net.luis.data.json.primitive.JsonPrimitive;
 
 public interface JsonElement {
 	
-	JsonElement copy();
+	@NotNull JsonElement copy();
 	
 	//region JsonObject
 	default boolean isObject() {
@@ -94,6 +96,6 @@ public interface JsonElement {
 	}
 	//endregion
 	
-	String toJsonString();
+	@NotNull String toJson(JsonConfig config);
 	
 }

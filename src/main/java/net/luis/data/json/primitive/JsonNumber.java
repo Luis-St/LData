@@ -1,7 +1,7 @@
 package net.luis.data.json.primitive;
 
 import net.luis.data.json.JsonElement;
-import org.apache.commons.lang3.StringUtils;
+import net.luis.data.json.config.JsonConfig;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Objects;
@@ -21,7 +21,7 @@ public class JsonNumber extends JsonPrimitive {
 	}
 	
 	@Override
-	public JsonElement copy() {
+	public @NotNull JsonElement copy() {
 		return new JsonNumber(this.number);
 	}
 	
@@ -54,7 +54,7 @@ public class JsonNumber extends JsonPrimitive {
 	//endregion
 	
 	@Override
-	public String toJsonString() {
+	public @NotNull String toJson(JsonConfig config) {
 		return this.getAsString();
 	}
 	

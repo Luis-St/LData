@@ -1,6 +1,8 @@
 package net.luis.data.json.primitive;
 
 import net.luis.data.json.JsonElement;
+import net.luis.data.json.config.JsonConfig;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.Objects;
 
@@ -19,13 +21,8 @@ public class JsonBoolean extends JsonPrimitive {
 	}
 	
 	@Override
-	public JsonElement copy() {
+	public @NotNull JsonElement copy() {
 		return new JsonBoolean(this.value);
-	}
-	
-	@Override
-	public String toJsonString() {
-		return Boolean.toString(this.value);
 	}
 	
 	//region Getters
@@ -49,6 +46,11 @@ public class JsonBoolean extends JsonPrimitive {
 		return Boolean.toString(this.value);
 	}
 	//endregion
+	
+	@Override
+	public @NotNull String toJson(JsonConfig config) {
+		return Boolean.toString(this.value);
+	}
 	
 	//region Object overrides
 	@Override

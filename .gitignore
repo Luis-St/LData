@@ -9,3 +9,4 @@ LNetCore.iml
 #src/main/java/net/luis/data/Main.java
 LData.iml
 test.properties
+test.json
