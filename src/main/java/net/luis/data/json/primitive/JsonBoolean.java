@@ -1,5 +1,7 @@
 package net.luis.data.json.primitive;
 
+import net.luis.data.json.JsonElement;
+
 import java.util.Objects;
 
 /**
@@ -16,6 +18,17 @@ public class JsonBoolean extends JsonPrimitive {
 		this.value = value;
 	}
 	
+	@Override
+	public JsonElement copy() {
+		return new JsonBoolean(this.value);
+	}
+	
+	@Override
+	public String toJsonString() {
+		return Boolean.toString(this.value);
+	}
+	
+	//region Getters
 	@Override
 	public boolean getAsBoolean() {
 		return this.value;
@@ -35,6 +48,7 @@ public class JsonBoolean extends JsonPrimitive {
 	public String getAsString() {
 		return Boolean.toString(this.value);
 	}
+	//endregion
 	
 	//region Object overrides
 	@Override

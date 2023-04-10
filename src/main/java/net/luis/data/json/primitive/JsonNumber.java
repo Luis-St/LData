@@ -1,5 +1,9 @@
 package net.luis.data.json.primitive;
 
+import net.luis.data.json.JsonElement;
+import org.apache.commons.lang3.StringUtils;
+import org.jetbrains.annotations.NotNull;
+
 import java.util.Objects;
 
 /**
@@ -16,6 +20,12 @@ public class JsonNumber extends JsonPrimitive {
 		this.number = Objects.requireNonNull(number);
 	}
 	
+	@Override
+	public JsonElement copy() {
+		return new JsonNumber(this.number);
+	}
+	
+	//region Getters
 	@Override
 	public int getAsInt() {
 		return this.number.intValue();
@@ -38,7 +48,14 @@ public class JsonNumber extends JsonPrimitive {
 	
 	@Override
 	public String getAsString() {
-		return this.number.toString();
+		String value = Double.toString(this.getAsDouble());
+		return value.endsWith(".0") ? value.substring(0, value.length() - 2) : value;
+	}
+	//endregion
+	
+	@Override
+	public String toJsonString() {
+		return this.getAsString();
 	}
 	
 	//region Object overrides

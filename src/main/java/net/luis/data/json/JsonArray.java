@@ -4,6 +4,7 @@ import com.google.common.collect.Lists;
 import net.luis.data.json.primitive.JsonBoolean;
 import net.luis.data.json.primitive.JsonNumber;
 import net.luis.data.json.primitive.JsonString;
+import net.luis.utils.util.Utils;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.HashSet;
@@ -27,6 +28,15 @@ public class JsonArray implements JsonElement, Iterable<JsonElement> {
 	
 	public JsonArray(List<JsonElement> elements) {
 		this.elements.addAll(elements);
+	}
+	
+	@Override
+	public JsonElement copy() {
+		JsonArray array = new JsonArray();
+		for (JsonElement element : this.elements) {
+			array.add(element.copy());
+		}
+		return array;
 	}
 	
 	//region Adders
@@ -145,6 +155,14 @@ public class JsonArray implements JsonElement, Iterable<JsonElement> {
 		throw new IllegalStateException("JsonArray is not a single string");
 	}
 	//endregion
+	
+	@Override
+	public String toJsonString() {
+		if (this.elements.isEmpty()) {
+			return "[]";
+		}
+		return "[" + String.join(",", Utils.mapList(this.elements, JsonElement::toJsonString)) + "]";
+	}
 	
 	//region Object overrides
 	@Override

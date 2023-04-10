@@ -11,6 +11,8 @@ import net.luis.data.json.primitive.JsonPrimitive;
 
 public interface JsonElement {
 	
+	JsonElement copy();
+	
 	//region JsonObject
 	default boolean isObject() {
 		return this instanceof JsonObject;
@@ -91,5 +93,7 @@ public interface JsonElement {
 		return this instanceof JsonNull;
 	}
 	//endregion
+	
+	String toJsonString();
 	
 }

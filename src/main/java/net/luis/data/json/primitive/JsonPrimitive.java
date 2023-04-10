@@ -11,6 +11,7 @@ import net.luis.data.json.exception.JsonException;
 
 public abstract class JsonPrimitive implements JsonElement {
 	
+	//region JsonElement overrides
 	@Override
 	public boolean isBoolean() {
 		return this instanceof JsonBoolean;
@@ -73,6 +74,7 @@ public abstract class JsonPrimitive implements JsonElement {
 		}
 		throw new IllegalStateException("Not a string: " + this);
 	}
+	//endregion
 	
 	//region Object overrides
 	@Override

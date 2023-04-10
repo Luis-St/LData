@@ -14,4 +14,13 @@ public class JsonNull implements JsonElement {
 	
 	}
 	
+	@Override
+	public JsonElement copy() {
+		return this;
+	}
+	
+	@Override
+	public String toJsonString() {
+		return "null";
+	}
 }
