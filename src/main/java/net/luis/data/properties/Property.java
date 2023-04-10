@@ -1,7 +1,7 @@
 package net.luis.data.properties;
 
-import net.luis.data.common.util.StringConverter;
 import net.luis.data.common.exception.FormatException;
+import net.luis.data.common.util.StringConverter;
 import org.apache.commons.lang3.StringUtils;
 import org.jetbrains.annotations.NotNull;
 

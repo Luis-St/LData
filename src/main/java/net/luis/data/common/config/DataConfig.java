@@ -11,9 +11,9 @@ import net.luis.utils.annotation.IndicationInterface;
 @IndicationInterface
 public interface DataConfig {
 	
-	public interface Builder<T extends DataConfig> {
+	interface Builder<T extends DataConfig> {
 		
-		public T build();
+		T build();
 		
 	}
 	

@@ -1,7 +1,6 @@
 package net.luis.data.properties;
 
 import com.google.common.collect.Lists;
-import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 import net.luis.data.common.io.FileHelper;
 import net.luis.utils.util.Utils;
@@ -11,7 +10,6 @@ import org.jetbrains.annotations.NotNull;
 
 import java.io.File;
 import java.util.*;
-import java.util.stream.Collectors;
 
 /**
  *
