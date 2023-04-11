@@ -44,21 +44,6 @@ public class JsonObject implements JsonElement, Iterable<Map.Entry<String, JsonE
 	}
 	//endregion
 	
-	public static @NotNull String correctIndents(@NotNull JsonElement element, JsonConfig config, String separator) {
-		if (element.isArray() || element.isObject()) {
-			List<String> lines = Lists.newArrayList(element.toJson(config).split(System.lineSeparator()));
-			if (2 > lines.size()) {
-				return config.indent() + separator + element.toJson(config);
-			} else {
-				for (int i = 1; i < lines.size() - 1; i++) {
-					lines.set(i, config.indent() + lines.get(i));
-				}
-				return config.indent() + separator + String.join(System.lineSeparator(), lines);
-			}
-		}
-		return config.indent() + separator + element.toJson(config);
-	}
-	
 	@Override
 	public @NotNull JsonElement copy() {
 		JsonObject object = new JsonObject();
@@ -155,10 +140,10 @@ public class JsonObject implements JsonElement, Iterable<Map.Entry<String, JsonE
 		if (this.elements.isEmpty()) {
 			return "{}";
 		}
-		boolean simplify = this.canBeSimplified(config);
+		boolean simplify = JsonHelper.canBeSimplified(this.elements.values(), config.simplifyPrimitiveObjects());
 		List<String> values = Lists.newArrayList();
 		for (Map.Entry<String, JsonElement> entry : this.elements.entrySet()) {
-			String key = JsonString.quote(entry.getKey(), config);
+			String key = JsonHelper.quote(entry.getKey(), config);
 			if (key.substring(1, key.length() - 1).isBlank() && !config.allowBlankKeys()) {
 				throw new JsonException("Key of value " + entry.getValue() + " is blank which is not allowed");
 			}
@@ -166,7 +151,7 @@ public class JsonObject implements JsonElement, Iterable<Map.Entry<String, JsonE
 				if (simplify) {
 					values.add(key + ": " + entry.getValue().toJson(config));
 				} else {
-					values.add(correctIndents(entry.getValue(), config, key + ": "));
+					values.add(JsonHelper.correctIndents(entry.getValue(), config, key + ": "));
 				}
 			} else {
 				values.add(key + ":" + entry.getValue().toJson(config));
@@ -192,20 +177,6 @@ public class JsonObject implements JsonElement, Iterable<Map.Entry<String, JsonE
 	public void write(@NotNull JsonWriter writer) {
 		writer.write(this);
 	}
-	
-	//region Helper methods
-	private boolean canBeSimplified(@NotNull JsonConfig config) {
-		if (!config.simplifyPrimitiveArrays()) {
-			return false;
-		}
-		for (JsonElement element : this.elements.values()) {
-			if (!element.isPrimitive()) {
-				return false;
-			}
-		}
-		return true;
-	}
-	//endregion
 	
 	//region Object overrides
 	@Override

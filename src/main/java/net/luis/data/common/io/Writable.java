@@ -1,6 +1,5 @@
 package net.luis.data.common.io;
 
-import net.luis.data.common.config.DataConfig;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.File;

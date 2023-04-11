@@ -11,6 +11,12 @@ import net.luis.utils.annotation.IndicationInterface;
 @IndicationInterface
 public interface DataConfig {
 	
+	boolean prettyPrint();
+	
+	boolean allowAppend();
+	
+	boolean allowCustomExtensions();
+	
 	interface Builder<T extends DataConfig> {
 		
 		T build();

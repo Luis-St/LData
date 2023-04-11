@@ -1,8 +1,8 @@
 package net.luis.data.json.primitive;
 
 import net.luis.data.json.JsonElement;
+import net.luis.data.json.JsonHelper;
 import net.luis.data.json.config.JsonConfig;
-import net.luis.data.json.exception.JsonException;
 import org.apache.commons.lang3.StringUtils;
 import org.jetbrains.annotations.NotNull;
 
@@ -20,16 +20,6 @@ public class JsonString extends JsonPrimitive {
 	
 	public JsonString(String value) {
 		this.value = StringUtils.defaultString(value);
-	}
-	
-	public static @NotNull String quote(@NotNull String value, JsonConfig config) {
-		if (value.charAt(0) == '"' && value.charAt(value.length() - 1) == '"') {
-			if (!config.allowQuotedStrings()) {
-				throw new JsonException("Quoted strings are not allowed");
-			}
-			return "\"" + "\\\"" + value.substring(1, value.length() - 1) + "\\\"" + "\"";
-		}
-		return "\"" + value + "\"";
 	}
 	
 	@Override
@@ -71,7 +61,7 @@ public class JsonString extends JsonPrimitive {
 	
 	@Override
 	public @NotNull String toJson(JsonConfig config) {
-		return quote(this.value, config);
+		return JsonHelper.quote(this.value, config);
 	}
 	
 	//region Object overrides

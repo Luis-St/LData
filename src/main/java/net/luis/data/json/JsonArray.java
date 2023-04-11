@@ -46,7 +46,7 @@ public class JsonArray implements JsonElement, Iterable<JsonElement> {
 	}
 	
 	public boolean add(boolean value) {
-		return this.elements.add(new JsonBoolean(value));
+		return this.add(new JsonBoolean(value));
 	}
 	
 	public boolean add(Number element) {
@@ -164,10 +164,10 @@ public class JsonArray implements JsonElement, Iterable<JsonElement> {
 		if (this.elements.isEmpty()) {
 			return "[]";
 		}
-		boolean simplify = this.canBeSimplified(config);
+		boolean simplify = JsonHelper.canBeSimplified(this.elements, config.simplifyPrimitiveArrays());
 		List<String> values = Utils.mapList(this.elements, element -> {
 			if (config.prettyPrint() && !simplify) {
-				return JsonObject.correctIndents(element, config, "");
+				return JsonHelper.correctIndents(element, config, "");
 			}
 			return element.toJson(config);
 		});
@@ -179,20 +179,6 @@ public class JsonArray implements JsonElement, Iterable<JsonElement> {
 		}
 		return "[" + System.lineSeparator() + String.join("," + System.lineSeparator(), values) + System.lineSeparator() + config.indent() + "]";
 	}
-	
-	//region Helper methods
-	private boolean canBeSimplified(@NotNull JsonConfig config) {
-		if (!config.simplifyPrimitiveArrays()) {
-			return false;
-		}
-		for (JsonElement element : this.elements) {
-			if (!element.isPrimitive()) {
-				return false;
-			}
-		}
-		return true;
-	}
-	//endregion
 	
 	//region Object overrides
 	@Override

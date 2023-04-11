@@ -34,6 +34,13 @@ tasks.register("run", JavaExec) {
 	enableAssertions = true
 }
 
+tasks.register("testJson", JavaExec) {
+	group = "tests"
+	getMainClass().set("net.luis.data.JsonTest")
+	classpath = sourceSets.test.runtimeClasspath
+	enableAssertions = true
+}
+
 test {
 	useJUnitPlatform()
 }
