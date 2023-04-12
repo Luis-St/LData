@@ -23,7 +23,7 @@ public class JsonString extends JsonPrimitive {
 	}
 	
 	@Override
-	public @NotNull JsonElement copy() {
+	public @NotNull JsonString copy() {
 		return new JsonString(this.value);
 	}
 	
@@ -31,6 +31,11 @@ public class JsonString extends JsonPrimitive {
 	@Override
 	public boolean getAsBoolean() {
 		return Boolean.parseBoolean(this.value);
+	}
+	
+	@Override
+	public Number getAsNumber() {
+		return this.getAsDouble();
 	}
 	
 	@Override
@@ -44,20 +49,15 @@ public class JsonString extends JsonPrimitive {
 	}
 	
 	@Override
-	public float getAsFloat() {
-		return Float.parseFloat(this.value);
-	}
-	
-	@Override
 	public double getAsDouble() {
 		return Double.parseDouble(this.value);
 	}
-	//endregion
 	
 	@Override
 	public String getAsString() {
 		return this.value;
 	}
+	//endregion
 	
 	@Override
 	public @NotNull String toJson(JsonConfig config) {

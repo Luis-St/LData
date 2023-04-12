@@ -21,11 +21,16 @@ public class JsonNumber extends JsonPrimitive {
 	}
 	
 	@Override
-	public @NotNull JsonElement copy() {
+	public @NotNull JsonNumber copy() {
 		return new JsonNumber(this.number);
 	}
 	
 	//region Getters
+	@Override
+	public Number getAsNumber() {
+		return this.number;
+	}
+	
 	@Override
 	public int getAsInt() {
 		return this.number.intValue();
@@ -34,11 +39,6 @@ public class JsonNumber extends JsonPrimitive {
 	@Override
 	public long getAsLong() {
 		return this.number.longValue();
-	}
-	
-	@Override
-	public float getAsFloat() {
-		return this.number.floatValue();
 	}
 	
 	@Override

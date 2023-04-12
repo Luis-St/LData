@@ -21,7 +21,7 @@ public class JsonBoolean extends JsonPrimitive {
 	}
 	
 	@Override
-	public @NotNull JsonElement copy() {
+	public @NotNull JsonBoolean copy() {
 		return new JsonBoolean(this.value);
 	}
 	

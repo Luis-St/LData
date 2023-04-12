@@ -15,19 +15,6 @@ public interface JsonElement {
 	
 	@NotNull JsonElement copy();
 	
-	//region JsonObject
-	default boolean isObject() {
-		return this instanceof JsonObject;
-	}
-	
-	default JsonObject getAsObject() {
-		if (this.isObject()) {
-			return (JsonObject) this;
-		}
-		throw new JsonException("Not a JsonObject: " + this);
-	}
-	//endregion
-	
 	//region JsonArray
 	default boolean isArray() {
 		return this instanceof JsonArray;
@@ -37,7 +24,20 @@ public interface JsonElement {
 		if (this.isArray()) {
 			return (JsonArray) this;
 		}
-		throw new JsonException("Not a JsonArray: " + this);
+		throw new JsonException("Not a json array: " + this);
+	}
+	//endregion
+	
+	//region JsonObject
+	default boolean isObject() {
+		return this instanceof JsonObject;
+	}
+	
+	default JsonObject getAsObject() {
+		if (this.isObject()) {
+			return (JsonObject) this;
+		}
+		throw new JsonException("Not a json object: " + this);
 	}
 	//endregion
 	
@@ -50,43 +50,43 @@ public interface JsonElement {
 		if (this.isPrimitive()) {
 			return (JsonPrimitive) this;
 		}
-		throw new JsonException("Not a JsonPrimitive: " + this);
+		throw new JsonException("Not a json primitive: " + this);
 	}
 	
 	default boolean isBoolean() {
-		throw new JsonException("Not a JsonPrimitive: " + this);
+		throw new JsonException("Not a json primitive: " + this);
 	}
 	
 	default boolean getAsBoolean() {
-		throw new JsonException("Not a JsonPrimitive: " + this);
+		throw new JsonException("Not a json primitive: " + this);
 	}
 	
 	default boolean isNumber() {
-		throw new JsonException("Not a JsonPrimitive: " + this);
+		throw new JsonException("Not a json primitive: " + this);
+	}
+	
+	default Number getAsNumber() {
+		throw new JsonException("Not a json primitive: " + this);
 	}
 	
 	default int getAsInt() {
-		throw new JsonException("Not a JsonPrimitive: " + this);
+		throw new JsonException("Not a json primitive: " + this);
 	}
 	
 	default long getAsLong() {
-		throw new JsonException("Not a JsonPrimitive: " + this);
-	}
-	
-	default float getAsFloat() {
-		throw new JsonException("Not a JsonPrimitive: " + this);
+		throw new JsonException("Not a json primitive: " + this);
 	}
 	
 	default double getAsDouble() {
-		throw new JsonException("Not a JsonPrimitive: " + this);
+		throw new JsonException("Not a json primitive: " + this);
 	}
 	
 	default boolean isString() {
-		throw new JsonException("Not a JsonPrimitive: " + this);
+		throw new JsonException("Not a json primitive: " + this);
 	}
 	
 	default String getAsString() {
-		throw new JsonException("Not a JsonPrimitive: " + this);
+		throw new JsonException("Not a json primitive: " + this);
 	}
 	//endregion
 	
@@ -97,5 +97,4 @@ public interface JsonElement {
 	//endregion
 	
 	@NotNull String toJson(JsonConfig config);
-	
 }

@@ -25,9 +25,31 @@ public class JsonObject implements JsonElement, Iterable<Map.Entry<String, JsonE
 	
 	private final Map<String, JsonElement> elements = Maps.newTreeMap();
 	
+	//region Constructors
 	public JsonObject() {
 	
 	}
+	
+	public JsonObject(String key, JsonElement value) {
+		this.add(key, value);
+	}
+	
+	public JsonObject(String key, String value) {
+		this.add(key, value);
+	}
+	
+	public JsonObject(String key, Number value) {
+		this.add(key, value);
+	}
+	
+	public JsonObject(String key, boolean value) {
+		this.add(key, value);
+	}
+	
+	public JsonObject(String key, JsonObject value) {
+		this.add(key, value);
+	}
+	//endregion
 	
 	//region Validation
 	private static @NotNull String validateKey(String key) {
@@ -45,7 +67,7 @@ public class JsonObject implements JsonElement, Iterable<Map.Entry<String, JsonE
 	//endregion
 	
 	@Override
-	public @NotNull JsonElement copy() {
+	public @NotNull JsonObject copy() {
 		JsonObject object = new JsonObject();
 		for (Map.Entry<String, JsonElement> entry : this.elements.entrySet()) {
 			object.add(entry.getKey(), entry.getValue().copy());
@@ -66,8 +88,8 @@ public class JsonObject implements JsonElement, Iterable<Map.Entry<String, JsonE
 		this.elements.put(validateKey(key), value == null ? JsonNull.INSTANCE : new JsonNumber(value));
 	}
 	
-	public void add(String key, Boolean value) {
-		this.elements.put(validateKey(key), value == null ? JsonNull.INSTANCE : new JsonBoolean(value));
+	public void add(String key, boolean value) {
+		this.elements.put(validateKey(key), new JsonBoolean(value));
 	}
 	
 	public void add(String key, JsonObject value) {
@@ -99,6 +121,16 @@ public class JsonObject implements JsonElement, Iterable<Map.Entry<String, JsonE
 		throw new IllegalStateException("No such key: " + key);
 	}
 	
+	public JsonArray getAsArray(String key) {
+		if (this.has(key)) {
+			if (this.get(key).isArray()) {
+				return this.get(key).getAsArray();
+			}
+			throw new JsonException("Not a JsonArray: " + this.get(key));
+		}
+		throw new IllegalStateException("No such key: " + key);
+	}
+	
 	public JsonPrimitive getAsPrimitive(String key) {
 		if (this.has(key)) {
 			if (this.get(key).isPrimitive()) {
@@ -119,16 +151,6 @@ public class JsonObject implements JsonElement, Iterable<Map.Entry<String, JsonE
 		throw new IllegalStateException("No such key: " + key);
 	}
 	//endregion
-	
-	public JsonArray getAsArray(String key) {
-		if (this.has(key)) {
-			if (this.get(key).isArray()) {
-				return this.get(key).getAsArray();
-			}
-			throw new JsonException("Not a JsonArray: " + this.get(key));
-		}
-		throw new IllegalStateException("No such key: " + key);
-	}
 	
 	@Override
 	public @NotNull Iterator<Map.Entry<String, JsonElement>> iterator() {
@@ -167,15 +189,15 @@ public class JsonObject implements JsonElement, Iterable<Map.Entry<String, JsonE
 	}
 	
 	@Override
-	public void write(@NotNull File file) {
-		JsonWriter writer = new JsonWriter(file);
+	public void write(File file) {
+		JsonWriter writer = new JsonWriter(Objects.requireNonNull(file, "File must not be null"));
 		writer.write(this);
 		writer.flushAndClose();
 	}
 	
 	@Override
-	public void write(@NotNull JsonWriter writer) {
-		writer.write(this);
+	public void write(JsonWriter writer) {
+		Objects.requireNonNull(writer, "Writer must not be null").write(this);
 	}
 	
 	//region Object overrides

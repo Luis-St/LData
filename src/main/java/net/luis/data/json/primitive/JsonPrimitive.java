@@ -31,6 +31,14 @@ public abstract class JsonPrimitive implements JsonElement {
 	}
 	
 	@Override
+	public Number getAsNumber() {
+		if (this.isNumber()) {
+			throw new UnsupportedOperationException("Not implemented");
+		}
+		throw new JsonException("Not a number: " + this);
+	}
+	
+	@Override
 	public int getAsInt() {
 		if (this.isNumber()) {
 			throw new UnsupportedOperationException("Not implemented");
@@ -44,14 +52,6 @@ public abstract class JsonPrimitive implements JsonElement {
 			throw new UnsupportedOperationException("Not implemented");
 		}
 		throw new JsonException("Not a long: " + this);
-	}
-	
-	@Override
-	public float getAsFloat() {
-		if (this.isNumber()) {
-			throw new UnsupportedOperationException("Not implemented");
-		}
-		throw new JsonException("Not a float: " + this);
 	}
 	
 	@Override

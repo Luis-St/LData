@@ -8,10 +8,7 @@ import net.luis.data.json.primitive.JsonString;
 import net.luis.utils.util.Utils;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 
 /**
  *
@@ -27,12 +24,12 @@ public class JsonArray implements JsonElement, Iterable<JsonElement> {
 	
 	}
 	
-	public JsonArray(List<JsonElement> elements) {
-		this.elements.addAll(elements);
+	public JsonArray(JsonElement... elements) {
+		this.elements.addAll(Arrays.asList(elements));
 	}
 	
 	@Override
-	public @NotNull JsonElement copy() {
+	public @NotNull JsonArray copy() {
 		JsonArray array = new JsonArray();
 		for (JsonElement element : this.elements) {
 			array.add(element.copy());
@@ -59,8 +56,8 @@ public class JsonArray implements JsonElement, Iterable<JsonElement> {
 	//endregion
 	
 	//region List methods
-	public boolean addAll(@NotNull JsonArray array) {
-		return this.elements.addAll(array.elements);
+	public boolean addAll(JsonArray array) {
+		return this.elements.addAll(Objects.requireNonNull(array, "Array must not be null").elements);
 	}
 	
 	public JsonElement set(int index, JsonElement element) {
@@ -87,8 +84,8 @@ public class JsonArray implements JsonElement, Iterable<JsonElement> {
 		return this.elements.contains(element);
 	}
 	
-	public boolean containsAll(@NotNull JsonArray array) {
-		return new HashSet<>(this.elements).containsAll(array.elements);
+	public boolean containsAll(JsonArray array) {
+		return new HashSet<>(this.elements).containsAll(Objects.requireNonNull(array, "Array must not be null").elements);
 	}
 	
 	@Override
@@ -123,6 +120,13 @@ public class JsonArray implements JsonElement, Iterable<JsonElement> {
 		throw new IllegalStateException("JsonArray is not a single boolean");
 	}
 	
+	public Number getAsNumber() {
+		if (this.elements.size() == 1) {
+			return this.elements.get(0).getAsNumber();
+		}
+		throw new IllegalStateException("JsonArray is not a single number");
+	}
+	
 	public int getAsInt() {
 		if (this.elements.size() == 1) {
 			return this.elements.get(0).getAsInt();
@@ -135,13 +139,6 @@ public class JsonArray implements JsonElement, Iterable<JsonElement> {
 			return this.elements.get(0).getAsLong();
 		}
 		throw new IllegalStateException("JsonArray is not a single long");
-	}
-	
-	public float getAsFloat() {
-		if (this.elements.size() == 1) {
-			return this.elements.get(0).getAsFloat();
-		}
-		throw new IllegalStateException("JsonArray is not a single float");
 	}
 	
 	public double getAsDouble() {

@@ -18,7 +18,7 @@ public class JsonNull implements JsonElement {
 	}
 	
 	@Override
-	public @NotNull JsonElement copy() {
+	public @NotNull JsonNull copy() {
 		return this;
 	}
 	
