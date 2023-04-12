@@ -81,8 +81,8 @@ public class JsonReader extends AbstractReader<JsonElement> {
 	}
 	
 	@Override
-	protected boolean deleteWhitespace() {
-		return true;
+	protected String modify(String original) {
+		return Utils.deleteWhitespace(original);
 	}
 	
 	@Override
@@ -142,6 +142,7 @@ public class JsonReader extends AbstractReader<JsonElement> {
 	
 	public JsonObject toJson() {
 		if (this.type != JsonType.OBJECT) {
+			this.close();
 			return new JsonObject();
 		}
 		JsonObject result = new JsonObject();
@@ -153,6 +154,7 @@ public class JsonReader extends AbstractReader<JsonElement> {
 				result.add(entry.getKey(), entry.getValue());
 			}
 		}
+		this.close();
 		return result;
 	}
 	

@@ -17,7 +17,7 @@ public abstract class AbstractReader<T> implements Reader<T> {
 	
 	protected AbstractReader(String value) {
 		this.validate(value);
-		this.value = this.deleteWhitespace() ? Utils.deleteWhitespace(value) : value;
+		this.value = this.modify(value);
 		this.length = this.value.length();
 	}
 	
@@ -25,7 +25,7 @@ public abstract class AbstractReader<T> implements Reader<T> {
 		Objects.requireNonNull(value, "Value must not be null");
 	}
 	
-	protected abstract boolean deleteWhitespace();
+	protected abstract String modify(String original);
 	
 	@Override
 	public boolean hasNext() {

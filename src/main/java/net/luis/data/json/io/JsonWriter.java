@@ -10,11 +10,11 @@ import java.io.File;
 public class JsonWriter extends AbstractWriter<JsonConfig> {
 	
 	public JsonWriter(String file) {
-		this(new File(file), JsonConfig.DEFAULT);
+		super(file, JsonConfig.DEFAULT);
 	}
 	
 	public JsonWriter(File file) {
-		this(file, JsonConfig.DEFAULT);
+		super(file, JsonConfig.DEFAULT);
 	}
 	
 	public JsonWriter(String file, JsonConfig config) {
