@@ -3,12 +3,25 @@ package net.luis.data.json.config;
 import net.luis.data.common.config.DataConfig;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.Objects;
+
 public record JsonConfig(boolean prettyPrint, String indent, boolean simplifyPrimitiveArrays, boolean simplifyPrimitiveObjects, boolean allowBlankKeys, boolean allowQuotedStrings, boolean allowCustomExtensions) implements DataConfig {
 	
 	public static final JsonConfig DEFAULT = new JsonConfig(true, "\t", false, false, true, false, false);
 	
+	public JsonConfig {
+		Objects.requireNonNull(indent, "Indent cannot be null");
+		if (!indent.isBlank()) {
+			throw new IllegalArgumentException("Indent must be whitespace characters only");
+		}
+	}
+	
 	public static @NotNull JsonConfig.Builder builder() {
-		return new JsonConfig.Builder(JsonConfig.DEFAULT);
+		return builder(DEFAULT);
+	}
+	
+	public static @NotNull JsonConfig.Builder builder(JsonConfig baseConfig) {
+		return new JsonConfig.Builder(baseConfig);
 	}
 	
 	@Override
