@@ -66,7 +66,7 @@ public class PropertyJson implements Property {
 	
 	@Override
 	public @NotNull String toString(PropertyConfig config) {
-		return this.value.toJson(JsonConfig.builder().prettyPrint(false).simplifyPrimitiveArrays(false).simplifyPrimitiveObjects(false).build());
+		return this.value.toString(JsonConfig.builder().prettyPrint(false).simplifyPrimitiveArrays(false).simplifyPrimitiveObjects(false).build());
 	}
 	
 	//region Object overrides

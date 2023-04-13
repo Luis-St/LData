@@ -23,7 +23,7 @@ public class JsonNull implements JsonElement {
 	}
 	
 	@Override
-	public @NotNull String toJson(JsonConfig config) {
+	public @NotNull String toString(JsonConfig config) {
 		return "null";
 	}
 }

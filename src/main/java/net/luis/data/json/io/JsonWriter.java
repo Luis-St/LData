@@ -31,7 +31,7 @@ public class JsonWriter extends AbstractWriter<JsonConfig> {
 	}
 	
 	public void write(@NotNull JsonObject object) {
-		String json = object.toJson(this.config);
+		String json = object.toString(this.config);
 		try {
 			this.writer.write(this.removeLastIndent(json) + System.lineSeparator());
 		} catch (Exception e) {

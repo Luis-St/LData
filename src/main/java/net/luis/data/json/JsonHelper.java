@@ -19,9 +19,9 @@ public class JsonHelper {
 	
 	public static @NotNull String correctIndents(@NotNull JsonElement element, JsonConfig config, String separator) {
 		if (element.isArray() || element.isObject()) {
-			List<String> lines = Lists.newArrayList(element.toJson(config).split(System.lineSeparator()));
+			List<String> lines = Lists.newArrayList(element.toString(config).split(System.lineSeparator()));
 			if (2 > lines.size()) {
-				return config.indent() + separator + element.toJson(config);
+				return config.indent() + separator + element.toString(config);
 			} else {
 				for (int i = 1; i < lines.size() - 1; i++) {
 					lines.set(i, config.indent() + lines.get(i));
@@ -29,7 +29,7 @@ public class JsonHelper {
 				return config.indent() + separator + String.join(System.lineSeparator(), lines);
 			}
 		}
-		return config.indent() + separator + element.toJson(config);
+		return config.indent() + separator + element.toString(config);
 	}
 	
 	public static boolean canBeSimplified(Collection<JsonElement> elements, boolean configValue) {

@@ -157,7 +157,7 @@ public class JsonArray implements JsonElement, Iterable<JsonElement> {
 	//endregion
 	
 	@Override
-	public @NotNull String toJson(JsonConfig config) {
+	public @NotNull String toString(JsonConfig config) {
 		if (this.elements.isEmpty()) {
 			return "[]";
 		}
@@ -166,7 +166,7 @@ public class JsonArray implements JsonElement, Iterable<JsonElement> {
 			if (config.prettyPrint() && !simplify) {
 				return JsonHelper.correctIndents(element, config, "");
 			}
-			return element.toJson(config);
+			return element.toString(config);
 		});
 		if (!config.prettyPrint()) {
 			return "[" + String.join(",", values) + "]";

@@ -1,6 +1,5 @@
 package net.luis.data.json.primitive;
 
-import net.luis.data.json.JsonElement;
 import net.luis.data.json.config.JsonConfig;
 import org.jetbrains.annotations.NotNull;
 
@@ -48,7 +47,7 @@ public class JsonBoolean extends JsonPrimitive {
 	//endregion
 	
 	@Override
-	public @NotNull String toJson(JsonConfig config) {
+	public @NotNull String toString(JsonConfig config) {
 		return Boolean.toString(this.value);
 	}
 	

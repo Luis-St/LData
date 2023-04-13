@@ -158,7 +158,7 @@ public class JsonObject implements JsonElement, Iterable<Map.Entry<String, JsonE
 	}
 	
 	@Override
-	public @NotNull String toJson(JsonConfig config) {
+	public @NotNull String toString(JsonConfig config) {
 		if (this.elements.isEmpty()) {
 			return "{}";
 		}
@@ -171,12 +171,12 @@ public class JsonObject implements JsonElement, Iterable<Map.Entry<String, JsonE
 			}
 			if (config.prettyPrint()) {
 				if (simplify) {
-					values.add(key + ": " + entry.getValue().toJson(config));
+					values.add(key + ": " + entry.getValue().toString(config));
 				} else {
 					values.add(JsonHelper.correctIndents(entry.getValue(), config, key + ": "));
 				}
 			} else {
-				values.add(key + ":" + entry.getValue().toJson(config));
+				values.add(key + ":" + entry.getValue().toString(config));
 			}
 		}
 		if (!config.prettyPrint()) {

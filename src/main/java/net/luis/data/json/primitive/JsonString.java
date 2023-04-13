@@ -1,6 +1,5 @@
 package net.luis.data.json.primitive;
 
-import net.luis.data.json.JsonElement;
 import net.luis.data.json.JsonHelper;
 import net.luis.data.json.config.JsonConfig;
 import org.apache.commons.lang3.StringUtils;
@@ -60,7 +59,7 @@ public class JsonString extends JsonPrimitive {
 	//endregion
 	
 	@Override
-	public @NotNull String toJson(JsonConfig config) {
+	public @NotNull String toString(JsonConfig config) {
 		return JsonHelper.quote(this.value, config);
 	}
 	
