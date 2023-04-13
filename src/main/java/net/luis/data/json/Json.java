@@ -11,9 +11,9 @@ import org.jetbrains.annotations.NotNull;
  *
  */
 
-public interface JsonElement {
+public interface Json {
 	
-	@NotNull JsonElement copy();
+	@NotNull Json copy();
 	
 	//region JsonArray
 	default boolean isArray() {
@@ -96,5 +96,5 @@ public interface JsonElement {
 	}
 	//endregion
 	
-	@NotNull String toJson(JsonConfig config);
+	@NotNull String toString(JsonConfig config);
 }

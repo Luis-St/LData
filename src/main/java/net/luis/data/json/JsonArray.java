@@ -16,29 +16,29 @@ import java.util.*;
  *
  */
 
-public class JsonArray implements JsonElement, Iterable<JsonElement> {
+public class JsonArray implements Json, Iterable<Json> {
 	
-	private final List<JsonElement> elements = Lists.newArrayList();
+	private final List<Json> elements = Lists.newArrayList();
 	
 	public JsonArray() {
 	
 	}
 	
-	public JsonArray(JsonElement... elements) {
+	public JsonArray(Json... elements) {
 		this.elements.addAll(Arrays.asList(elements));
 	}
 	
 	@Override
 	public @NotNull JsonArray copy() {
 		JsonArray array = new JsonArray();
-		for (JsonElement element : this.elements) {
+		for (Json element : this.elements) {
 			array.add(element.copy());
 		}
 		return array;
 	}
 	
 	//region Adders
-	public boolean add(JsonElement element) {
+	public boolean add(Json element) {
 		return this.elements.add(element == null ? JsonNull.INSTANCE : element);
 	}
 	
@@ -60,15 +60,15 @@ public class JsonArray implements JsonElement, Iterable<JsonElement> {
 		return this.elements.addAll(Objects.requireNonNull(array, "Array must not be null").elements);
 	}
 	
-	public JsonElement set(int index, JsonElement element) {
+	public Json set(int index, Json element) {
 		return this.elements.set(index, element == null ? JsonNull.INSTANCE : element);
 	}
 	
-	public JsonElement remove(int index) {
+	public Json remove(int index) {
 		return this.elements.remove(index);
 	}
 	
-	public boolean remove(JsonElement element) {
+	public boolean remove(Json element) {
 		return this.elements.remove(element);
 	}
 	
@@ -80,7 +80,7 @@ public class JsonArray implements JsonElement, Iterable<JsonElement> {
 		return this.elements.isEmpty();
 	}
 	
-	public boolean contains(JsonElement element) {
+	public boolean contains(Json element) {
 		return this.elements.contains(element);
 	}
 	
@@ -89,13 +89,13 @@ public class JsonArray implements JsonElement, Iterable<JsonElement> {
 	}
 	
 	@Override
-	public @NotNull Iterator<JsonElement> iterator() {
+	public @NotNull Iterator<Json> iterator() {
 		return this.elements.iterator();
 	}
 	//endregion
 	
 	//region Getters
-	public JsonElement get(int index) {
+	public Json get(int index) {
 		return this.elements.get(index);
 	}
 	

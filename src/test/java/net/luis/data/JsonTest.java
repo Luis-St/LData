@@ -1,6 +1,6 @@
 package net.luis.data;
 
-import net.luis.data.json.JsonElement;
+import net.luis.data.json.Json;
 import net.luis.data.json.config.JsonConfig;
 import net.luis.data.json.io.JsonReader;
 import net.luis.data.json.io.JsonWriter;
@@ -17,7 +17,7 @@ public class JsonTest {
 	public static void main(String[] args) throws Exception {
 		JsonReader reader = new JsonReader(new File("src/main/resources/test.json"));
 		LOGGER.info(reader);
-		for (JsonElement element : reader) {
+		for (Json element : reader) {
 			LOGGER.info(element.getClass().getSimpleName() + ": " + element);
 		}
 		reader.reset();

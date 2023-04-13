@@ -4,7 +4,7 @@ import net.luis.data.common.io.AbstractReader;
 import net.luis.data.common.io.FileHelper;
 import net.luis.data.common.util.Utils;
 import net.luis.data.json.JsonArray;
-import net.luis.data.json.JsonElement;
+import net.luis.data.json.Json;
 import net.luis.data.json.JsonHelper;
 import net.luis.data.json.JsonObject;
 import net.luis.data.json.exception.JsonSyntaxException;
@@ -16,7 +16,7 @@ import java.util.Objects;
 import java.util.Optional;
 import java.util.Stack;
 
-public class JsonReader extends AbstractReader<JsonElement> {
+public class JsonReader extends AbstractReader<Json> {
 	
 	private final JsonType type;
 	
@@ -26,7 +26,7 @@ public class JsonReader extends AbstractReader<JsonElement> {
 	
 	public JsonReader(String json) {
 		super(json);
-		this.type = this.value.isEmpty() ? JsonType.OBJECT : getType(this.value.charAt(0), this.value.charAt(this.value.length() - 1));
+		this.type = this.value().isEmpty() ? JsonType.OBJECT : getType(this.value().charAt(0), this.value().charAt(this.value().length() - 1));
 	}
 	
 	private static JsonType getType(char first, char last) {
@@ -86,7 +86,7 @@ public class JsonReader extends AbstractReader<JsonElement> {
 	}
 	
 	@Override
-	public JsonElement next() {
+	public Json next() {
 		//region Validation
 		if (!this.hasNext()) {
 			throw new IndexOutOfBoundsException("Index out of bounds");
@@ -102,26 +102,26 @@ public class JsonReader extends AbstractReader<JsonElement> {
 		};
 	}
 	
-	private @NotNull JsonElement nextArray() {
+	private @NotNull Json nextArray() {
 		//region Setup
-		if (this.length == 2) {
+		if (this.length() == 2) {
 			this.close();
 			return new JsonArray();
 		}
 		//endregion
-		String value = this.value.substring(this.index, this.findNextInScope(this.index, ',').orElse(this.length - 1));
+		String value = this.value().substring(this.index, this.findNextInScope(this.index, ',').orElse(this.length() - 1));
 		this.index += value.length() + 1;
 		return JsonHelper.parse("JsonArray part", value);
 	}
 	
-	private @NotNull JsonElement nextObject() {
+	private @NotNull Json nextObject() {
 		//region Setup
-		if (this.length == 2) {
+		if (this.length() == 2) {
 			this.close();
 			return new JsonObject();
 		}
 		//endregion
-		int valueIndex = this.findNextInScope(this.index, ',').orElse(this.length - 1);
+		int valueIndex = this.findNextInScope(this.index, ',').orElse(this.length() - 1);
 		int keyIndex = this.findNextInScope(this.index, ':').orElseThrow(() -> new JsonSyntaxException("Json is not a valid object, miss a separator (':') in '" + this.fromIndex(valueIndex) + "'"));
 		String key = this.validateKey(this.fromIndex(keyIndex));
 		this.index = keyIndex + 1;
@@ -131,12 +131,12 @@ public class JsonReader extends AbstractReader<JsonElement> {
 		return object;
 	}
 	
-	private @NotNull JsonElement nextProperty() {
-		int index = this.findNextInScope(0, ':').orElseThrow(() -> new JsonSyntaxException("Json is not a valid property, miss a separator (':') in '" + this.value + "'"));
+	private @NotNull Json nextProperty() {
+		int index = this.findNextInScope(0, ':').orElseThrow(() -> new JsonSyntaxException("Json is not a valid property, miss a separator (':') in '" + this.value() + "'"));
 		this.close();
 		JsonObject object = new JsonObject();
-		String key = this.validateKey(this.value.substring(0, index));
-		object.add(key, JsonHelper.parse(key, this.value.substring(index + 1)));
+		String key = this.validateKey(this.value().substring(0, index));
+		object.add(key, JsonHelper.parse(key, this.value().substring(index + 1)));
 		return object;
 	}
 	
@@ -150,7 +150,7 @@ public class JsonReader extends AbstractReader<JsonElement> {
 			if (!(this.next() instanceof JsonObject object)) {
 				throw new JsonSyntaxException("Expected JsonObject but got " + this.next().getClass().getSimpleName());
 			}
-			for (Map.Entry<String, JsonElement> entry : object) {
+			for (Map.Entry<String, Json> entry : object) {
 				result.add(entry.getKey(), entry.getValue());
 			}
 		}
@@ -163,15 +163,15 @@ public class JsonReader extends AbstractReader<JsonElement> {
 		int result = -1;
 		boolean inQuotes = false;
 		Stack<Character> stack = new Stack<>();
-		for (int i = nextIndex; i < (this.type == JsonType.PROPERTY ? this.length : this.length - 1); i++) {
-			char c = this.value.charAt(i);
-			if (c == '"' && Utils.isNotEscaped(this.value, i)) {
+		for (int i = nextIndex; i < (this.type == JsonType.PROPERTY ? this.length() : this.length() - 1); i++) {
+			char c = this.value().charAt(i);
+			if (c == '"' && Utils.isNotEscaped(this.value(), i)) {
 				inQuotes = !inQuotes;
 			}
 			if (inQuotes) {
 				continue;
 			}
-			if (Utils.isNotEscaped(this.value, i)) {
+			if (Utils.isNotEscaped(this.value(), i)) {
 				if (c == '{' || c == '[') {
 					stack.push(c);
 					continue;

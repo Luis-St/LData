@@ -21,16 +21,16 @@ import java.util.*;
  *
  */
 
-public class JsonObject implements JsonElement, Iterable<Map.Entry<String, JsonElement>>, Writable<JsonWriter> {
+public class JsonObject implements Json, Iterable<Map.Entry<String, Json>>, Writable<JsonWriter> {
 	
-	private final Map<String, JsonElement> elements = Maps.newTreeMap();
+	private final Map<String, Json> elements = Maps.newTreeMap();
 	
 	//region Constructors
 	public JsonObject() {
 	
 	}
 	
-	public JsonObject(String key, JsonElement value) {
+	public JsonObject(String key, Json value) {
 		this.add(key, value);
 	}
 	
@@ -69,14 +69,14 @@ public class JsonObject implements JsonElement, Iterable<Map.Entry<String, JsonE
 	@Override
 	public @NotNull JsonObject copy() {
 		JsonObject object = new JsonObject();
-		for (Map.Entry<String, JsonElement> entry : this.elements.entrySet()) {
+		for (Map.Entry<String, Json> entry : this.elements.entrySet()) {
 			object.add(entry.getKey(), entry.getValue().copy());
 		}
 		return object;
 	}
 	
 	//region Adders
-	public void add(String key, JsonElement value) {
+	public void add(String key, Json value) {
 		this.elements.put(validateKey(key), value == null ? JsonNull.INSTANCE : value);
 	}
 	
@@ -114,7 +114,7 @@ public class JsonObject implements JsonElement, Iterable<Map.Entry<String, JsonE
 	}
 	
 	//region Getters
-	public JsonElement get(String key) {
+	public Json get(String key) {
 		if (this.has(key)) {
 			return this.elements.get(key);
 		}
@@ -153,7 +153,7 @@ public class JsonObject implements JsonElement, Iterable<Map.Entry<String, JsonE
 	//endregion
 	
 	@Override
-	public @NotNull Iterator<Map.Entry<String, JsonElement>> iterator() {
+	public @NotNull Iterator<Map.Entry<String, Json>> iterator() {
 		return this.elements.entrySet().iterator();
 	}
 	
@@ -164,7 +164,7 @@ public class JsonObject implements JsonElement, Iterable<Map.Entry<String, JsonE
 		}
 		boolean simplify = JsonHelper.canBeSimplified(this.elements.values(), config.simplifyPrimitiveObjects());
 		List<String> values = Lists.newArrayList();
-		for (Map.Entry<String, JsonElement> entry : this.elements.entrySet()) {
+		for (Map.Entry<String, Json> entry : this.elements.entrySet()) {
 			String key = JsonHelper.quote(entry.getKey(), config);
 			if (key.substring(1, key.length() - 1).isBlank() && !config.allowBlankKeys()) {
 				throw new JsonException("Key of value " + entry.getValue() + " is blank which is not allowed");

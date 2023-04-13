@@ -17,7 +17,7 @@ import java.util.Objects;
 
 public class JsonHelper {
 	
-	public static @NotNull String correctIndents(@NotNull JsonElement element, JsonConfig config, String separator) {
+	public static @NotNull String correctIndents(@NotNull Json element, JsonConfig config, String separator) {
 		if (element.isArray() || element.isObject()) {
 			List<String> lines = Lists.newArrayList(element.toString(config).split(System.lineSeparator()));
 			if (2 > lines.size()) {
@@ -32,11 +32,11 @@ public class JsonHelper {
 		return config.indent() + separator + element.toString(config);
 	}
 	
-	public static boolean canBeSimplified(Collection<JsonElement> elements, boolean configValue) {
+	public static boolean canBeSimplified(Collection<Json> elements, boolean configValue) {
 		if (!configValue) {
 			return false;
 		}
-		for (JsonElement element : elements) {
+		for (Json element : elements) {
 			if (!element.isPrimitive()) {
 				return false;
 			}
@@ -54,7 +54,7 @@ public class JsonHelper {
 		return "\"" + value + "\"";
 	}
 	
-	public static JsonElement parse(@Nullable String key, String value) {
+	public static Json parse(@Nullable String key, String value) {
 		//region Validation
 		Objects.requireNonNull(value, "Json value of key key '" + key + "' must not be null");
 		if (value.isEmpty()) {
@@ -89,7 +89,7 @@ public class JsonHelper {
 			if (value.length() == 2) {
 				return object;
 			}
-			for (JsonElement element : new JsonReader(value)) {
+			for (Json element : new JsonReader(value)) {
 				if (!(element instanceof JsonObject jsonObject)) {
 					throw new JsonSyntaxException("Json element is not valid, expected a JsonObject but got " + element.getClass().getSimpleName());
 				}

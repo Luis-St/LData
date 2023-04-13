@@ -1,6 +1,6 @@
 package net.luis.data.json.primitive;
 
-import net.luis.data.json.JsonElement;
+import net.luis.data.json.Json;
 import net.luis.data.json.exception.JsonException;
 
 /**
@@ -9,7 +9,7 @@ import net.luis.data.json.exception.JsonException;
  *
  */
 
-public abstract class JsonPrimitive implements JsonElement {
+public abstract class JsonPrimitive implements Json {
 	
 	//region JsonElement overrides
 	@Override

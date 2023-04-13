@@ -9,7 +9,7 @@ import org.jetbrains.annotations.NotNull;
  *
  */
 
-public class JsonNull implements JsonElement {
+public class JsonNull implements Json {
 	
 	public static final JsonNull INSTANCE = new JsonNull();
 	
