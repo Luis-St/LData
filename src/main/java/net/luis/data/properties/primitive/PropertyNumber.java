@@ -1,9 +1,6 @@
 package net.luis.data.properties.primitive;
 
-import net.luis.data.json.JsonElement;
 import net.luis.data.json.JsonObject;
-import net.luis.data.properties.Property;
-import net.luis.data.properties.config.PropertyConfig;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Objects;

@@ -109,5 +109,18 @@ public interface Property {
 	}
 	//endregion
 	
+	//region CommentedProperty
+	default boolean isCommented() {
+		return this instanceof CommentedProperty;
+	}
+	
+	default CommentedProperty getAsCommented() {
+		if (this.isCommented()) {
+			return (CommentedProperty) this;
+		}
+		throw new PropertyException("Not a commented property: " + this);
+	}
+	//endregion
+	
 	@NotNull String toString(PropertyConfig config);
 }

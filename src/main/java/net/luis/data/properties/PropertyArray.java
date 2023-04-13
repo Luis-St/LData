@@ -11,7 +11,7 @@ import java.util.Objects;
 import java.util.stream.Stream;
 
 public class PropertyArray implements Property {
-
+	
 	private final String key;
 	private final List<String> values;
 	

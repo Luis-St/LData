@@ -91,10 +91,13 @@ public class PropertyWriter extends AbstractWriter<PropertyConfig> {
 			}
 		}
 		//endregion
+		if (property.isCommented()) {
+			this.write(property.getAsCommented().getComment(this.config));
+		}
 		if (this.config.prettyPrint()) {
-			this.write(key + " " + this.config.delimiter() + " " + value);
+			this.write(key.toLowerCase() + " " + this.config.delimiter() + " " + value);
 		} else {
-			this.write(key + this.config.delimiter() + value);
+			this.write(key.toLowerCase() + this.config.delimiter() + value);
 		}
 	}
 	

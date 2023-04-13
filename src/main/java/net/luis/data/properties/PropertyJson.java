@@ -1,6 +1,5 @@
 package net.luis.data.properties;
 
-import net.luis.data.json.JsonElement;
 import net.luis.data.json.JsonObject;
 import net.luis.data.json.config.JsonConfig;
 import net.luis.data.properties.config.PropertyConfig;
