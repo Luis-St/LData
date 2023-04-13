@@ -1,14 +1,14 @@
 package net.luis.data.common.io;
 
-import net.luis.data.common.util.Utils;
+import net.luis.utils.util.LazyLoad;
 
 import java.io.File;
 import java.util.Objects;
 
 public abstract class AbstractReader<T> implements Reader<T> {
 	
-	protected final String value;
-	protected final int length;
+	private final LazyLoad<String> lazyValue;
+	private final LazyLoad<Integer> lazyLength;
 	protected int index;
 	
 	protected AbstractReader(File file) {
@@ -16,9 +16,11 @@ public abstract class AbstractReader<T> implements Reader<T> {
 	}
 	
 	protected AbstractReader(String value) {
-		this.validate(value);
-		this.value = this.modify(value);
-		this.length = this.value.length();
+		this.lazyValue = new LazyLoad<>(() -> {
+			this.validate(value);
+			return this.modify(value);
+		});
+		this.lazyLength = new LazyLoad<>(() -> this.value().length());
 	}
 	
 	protected void validate(String value) {
@@ -27,13 +29,21 @@ public abstract class AbstractReader<T> implements Reader<T> {
 	
 	protected abstract String modify(String original);
 	
+	protected final String value() {
+		return this.lazyValue.get();
+	}
+	
+	protected final int length() {
+		return this.lazyLength.get();
+	}
+	
 	@Override
 	public boolean hasNext() {
-		return this.length > this.index && this.length > 0;
+		return this.length() > this.index && this.length() > 0;
 	}
 	
 	protected String fromIndex(int index) {
-		return this.value.substring(this.index, index);
+		return this.value().substring(this.index, index);
 	}
 	
 	public void reset() {
@@ -41,7 +51,7 @@ public abstract class AbstractReader<T> implements Reader<T> {
 	}
 	
 	public void close() {
-		this.index = this.length;
+		this.index = this.length();
 	}
 	
 	//region Object overrides
@@ -50,19 +60,19 @@ public abstract class AbstractReader<T> implements Reader<T> {
 		if (this == o) return true;
 		if (!(o instanceof AbstractReader<?> that)) return false;
 		
-		if (this.length != that.length) return false;
+		if (this.length() != that.length()) return false;
 		if (this.index != that.index) return false;
-		return this.value.equals(that.value);
+		return this.value().equals(that.value());
 	}
 	
 	@Override
 	public int hashCode() {
-		return Objects.hash(this.value, this.length, this.index);
+		return Objects.hash(this.value(), this.length(), this.index);
 	}
 	
 	@Override
 	public String toString() {
-		return this.value;
+		return this.value();
 	}
 	//endregion
 }

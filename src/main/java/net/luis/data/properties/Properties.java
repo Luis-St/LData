@@ -1,15 +1,15 @@
 package net.luis.data.properties;
 
 import com.google.common.collect.Lists;
-import com.google.common.collect.Sets;
-import net.luis.data.common.io.FileHelper;
-import net.luis.utils.util.Utils;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import net.luis.data.common.io.Writable;
+import net.luis.data.properties.io.PropertyWriter;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.File;
-import java.util.*;
+import java.util.Arrays;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Objects;
 
 /**
  *
@@ -17,149 +17,95 @@ import java.util.*;
  *
  */
 
-public class Properties implements Iterable<Property> {
+public class Properties implements Iterable<Property>, Writable<PropertyWriter> {
 	
-	private static final Logger LOGGER = LogManager.getLogger(Properties.class);
-	
-	private final Set<Property> properties;
+	private final List<Property> properties;
 	
 	public Properties() {
-		this.properties = Sets.newTreeSet();
+		this.properties = Lists.newArrayList();
 	}
 	
-	public Properties(@NotNull List<Property> properties) {
-		this.properties = Sets.newTreeSet(properties);
+	public Properties(Property... properties) {
+		this.properties = Arrays.asList(properties);
 	}
 	
-	public Properties(File file, char delimiter) {
-		//region Validation
-		if (file == null) {
-			throw new IllegalArgumentException("File cannot be null");
-		}
-		if (file.isDirectory()) {
-			throw new IllegalArgumentException("File cannot be a directory");
-		}
-		if (!file.exists()) {
-			throw new IllegalArgumentException("File does not exist");
-		}
-		if (!file.canRead()) {
-			throw new IllegalArgumentException("File cannot be read");
-		}
-		if (Character.isWhitespace(delimiter)) {
-			throw new IllegalArgumentException("Delimiter cannot be a whitespace character");
-		}
-		if (delimiter == '#') {
-			throw new IllegalArgumentException("Delimiter cannot be the comment character");
-		}
-		//endregion
-		this.properties = read(file, delimiter);
+	public boolean isEmpty() {
+		return this.properties.isEmpty();
 	}
 	
-	private static @NotNull Set<Property> read(File file, char delimiter) {
-		Set<Property> properties = Sets.newTreeSet();
-		for (String line : FileHelper.readLines(file)) {
-			if (line.startsWith("#")) {
-				continue;
-			}
-			String[] split = line.split(String.valueOf(delimiter));
-			if (split.length == 2) {
-				properties.add(new Property(split[0].strip(), split[1].strip()));
-			} else {
-				LOGGER.warn("Invalid property in line '{}'", line);
+	public boolean contains(Property property) {
+		return this.properties.contains(property);
+	}
+	
+	public boolean containsKey(String key) {
+		return this.properties.stream().anyMatch(property -> property.getKey().equals(key));
+	}
+	
+	public List<Property> getProperties() {
+		return this.properties;
+	}
+	
+	public Property get(String key) {
+		return this.properties.stream().filter(property -> property.getKey().equals(key)).findFirst().orElse(null);
+	}
+	
+	public Properties getFor(String object) {
+		String normalizedObject = this.normalizeObject(object).toLowerCase();
+		Properties properties = new Properties();
+		for (ObjectProperty property : this.properties.stream().filter(Property::isObject).map(Property::getAsObject).toList()) {
+			String key = property.getKey();
+			String objects = key.substring(0, key.lastIndexOf('.')).toLowerCase();
+			if (objects.contains(normalizedObject)) {
+				properties.add(property.getInnerFrom(normalizedObject));
 			}
 		}
 		return properties;
 	}
 	
-	//region Getters
-	public Property getProperty(String key) {
-		for (Property property : this.properties) {
-			if (property.getKey().equals(key)) {
-				return property;
-			}
+	private @NotNull String normalizeObject(String object) {
+		Objects.requireNonNull(object, "Object must not be null");
+		char first = object.charAt(0);
+		char last = object.charAt(object.length() - 1);
+		if (first == '.' && last == '.') {
+			return object.substring(1, object.length() - 1);
+		} else if (first == '.') {
+			return object.substring(1);
+		} else if (last == '.') {
+			return object.substring(0, object.length() - 1);
 		}
-		return null;
+		return object;
 	}
 	
-	public List<Property> getProperties() {
-		return new ArrayList<>(this.properties);
+	public void remove(String key) {
+		this.properties.removeIf(property -> property.getKey().equals(key));
 	}
 	
-	public Property getProperty(String object, String key) {
-		return this.getProperty(object + "." + key);
+	public void remove(Property property) {
+		this.properties.remove(property);
 	}
 	
-	public Properties getProperties(String object) {
-		List<Property> properties = Lists.newArrayList();
-		for (Property property : this.properties.stream().filter(property -> property.getKey().startsWith(object + ".")).toList()) {
-			properties.add(new Property(property.getKey().substring(object.length() + 1), property.get()));
+	public void add(Property property) {
+		Objects.requireNonNull(property, "Property must not be null");
+		if (this.containsKey(property.getKey())) {
+			throw new IllegalArgumentException("Property with key " + property.getKey() + " already exists");
 		}
-		return new Properties(properties);
-	}
-	//endregion
-	
-	//region Adders
-	public void addProperty(Property property) {
 		this.properties.add(property);
 	}
 	
-	public void addProperty(String object, @NotNull Property property) {
-		this.addProperty(new Property(object + "." + property.getKey(), property.get()));
-	}
-	
-	public void addProperties(@NotNull List<Property> properties) {
-		properties.forEach(this::addProperty);
-	}
-	
-	public void addProperties(@NotNull Properties properties) {
-		this.addProperties(properties.getProperties());
-	}
-	
-	public void addProperties(String object, @NotNull List<Property> properties) {
-		properties.forEach(property -> {
-			if (property.getKey().startsWith(object + ".")) {
-				this.addProperty(property);
-			} else {
-				this.addProperty(new Property(object + "." + property.getKey(), property.get()));
-			}
-		});
-	}
-	
-	public void addProperties(String object, @NotNull Properties properties) {
-		this.addProperties(object, properties.getProperties());
-	}
-	//endregion
-	
 	@Override
 	public @NotNull Iterator<Property> iterator() {
-		return this.getProperties().iterator();
-	}
-	
-	public void clear() {
-		this.properties.clear();
-	}
-	
-	//region Object overrides
-	@Override
-	public boolean equals(Object o) {
-		if (this == o) return true;
-		if (!(o instanceof Properties that)) return false;
-		
-		return this.properties.equals(that.properties);
+		return this.properties.iterator();
 	}
 	
 	@Override
-	public int hashCode() {
-		return Objects.hash(this.properties);
+	public void write(File file) {
+		PropertyWriter writer = new PropertyWriter(file);
+		this.write(writer);
+		writer.flushAndClose();
 	}
 	
 	@Override
-	public String toString() {
-		return Lists.newArrayList(this.properties).toString();
+	public void write(PropertyWriter writer) {
+		this.properties.forEach(writer::write);
 	}
-	
-	public String toShortString() {
-		return Utils.mapList(Lists.newArrayList(this.properties), Property::toShortString).toString();
-	}
-	//endregion
 }

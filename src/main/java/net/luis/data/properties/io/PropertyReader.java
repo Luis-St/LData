@@ -3,6 +3,7 @@ package net.luis.data.properties.io;
 import net.luis.data.common.io.AbstractReader;
 import net.luis.data.json.io.JsonReader;
 import net.luis.data.properties.*;
+import net.luis.data.properties.exception.PropertyException;
 import net.luis.data.properties.primitive.PropertyBoolean;
 import net.luis.data.properties.primitive.PropertyNumber;
 import net.luis.data.properties.primitive.PropertyString;
@@ -28,12 +29,31 @@ public class PropertyReader extends AbstractReader<Property> {
 	public PropertyReader(String value, char delimiter) {
 		super(value);
 		this.delimiter = delimiter;
+		System.out.println(this.delimiter);
+	}
+	
+	@Override
+	protected void validate(String value) {
+		//region Validation
+		super.validate(value);
+		for (String line : value.split(System.lineSeparator())) {
+			if (line.isBlank() || line.startsWith("#")) {
+				continue;
+			}
+			if (!line.contains(String.valueOf(this.delimiter))) {
+				throw new PropertyException("Invalid property line, no delimiter (" + this.delimiter + ") found: '" + line + "'");
+			}
+			if (line.substring(0, line.indexOf(this.delimiter)).isBlank()) {
+				throw new PropertyException("Invalid property line, no key found: '" + line + "'");
+			}
+		}
+		//endregion
 	}
 	
 	@Override
 	protected String modify(String original) {
 		Objects.requireNonNull(original, "Original must not be null");
-		return String.join(System.lineSeparator(), Arrays.stream(original.split(System.lineSeparator())).filter(line -> !line.startsWith("#")).toArray(String[]::new));
+		return String.join(System.lineSeparator(), Arrays.stream(original.split(System.lineSeparator())).filter(line -> !line.isBlank() && !line.startsWith("#")).toArray(String[]::new));
 	}
 	
 	@Override
@@ -43,7 +63,7 @@ public class PropertyReader extends AbstractReader<Property> {
 			throw new IndexOutOfBoundsException("Index out of bounds");
 		}
 		//endregion
-		String line = this.fromIndex(this.findNext(System.lineSeparator()).orElse(this.length));
+		String line = this.fromIndex(this.findNext(System.lineSeparator()).orElse(this.length()));
 		String key = line.substring(0, line.indexOf(this.delimiter)).strip();
 		String value = line.substring(line.indexOf(this.delimiter) + 1).strip();
 		this.index += line.length() + System.lineSeparator().length();
@@ -59,19 +79,28 @@ public class PropertyReader extends AbstractReader<Property> {
 		}
 	}
 	
+	public Properties toProperties() {
+		Properties properties = new Properties();
+		while (this.hasNext()) {
+			properties.add(this.next());
+		}
+		this.close();
+		return properties;
+	}
+	
 	//region Helper methods
 	private Optional<Integer> findNext(String value) {
 		if (value == null || value.isEmpty()) {
 			return Optional.empty();
 		}
-		for (int i = this.index; i < this.length; i++) {
-			if (this.value.charAt(i) == value.charAt(0)) {
+		for (int i = this.index; i < this.length(); i++) {
+			if (this.value().charAt(i) == value.charAt(0)) {
 				if (value.length() == 1) {
 					return Optional.of(i);
 				}
 				boolean found = true;
-				for (int j = 0; j < value.length() && i + j < this.length; j++) {
-					if (value.charAt(j) != this.value.charAt(i + j)) {
+				for (int j = 0; j < value.length() && i + j < this.length(); j++) {
+					if (value.charAt(j) != this.value().charAt(i + j)) {
 						found = false;
 						break;
 					}
