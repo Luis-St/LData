@@ -3,8 +3,8 @@ package net.luis.data.json.io;
 import net.luis.data.common.io.AbstractReader;
 import net.luis.data.common.io.FileHelper;
 import net.luis.data.common.util.Utils;
-import net.luis.data.json.JsonArray;
 import net.luis.data.json.Json;
+import net.luis.data.json.JsonArray;
 import net.luis.data.json.JsonHelper;
 import net.luis.data.json.JsonObject;
 import net.luis.data.json.exception.JsonSyntaxException;
@@ -82,7 +82,7 @@ public class JsonReader extends AbstractReader<Json> {
 	
 	@Override
 	protected String modify(String original) {
-		return Utils.deleteWhitespace(original);
+		return Utils.deleteWhitespace(original, '\"');
 	}
 	
 	@Override

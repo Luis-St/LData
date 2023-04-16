@@ -39,11 +39,15 @@ public abstract class AbstractReader<T> implements Reader<T> {
 	
 	@Override
 	public boolean hasNext() {
-		return this.length() > this.index && this.length() > 0;
+		return this.index < this.length() && !this.value().isBlank();
 	}
 	
 	protected String fromIndex(int index) {
 		return this.value().substring(this.index, index);
+	}
+	
+	protected String remaining() {
+		return this.value().substring(this.index);
 	}
 	
 	public void reset() {
