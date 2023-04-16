@@ -1,12 +1,25 @@
-<employees>
-	<employee>
-		<name>John Doe</name>
-		<age>30</age>
-		<email>johndoe@example.com</email>
-	</employee>
-	<employee>
-		<name>Jane Smith</name>
-		<age>25</age>
-		<!--<email>janesmith@example.com</email>-->
-	</employee>
-</employees>
+<?xml version="1.0"encoding="UTF-8" ?>
+<company>
+	<name>Example Inc.</name>
+	<address>John Doe</address>
+	<city>Any-town</city>
+	<state></state>
+	<zip>12345</zip>
+	<phone>555-555-5555</phone>
+	<employees type="?test">
+		<employee head="false">
+			<name>John Doe</name>
+			<age value="30"/>
+			<email>johndoe@example.com</email>
+		</employee>
+		<employee head="true" divisions="IT">
+			<name>Jane Smith</name>
+			<!--<age>25</age>
+			<email>janesmith@example.com</email>-->
+			<division>
+				<name>Marketing</name>
+				<!--<phone>555-555-5555</phone>-->
+			</division>
+		</employee>
+	</employees>
+</company>
