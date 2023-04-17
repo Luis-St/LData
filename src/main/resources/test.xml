@@ -3,7 +3,7 @@
 	<name>Example Inc.</name>
 	<address>John Doe</address>
 	<city>Any-town</city>
-	<state></state>
+	<state>  </state>
 	<zip>12345</zip>
 	<phone>555-555-5555</phone>
 	<employees type="?test">
@@ -17,7 +17,7 @@
 			<!--<age>25</age>
 			<email>janesmith@example.com</email>-->
 			<division>
-				<name>Marketing</name>
+				<name>IT</name>
 				<!--<phone>555-555-5555</phone>-->
 			</division>
 		</employee>

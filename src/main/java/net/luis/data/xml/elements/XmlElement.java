@@ -8,6 +8,7 @@ import net.luis.data.xml.exception.XmlException;
 import org.apache.commons.lang3.StringEscapeUtils;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 
@@ -180,9 +181,43 @@ public class XmlElement {
 	//endregion
 	
 	public @NotNull String toString(XmlConfig config) {
-		
-		
-		return null;
+		StringBuilder builder = new StringBuilder("<");
+		//region Validation
+		if (!config.allowAttributes() && this.hasAttributes()) {
+			throw new XmlException("Element attributes are not allowed in this configuration");
+		}
+		//endregion
+		builder.append(this.name);
+		if (this.hasAttributes()) {
+			builder.append(" ").append(this.attributes.toString(config));
+		}
+		if (this.hasValue()) {
+			builder.append(">").append(StringEscapeUtils.escapeXml(this.value)).append("</").append(this.name);
+			builder.append(config.prettyPrint() ? ">\n" : ">");
+			return builder.toString();
+		}
+		if (!this.hasElements()) {
+			return builder.append(config.prettyPrint() ? "/>\n" : "/>").toString();
+		}
+		builder.append(config.prettyPrint() ? ">\n" : ">");
+		String intent = config.prettyPrint() ? config.indent() : "";
+		for (XmlElement element : this.elements) {
+			if (!config.prettyPrint()) {
+				builder.append(element.toString(config));
+				continue;
+			}
+			String[] parts = element.toString(config).split("\n");
+			builder.append(intent).append(parts[0]).append("\n");
+			if (parts.length == 1) {
+				continue;
+			}
+			for (int i = 1; i < parts.length - 1; i++) {
+				builder.append(intent).append(parts[i]).append("\n");
+			}
+			builder.append(intent).append(parts[parts.length - 1]).append("\n");
+		}
+		builder.append("</").append(this.name).append(config.prettyPrint() ? ">\n" : ">");
+		return builder.toString();
 	}
 	
 	//region Object overrides

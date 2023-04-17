@@ -65,7 +65,7 @@ public class XmlElements implements Iterable<XmlElement> {
 		return elements.isEmpty() ? null : elements.get(0);
 	}
 	
-	public List<XmlElement> getAttributes() {
+	public List<XmlElement> getElements() {
 		return List.copyOf(this.elements);
 	}
 	//endregion

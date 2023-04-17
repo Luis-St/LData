@@ -5,9 +5,9 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.Objects;
 
-public record XmlConfig(boolean prettyPrint, String indent, boolean allowElementPrefixes, boolean allowAttributes, boolean allowMixedArrays, boolean allowCustomExtensions) implements DataConfig {
+public record XmlConfig(boolean prettyPrint, String indent, boolean allowAttributes, boolean allowCustomExtensions) implements DataConfig {
 	
-	public static final XmlConfig DEFAULT = new XmlConfig(true, "\t", true, true, false, false);
+	public static final XmlConfig DEFAULT = new XmlConfig(true, "\t", true, false);
 	
 	public XmlConfig {
 		Objects.requireNonNull(indent, "Indent cannot be null");
@@ -39,17 +39,13 @@ public record XmlConfig(boolean prettyPrint, String indent, boolean allowElement
 		
 		private boolean prettyPrint;
 		private String indent;
-		private boolean allowElementPrefixes;
 		private boolean allowAttributes;
-		private boolean allowMixedArrays;
 		private boolean allowCustomExtensions;
 		
 		private Builder(@NotNull XmlConfig config) {
 			this.prettyPrint = config.prettyPrint();
 			this.indent = config.indent();
-			this.allowElementPrefixes = config.allowElementPrefixes();
 			this.allowAttributes = config.allowAttributes();
-			this.allowMixedArrays = config.allowMixedArrays();
 			this.allowCustomExtensions = config.allowCustomExtensions();
 		}
 		
@@ -63,18 +59,8 @@ public record XmlConfig(boolean prettyPrint, String indent, boolean allowElement
 			return this;
 		}
 		
-		public XmlConfig.Builder allowElementPrefixes(boolean allowElementPrefixes) {
-			this.allowElementPrefixes = allowElementPrefixes;
-			return this;
-		}
-		
 		public XmlConfig.Builder allowAttributes(boolean allowAttributes) {
 			this.allowAttributes = allowAttributes;
-			return this;
-		}
-		
-		public XmlConfig.Builder allowMixedArrays(boolean allowMixedArrays) {
-			this.allowMixedArrays = allowMixedArrays;
 			return this;
 		}
 		
@@ -85,7 +71,7 @@ public record XmlConfig(boolean prettyPrint, String indent, boolean allowElement
 		
 		@Override
 		public XmlConfig build() {
-			return new XmlConfig(this.prettyPrint, this.indent, this.allowElementPrefixes, this.allowAttributes, this.allowMixedArrays, this.allowCustomExtensions);
+			return new XmlConfig(this.prettyPrint, this.indent, this.allowAttributes, this.allowCustomExtensions);
 		}
 	}
 	//endregion
