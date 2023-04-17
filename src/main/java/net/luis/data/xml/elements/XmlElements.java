@@ -30,10 +30,6 @@ public class XmlElements implements Iterable<XmlElement> {
 		return this.elementNames.contains(name);
 	}
 	
-	public boolean has(String prefix, String name) {
-		return this.has(prefix + ":" + name);
-	}
-	
 	public boolean has(XmlElement element) {
 		return this.elements.contains(element);
 	}
@@ -47,10 +43,6 @@ public class XmlElements implements Iterable<XmlElement> {
 	
 	public void add(String name, String value) {
 		this.add(new XmlElement(name, value));
-	}
-	
-	public void add(String prefix, String name, String value) {
-		this.add(new XmlElement(prefix, name, value));
 	}
 	//endregion
 	
@@ -73,14 +65,6 @@ public class XmlElements implements Iterable<XmlElement> {
 		return elements.isEmpty() ? null : elements.get(0);
 	}
 	
-	public List<XmlElement> getAll(String prefix, String name) {
-		return this.getAll(prefix + ":" + name);
-	}
-	
-	public XmlElement get(String prefix, String name) {
-		return this.get(prefix + ":" + name);
-	}
-	
 	public List<XmlElement> getAttributes() {
 		return List.copyOf(this.elements);
 	}
@@ -101,11 +85,6 @@ public class XmlElements implements Iterable<XmlElement> {
 	
 	public @NotNull Iterator<XmlElement> iterator() {
 		return this.elements.iterator();
-	}
-	
-	public @NotNull String toString(XmlConfig config) {
-		
-		return null;
 	}
 	
 	//region Object overrides

@@ -25,7 +25,7 @@ public class JsonTest {
 		if (!Files.exists(file.toPath())) {
 			Files.createFile(file.toPath());
 		}
-		JsonWriter writer = new JsonWriter(new File("test.json"), JsonConfig.DEFAULT);
+		JsonWriter writer = new JsonWriter(file, JsonConfig.DEFAULT);
 		writer.write(reader.toJson());
 		writer.flushAndClose();
 	}
