@@ -1,13 +1,7 @@
 package net.luis.data;
 
-import net.luis.data.xml.attributes.XmlAttribute;
-import net.luis.data.xml.elements.XmlElement;
-import net.luis.data.xml.io.XmlReader;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-
-import java.io.File;
-import java.nio.file.Files;
 
 /**
  *
@@ -21,9 +15,9 @@ public class Main {
 	
 	/*
 	 * TODO: xml
-	 *  - implement toString(XmlConfig) in XmlElement and XmlElements
-	 *  - test xml writer
+	 *  - add xml declaration with encoding in writer
 	 *  - add xml test
+	 *  - add xml element builder
 	 *
 	 * TODO: global rework
 	 *  - exceptions which are thrown
@@ -36,24 +30,7 @@ public class Main {
 	 */
 	
 	public static void main(String[] args) throws Exception {
-		XmlReader reader = new XmlReader(new File("src/main/resources/test.xml"));
-		LOGGER.info(reader);
-		XmlElement element = reader.toXml();
-		log(element, 0);
-		File file = new File("test.xml");
-		if (!Files.exists(file.toPath())) {
-			Files.createFile(file.toPath());
-		}
-	}
 	
-	private static void log(XmlElement element, int depth) {
-		LOGGER.info("\t".repeat(depth) + element);
-		for (XmlAttribute attribute : element.getAttributes()) {
-			LOGGER.info("\t".repeat(depth + 1) + attribute);
-		}
-		for (XmlElement child : element.getElements()) {
-			log(child, depth + 1);
-		}
 	}
 	
 }

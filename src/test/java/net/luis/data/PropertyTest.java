@@ -11,13 +11,14 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.io.File;
+import java.io.IOException;
 import java.nio.file.Files;
 
 public class PropertyTest {
 	
 	private static final Logger LOGGER = LogManager.getLogger(PropertyTest.class);
 	
-	public static void main(String[] args) throws Exception {
+	public static void main(String[] args) throws IOException {
 		PropertyReader reader = new PropertyReader(new File("src/main/resources/test.properties"), '=');
 		for (Property property : reader) {
 			if (property instanceof ObjectProperty object) {

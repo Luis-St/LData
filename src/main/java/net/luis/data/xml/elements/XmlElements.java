@@ -1,7 +1,6 @@
 package net.luis.data.xml.elements;
 
 import com.google.common.collect.Lists;
-import net.luis.data.xml.config.XmlConfig;
 import net.luis.data.xml.exception.XmlException;
 import org.jetbrains.annotations.NotNull;
 

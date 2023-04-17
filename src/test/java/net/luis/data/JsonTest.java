@@ -8,13 +8,14 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.io.File;
+import java.io.IOException;
 import java.nio.file.Files;
 
 public class JsonTest {
 	
 	private static final Logger LOGGER = LogManager.getLogger(Main.class);
 	
-	public static void main(String[] args) throws Exception {
+	public static void main(String[] args) throws IOException {
 		JsonReader reader = new JsonReader(new File("src/main/resources/test.json"));
 		LOGGER.info(reader);
 		for (Json element : reader) {
