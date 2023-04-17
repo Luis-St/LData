@@ -3,11 +3,13 @@ package net.luis.data.xml.config;
 import net.luis.data.common.config.DataConfig;
 import org.jetbrains.annotations.NotNull;
 
+import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 import java.util.Objects;
 
-public record XmlConfig(boolean prettyPrint, String indent, boolean allowAttributes, boolean allowCustomExtensions) implements DataConfig {
+public record XmlConfig(Charset encoding, boolean prettyPrint, String indent, boolean allowAttributes, boolean allowCustomExtensions) implements DataConfig {
 	
-	public static final XmlConfig DEFAULT = new XmlConfig(true, "\t", true, false);
+	public static final XmlConfig DEFAULT = new XmlConfig(StandardCharsets.UTF_8, true, "\t", true, false);
 	
 	public XmlConfig {
 		Objects.requireNonNull(indent, "Indent cannot be null");
@@ -37,16 +39,23 @@ public record XmlConfig(boolean prettyPrint, String indent, boolean allowAttribu
 	//region Builder
 	public static class Builder implements DataConfig.Builder<XmlConfig> {
 		
+		private Charset encoding;
 		private boolean prettyPrint;
 		private String indent;
 		private boolean allowAttributes;
 		private boolean allowCustomExtensions;
 		
 		private Builder(@NotNull XmlConfig config) {
+			this.encoding = config.encoding();
 			this.prettyPrint = config.prettyPrint();
 			this.indent = config.indent();
 			this.allowAttributes = config.allowAttributes();
 			this.allowCustomExtensions = config.allowCustomExtensions();
+		}
+		
+		public XmlConfig.Builder encoding(Charset encoding) {
+			this.encoding = encoding;
+			return this;
 		}
 		
 		public XmlConfig.Builder prettyPrint(boolean prettyPrint) {
@@ -71,7 +80,7 @@ public record XmlConfig(boolean prettyPrint, String indent, boolean allowAttribu
 		
 		@Override
 		public XmlConfig build() {
-			return new XmlConfig(this.prettyPrint, this.indent, this.allowAttributes, this.allowCustomExtensions);
+			return new XmlConfig(this.encoding, this.prettyPrint, this.indent, this.allowAttributes, this.allowCustomExtensions);
 		}
 	}
 	//endregion

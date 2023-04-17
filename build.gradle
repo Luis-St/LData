@@ -41,6 +41,13 @@ tasks.register("testJson", JavaExec) {
 	enableAssertions = true
 }
 
+tasks.register("testXml", JavaExec) {
+	group = "tests"
+	getMainClass().set("net.luis.data.XmlTest")
+	classpath = sourceSets.test.runtimeClasspath
+	enableAssertions = true
+}
+
 tasks.register("testProperty", JavaExec) {
 	group = "tests"
 	getMainClass().set("net.luis.data.PropertyTest")

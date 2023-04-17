@@ -39,9 +39,14 @@ public abstract class AbstractWriter<T extends DataConfig> implements Writer {
 		} catch (Exception e) {
 			throw new RuntimeException(e);
 		}
+		this.init();
 	}
 	
 	protected abstract boolean isExtensionNotAllowed(String extension);
+	
+	protected void init() {
+	
+	}
 	
 	@Override
 	public void flush() {

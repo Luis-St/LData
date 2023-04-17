@@ -30,6 +30,19 @@ public class XmlWriter extends AbstractWriter<XmlConfig> {
 		return extension == null || !extension.equals("xml");
 	}
 	
+	@Override
+	protected void init() {
+		try {
+			if (this.config.prettyPrint()) {
+				this.writer.write("<?xml version=\"1.0\" encoding=\"" + this.config.encoding() + "\" ?>" + System.lineSeparator());
+			} else {
+				this.writer.write("<?xml version=\"1.0\" encoding=\"" + this.config.encoding() + "\" ?>");
+			}
+		} catch (Exception e) {
+			throw new RuntimeException(e);
+		}
+	}
+	
 	public void write(@NotNull XmlElement element) {
 		String xml = element.toString(this.config);
 		try {

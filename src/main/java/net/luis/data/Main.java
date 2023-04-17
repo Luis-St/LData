@@ -15,8 +15,6 @@ public class Main {
 	
 	/*
 	 * TODO: xml
-	 *  - add xml declaration with encoding in writer
-	 *  - add xml test
 	 *  - add xml element builder
 	 *
 	 * TODO: global rework
