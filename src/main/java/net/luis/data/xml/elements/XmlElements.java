@@ -2,6 +2,7 @@ package net.luis.data.xml.elements;
 
 import com.google.common.collect.Lists;
 import net.luis.data.xml.exception.XmlException;
+import org.jetbrains.annotations.ApiStatus;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Iterator;
@@ -13,6 +14,7 @@ public class XmlElements implements Iterable<XmlElement> {
 	private final List<String> elementNames = Lists.newArrayList();
 	private final List<XmlElement> elements = Lists.newArrayList();
 	
+	@ApiStatus.Internal
 	XmlElements() {
 	
 	}

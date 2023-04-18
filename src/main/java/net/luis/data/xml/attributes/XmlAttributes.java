@@ -2,6 +2,7 @@ package net.luis.data.xml.attributes;
 
 import com.google.common.collect.Maps;
 import net.luis.data.xml.config.XmlConfig;
+import org.jetbrains.annotations.ApiStatus;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Iterator;
@@ -12,6 +13,11 @@ import java.util.Objects;
 public class XmlAttributes implements Iterable<XmlAttribute> {
 	
 	private final Map<String, XmlAttribute> attributes = Maps.newHashMap();
+	
+	@ApiStatus.Internal
+	public XmlAttributes() {
+	
+	}
 	
 	public @NotNull XmlAttributes copy() {
 		XmlAttributes attributes = new XmlAttributes();

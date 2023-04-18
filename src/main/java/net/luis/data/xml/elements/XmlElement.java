@@ -6,6 +6,8 @@ import net.luis.data.xml.attributes.XmlAttributes;
 import net.luis.data.xml.config.XmlConfig;
 import net.luis.data.xml.exception.XmlException;
 import org.apache.commons.lang3.StringEscapeUtils;
+import org.apache.commons.lang3.StringUtils;
+import org.jetbrains.annotations.ApiStatus;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
@@ -23,9 +25,25 @@ public class XmlElement {
 		this.value = null;
 	}
 	
+	public XmlElement(String name, boolean value) {
+		this(name, String.valueOf(value));
+	}
+	
+	public XmlElement(String name, Number value) {
+		this(name, String.valueOf(value));
+	}
+	
 	public XmlElement(String name, String value) {
 		this.name = XmlHelper.validateXmlEscape(Objects.requireNonNull(name, "Name must not be null"));
 		this.value = StringEscapeUtils.unescapeXml(Objects.requireNonNull(value, "Value must not be null"));
+	}
+	
+	@ApiStatus.Internal
+	XmlElement(String name, String value, List<XmlAttribute> attributes, List<XmlElement> elements) {
+		this.name = XmlHelper.validateXmlEscape(Objects.requireNonNull(name, "Name must not be null"));
+		this.value = StringUtils.isBlank(value) ? null : StringEscapeUtils.unescapeXml(Objects.requireNonNull(value, "Value must not be null"));
+		Objects.requireNonNull(attributes, "Attributes must not be null").forEach(this.attributes::add);
+		Objects.requireNonNull(elements, "Elements must not be null").forEach(this.elements::add);
 	}
 	
 	public String getName() {
@@ -106,10 +124,6 @@ public class XmlElement {
 		return this.attributes.has(attribute);
 	}
 	
-	public void addAttribute(XmlAttribute attribute) {
-		this.attributes.add(attribute);
-	}
-	
 	public void addAttribute(String name, boolean value) {
 		this.attributes.add(name, value);
 	}
@@ -120,6 +134,10 @@ public class XmlElement {
 	
 	public void addAttribute(String name, String value) {
 		this.attributes.add(name, value);
+	}
+	
+	public void addAttribute(XmlAttribute attribute) {
+		this.attributes.add(attribute);
 	}
 	
 	public XmlAttribute getAttribute(String name) {
@@ -148,6 +166,13 @@ public class XmlElement {
 		return !this.hasElements() && this.elements.has(element);
 	}
 	
+	public void addElement(String name, String value) {
+		if (this.hasValue()) {
+			throw new XmlException("Element has a value");
+		}
+		this.elements.add(name, value);
+	}
+	
 	public void addElement(XmlElement element) {
 		if (this.hasValue()) {
 			throw new XmlException("Element has a value");
@@ -155,11 +180,8 @@ public class XmlElement {
 		this.elements.add(element);
 	}
 	
-	public void addElement(String name, String value) {
-		if (this.hasValue()) {
-			throw new XmlException("Element has a value");
-		}
-		this.elements.add(name, value);
+	public XmlElementBuilder addElement(String name) {
+		return new XmlElementBuilder(this, name);
 	}
 	
 	public List<XmlElement> getAllElements(String name) {
