@@ -1,7 +1,11 @@
 package net.luis.data;
 
+import net.luis.data.common.util.Utils;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+
+import java.util.Arrays;
 
 /**
  *
@@ -15,7 +19,8 @@ public class Main {
 	
 	/*
 	 * TODO: xml
-	 *  - add xml element builder
+	 *  - fix xml reading 'new' xml element
+	 *  - test XmlElementBuilder with attributes of child elements
 	 *
 	 * TODO: global rework
 	 *  - exceptions which are thrown

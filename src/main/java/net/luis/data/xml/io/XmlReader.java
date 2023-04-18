@@ -287,7 +287,10 @@ public class XmlReader extends AbstractReader<XmlElement> {
 	
 	private @NotNull List<XmlAttribute> getAttributes(String value) {
 		List<XmlAttribute> attributes = Lists.newArrayList();
-		for (String part : StringUtils.stripToEmpty(value).split(" ")) {
+		for (String part : Utils.splitNoneQuoted(StringUtils.stripToEmpty(value), " ")) {
+			if (part.isBlank()) {
+				continue;
+			}
 			String[] split = part.split("=");
 			if (split.length != 2) {
 				throw new IllegalArgumentException("Xml attribute '" + part + "' is not valid");

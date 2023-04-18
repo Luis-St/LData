@@ -25,7 +25,19 @@ public class XmlTest {
 		if (!Files.exists(file.toPath())) {
 			Files.createFile(file.toPath());
 		}
-		element.getElement("employees").addElement(buildEmployee());
+		element.getElement("employees")
+				.addElement("employee")
+				.addAttribute("head", "true")
+				.addAttribute("divisions", "Marketing, Sales")
+				.addElement("name", "Luis")
+				.addElement("age", "20")
+				.addElement("team")
+					.addElement("employee", "Mark").addAttribute("age", "27")
+					.addElement("employee", "John").addAttribute("age", "33")
+					.addElement("employee", "Peter").addAttribute("age", "46")
+				.build()
+				.addElement("phone", "123456789")
+				.build();
 		XmlWriter writer = new XmlWriter(file, XmlConfig.DEFAULT);
 		writer.write(element);
 		writer.flushAndClose();
@@ -42,6 +54,12 @@ public class XmlTest {
 	}
 	
 	private static XmlElement buildEmployee() {
+		
+		
+		
+		
+		
+		
 		XmlElement element = new XmlElement("employee");
 		element.addAttribute("head", "true");
 		element.addAttribute("divisions", "Marketing, Sales");
