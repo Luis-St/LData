@@ -180,10 +180,6 @@ public class XmlElement {
 		this.elements.add(element);
 	}
 	
-	public XmlElementBuilder addElement(String name) {
-		return new XmlElementBuilder(this, name);
-	}
-	
 	public List<XmlElement> getAllElements(String name) {
 		return elements.getAll(name);
 	}

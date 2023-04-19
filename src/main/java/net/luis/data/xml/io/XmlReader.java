@@ -189,7 +189,7 @@ public class XmlReader extends AbstractReader<XmlElement> {
 		}
 	}
 	
-	private XmlElement getRootTag(String rootValue) {
+	private @NotNull XmlElement getRootTag(String rootValue) {
 		if (this.root != null && rootValue == null) {
 			return this.root.copy();
 		}
