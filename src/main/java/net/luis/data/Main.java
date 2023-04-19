@@ -19,8 +19,7 @@ public class Main {
 	
 	/*
 	 * TODO: xml
-	 *  - fix xml reading 'new' xml element
-	 *  - test XmlElementBuilder with attributes of child elements
+	 *  - re-implement to XPath
 	 *
 	 * TODO: global rework
 	 *  - exceptions which are thrown
