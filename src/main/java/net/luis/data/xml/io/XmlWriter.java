@@ -51,5 +51,4 @@ public class XmlWriter extends AbstractWriter<XmlConfig> {
 			throw new RuntimeException(e);
 		}
 	}
-	
 }

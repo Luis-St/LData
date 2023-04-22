@@ -50,10 +50,12 @@ public abstract class AbstractReader<T> implements Reader<T> {
 		return this.value().substring(this.index);
 	}
 	
+	@Override
 	public void reset() {
 		this.index = 0;
 	}
 	
+	@Override
 	public void close() {
 		this.index = this.length();
 	}

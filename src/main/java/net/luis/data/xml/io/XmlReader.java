@@ -1,309 +1,171 @@
 package net.luis.data.xml.io;
 
 import com.google.common.collect.Lists;
-import net.luis.data.common.io.AbstractReader;
-import net.luis.data.common.util.Utils;
+import net.luis.data.common.io.Reader;
 import net.luis.data.xml.attributes.XmlAttribute;
 import net.luis.data.xml.elements.XmlElement;
-import net.luis.utils.util.Range;
-import net.luis.utils.util.SimpleEntry;
-import org.apache.commons.lang3.StringUtils;
+import net.luis.data.xml.exception.XmlException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.jetbrains.annotations.NotNull;
+import org.w3c.dom.Document;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
 
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.xpath.XPath;
+import javax.xml.xpath.XPathConstants;
+import javax.xml.xpath.XPathFactory;
 import java.io.File;
-import java.nio.charset.Charset;
 import java.util.List;
-import java.util.Map;
 import java.util.Objects;
 
-public class XmlReader extends AbstractReader<XmlElement> {
+public class XmlReader implements Reader<XmlElement> {
 	
 	private static final Logger LOGGER = LogManager.getLogger(XmlReader.class);
 	
-	private XmlElement root;
+	private final String name;
+	private final List<XmlAttribute> attributes;
+	private final int type;
+	private final List<Node> nodes;
+	private int index;
+	
+	public XmlReader(String path) {
+		this(new File(path));
+	}
 	
 	public XmlReader(File file) {
-		super(file);
-	}
-	
-	public XmlReader(String value) {
-		super(value);
-	}
-	
-	@Override
-	protected void validate(String value) {
-		//region Validation
-		Objects.requireNonNull(value, "Xml string must not be null");
-		if (Utils.countNoneQuoted(value, "<?xml") > 1) {
-			throw new IllegalArgumentException("Xml string must not contain more than one xml declaration");
+		try {
+			//region XPath creation
+			DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+			factory.setIgnoringComments(true);
+			DocumentBuilder builder = factory.newDocumentBuilder();
+			Document document = builder.parse(file);
+			XPath xPath = XPathFactory.newInstance().newXPath();
+			NodeList nodes = (NodeList) xPath.compile("*").evaluate(document, XPathConstants.NODESET);
+			//endregion
+			//region Validation
+			if (nodes.getLength() == 0) {
+				throw new XmlException("The xml file is empty");
+			} else if (nodes.getLength() > 1) {
+				throw new XmlException("The xml file contains more than one root element");
+			} else if (nodes.item(0).getNodeType() != Node.ELEMENT_NODE && nodes.item(0).getNodeType() != Node.TEXT_NODE) {
+				throw new XmlException("Invalid node type of the root node: " + nodes.item(0).getNodeType());
+			}
+			Node node = nodes.item(0);
+			//endregion
+			this.name = node.getNodeName();
+			this.attributes = this.getXmlAttributes(node);
+			this.type = node.getNodeType();
+			List<Node> nodesList = Lists.newArrayList();
+			for (int i = 0; i < node.getChildNodes().getLength(); i++) {
+				Node childNode = node.getChildNodes().item(i);
+				if (childNode.getNodeType() == Node.ELEMENT_NODE) {
+					nodesList.add(childNode);
+				}
+			}
+			this.nodes = List.copyOf(nodesList);
+		} catch (Exception e) {
+			throw new XmlException("Error while reading the xml file", e);
 		}
-		if (Utils.countNoneQuoted("?>", value) > 1) {
-			throw new IllegalArgumentException("Xml string must not contain more than one xml declaration end");
-		}
-		int xmlOpen = Utils.countNoneQuoted("<", value);
-		int xmlClose = Utils.countNoneQuoted(">", value);
-		if (xmlOpen > xmlClose) {
-			throw new IllegalArgumentException("Xml string must not contain more opening tags (" + xmlOpen + ") than closing tags (" + xmlClose + ")");
-		} else if (xmlClose > xmlOpen) {
-			throw new IllegalArgumentException("Xml string must not contain more closing tags (" + xmlClose + ") than opening tags (" + xmlOpen + ")");
-		}
-		//endregion
-	}
-	
-	@Override
-	protected String modify(String original) {
-		//region Modification
-		Objects.requireNonNull(original, "Xml string must not be null");
-		String result = String.join("", original.split("(?=<!--)([\\s\\S]*?)-->"));
-		String declaration = StringUtils.substringBetween(result, "<?", "?>");
-		if (declaration == null) {
-			Charset charset = Charset.defaultCharset();
-			LOGGER.warn("No xml declaration found, using default charset {}", charset);
-			return new String(result.getBytes(charset), charset);
-		}
-		if (!declaration.toLowerCase().startsWith("xml")) {
-			throw new IllegalArgumentException("Xml string declaration must start with 'xml'");
-		}
-		String encoding = StringUtils.substringBetween(declaration, "encoding=\"", "\"");
-		Charset charset;
-		if (Charset.isSupported(encoding)) {
-			charset = Charset.forName(encoding);
-		} else {
-			charset = Charset.defaultCharset();
-			LOGGER.warn("Charset {} is not supported, using default charset instead {}", encoding, charset);
-		}
-		return new String(this.deleteWhitespace(result.replace("<?" + declaration + "?>", "")).getBytes(charset), charset);
-		//endregion
 	}
 	
 	@Override
 	public boolean hasNext() {
-		if (this.index == 0 || this.root == null) {
-			return super.hasNext();
-		} else if (super.hasNext()) {
-			String value = this.remaining();
-			if (value.startsWith("</")) {
-				value = value.substring(2);
-			}
-			if (value.charAt(value.length() - 1) == '>') {
-				value = value.substring(0, value.length() - 1);
-			}
-			return !value.strip().equals(this.root.getName());
+		if (this.type == Node.TEXT_NODE) {
+			return this.index == 0;
+		} else if (this.type == Node.ELEMENT_NODE) {
+			return !this.nodes.isEmpty() && this.index < this.nodes.size();
 		}
-		return false;
+		throw new XmlException("Invalid node type of the root node: " + this.type);
 	}
 	
 	@Override
 	public XmlElement next() {
-		if (this.index == 0) {
-			int index = this.value().indexOf('>');
-			if (index == -1) {
-				throw new IllegalArgumentException("Xml string must contain a root tag");
-			}
-			if (this.value().charAt(index - 1) == '/') {
-				XmlElement element = this.getRootTag(null);
-				this.close();
-				return element;
-			}
-			if (this.value().charAt(index + 1) != '<') {
-				String rootValue = StringUtils.substringBetween(this.value(), ">", "<");
-				if (rootValue == null) {
-					throw new IllegalArgumentException("Xml root tag is not valid");
-				}
-				XmlElement element = this.getRootTag(rootValue);
-				this.close();
-				return element;
-			}
+		//region Validation
+		if (!this.hasNext()) {
+			throw new IndexOutOfBoundsException("Index out of bounds");
 		}
-		XmlElement root = this.getRootTag(null);
-		Map.Entry<Range, Range> entry = this.getNextElementRange(this.value(), this.index);
-		root.addElement(parseElement(this.value(), entry.getKey(), entry.getValue()));
-		this.index = entry.getValue().getMax();
-		return root;
+		//endregion
+		if (this.type == Node.TEXT_NODE) {
+			this.close();
+			return this.getRootElement();
+		} else if (this.type == Node.ELEMENT_NODE) {
+			XmlElement rootElement = this.getRootElement();
+			XmlElement element = this.getXmlElement(this.nodes.get(this.index));
+			this.getXmlAttributes(this.nodes.get(this.index)).forEach(element::addAttribute);
+			rootElement.addElement(element);
+			this.index++;
+			return rootElement;
+		}
+		throw new XmlException("Invalid node type of the root node: " + this.type);
 	}
 	
 	public XmlElement toXml() {
-		XmlElement root = this.getRootTag(null);
+		XmlElement rootElement = this.getRootElement();
 		while (this.hasNext()) {
 			XmlElement element = this.next();
-			for (XmlElement child : element.getElements()) {
-				root.addElement(child);
+			for (XmlElement childElement : element.getElements()) {
+				rootElement.addElement(childElement);
 			}
 		}
-		return root;
+		return rootElement;
 	}
 	
 	//region Helper methods
-	private @NotNull String deleteWhitespace(String value) {
-		Objects.requireNonNull(value, "Xml string must not be null");
-		StringBuilder result = new StringBuilder();
-		StringBuilder temp = new StringBuilder();
-		boolean inTag = false;
-		for (int i = 0; i < value.length(); i++) {
-			char c = value.charAt(i);
-			boolean changed = false;
-			if (c == '<' && !inTag) {
-				inTag = true;
-				changed = true;
-			} else if (c == '>' && inTag) {
-				inTag = false;
-				changed = true;
-			}
-			if (changed && temp.length() > 0) {
-				String string = temp.toString();
-				if (!string.isBlank()) {
-					result.append(string);
-				} else {
-					for (int j = i; j < value.length(); j++) {
-						char d = value.charAt(j);
-						if (d == '<') {
-							if (j + 1 < value.length() && value.charAt(j + 1) == '/' && this.isInValueTag(value, i)) {
-								result.append(string);
-							}
-							break;
-						}
-					}
-				}
-				temp = new StringBuilder();
-			}
-			if (inTag || changed) {
-				result.append(c);
-			} else {
-				temp.append(c);
-			}
-		}
-		return result.toString();
+	private @NotNull XmlElement getRootElement() {
+		XmlElement element = new XmlElement(this.name);
+		this.attributes.forEach(element::addAttribute);
+		return element;
 	}
 	
-	private boolean isInValueTag(String xml, int index) {
-		Objects.requireNonNull(xml, "Xml string must not be null");
-		String before = xml.substring(0, index);
-		String nextTag = StringUtils.substringBetween(xml.substring(index), "<", ">").substring(1).strip();
-		String lastTag = before.substring(before.lastIndexOf('<', index) + 1, before.lastIndexOf('>', index));
-		if (lastTag.contains(" ")) {
-			return Objects.equals(StringUtils.substringBefore(lastTag, " "), nextTag);
-		} else {
-			return Objects.equals(lastTag, nextTag);
-		}
+	private @NotNull XmlElement getXmlElement(Node node) {
+		return this.getXmlElement(node, node.getChildNodes());
 	}
 	
-	private @NotNull XmlElement getRootTag(String rootValue) {
-		if (this.root != null && rootValue == null) {
-			return this.root.copy();
-		}
-		if (this.value().isBlank()) {
-			throw new IllegalArgumentException("Xml string must contain a root tag");
-		}
-		String root = StringUtils.stripToNull(StringUtils.substringBetween(this.value(), "<", ">"));
-		if (root == null) {
-			throw new IllegalArgumentException("Xml string must contain a root tag");
-		}
-		if (root.charAt(root.length() - 1) == '/') {
-			root = root.substring(0, root.length() - 1).strip();
-		}
-		String name = this.parseStartTagValue(root);
-		XmlElement element = rootValue == null ? new XmlElement(name) : new XmlElement(name, rootValue);
-		if (root.contains(" ")) {
-			this.getAttributes(StringUtils.substringAfter(root, " ")).forEach(element::addAttribute);
-		}
-		this.root = Objects.requireNonNull(element, "Xml root element must not be null");
-		this.index = this.value().indexOf('>') + 1;
-		return this.root.copy();
-	}
-	
-	private @NotNull Map.Entry<Range, Range> getNextElementRange(String xml, int startIndex) {
-		String value = Objects.requireNonNull(xml, "Xml string must not be null").substring(startIndex);
-		String startTag = StringUtils.substringBetween(value, "<", ">");
-		Range startRange = Range.of(startIndex, startIndex + startTag.length() + 2);
-		if (startTag.charAt(startTag.length() - 1) == '/') {
-			return new SimpleEntry<>(startRange, startRange);
-		}
-		return new SimpleEntry<>(startRange, getEndTagRange(xml, startRange, startRange.getMax()));
-	}
-	
-	private @NotNull Range getEndTagRange(String xml, Range startRange, int startIndex) {
-		String value = Objects.requireNonNull(xml, "Xml string must not be null").substring(startIndex);
-		String nextEndTag = StringUtils.substringBetween(value, "</", ">");
-		int start = startIndex + value.indexOf("</");
-		if (this.parseStartTagName(xml, startRange).equals(nextEndTag.strip())) {
-			return Range.of(start, start + nextEndTag.length() + 3);
-		} else {
-			return getEndTagRange(xml, startRange, start + nextEndTag.length() + 3);
-		}
-	}
-	
-	private @NotNull XmlElement parseElement(String xml, Range start, Range end) {
-		Objects.requireNonNull(start, "Start range of element must not be null");
-		Objects.requireNonNull(end, "End range of element must not be null");
-		String name = this.parseStartTagName(xml, start);
-		String value = start.equals(end) ? "" : StringUtils.substring(xml, start.getMax(), end.getMin());
-		List<XmlAttribute> attributes = parseAttributes(xml, name, start);
-		if (start.equals(end)) {
-			XmlElement element = new XmlElement(name);
-			attributes.forEach(element::addAttribute);
+	private @NotNull XmlElement getXmlElement(Node parentNode, NodeList childNodes) {
+		Objects.requireNonNull(childNodes, "Child nodes must not be null");
+		if (childNodes.getLength() == 0) {
+			XmlElement element = new XmlElement(parentNode.getNodeName());
+			getXmlAttributes(parentNode).forEach(element::addAttribute);
+			return element;
+		} else if (childNodes.getLength() == 1 && childNodes.item(0).getNodeType() == Node.TEXT_NODE) {
+			XmlElement element = new XmlElement(parentNode.getNodeName(), childNodes.item(0).getTextContent());
+			getXmlAttributes(childNodes.item(0)).forEach(element::addAttribute);
 			return element;
 		}
-		if (value.isEmpty() || value.charAt(0) != '<') {
-			XmlElement element = new XmlElement(name, value);
-			attributes.forEach(element::addAttribute);
-			return element;
-		}
-		XmlElement element = new XmlElement(name);
-		attributes.forEach(element::addAttribute);
-		int index = 0;
-		while (index < value.length()) {
-			Map.Entry<Range, Range> entry = this.getNextElementRange(value, index);
-			element.addElement(parseElement(value, entry.getKey(), entry.getValue()));
-			index = entry.getValue().getMax();
+		XmlElement element = new XmlElement(parentNode.getNodeName());
+		for (int i = 0; i < childNodes.getLength(); i++) {
+			Node node = childNodes.item(i);
+			if (node.getNodeType() == Node.ELEMENT_NODE) {
+				XmlElement childElement = getXmlElement(node, node.getChildNodes());
+				getXmlAttributes(node).forEach(childElement::addAttribute);
+				element.addElement(childElement);
+			}
 		}
 		return element;
 	}
 	
-	private @NotNull String parseStartTagName(String xml, Range range) {
-		Objects.requireNonNull(range, "Range of start tag must not be null");
-		return parseStartTagValue(StringUtils.substring(xml, range.getMin() + 1, range.getMax() - 1));
-	}
-	
-	private @NotNull String parseStartTagValue(String startTag) {
-		if (!StringUtils.contains(startTag, " ")) {
-			return Objects.requireNonNull(startTag, "Xml start tag must not be null");
-		}
-		return StringUtils.substringBefore(startTag, " ");
-	}
-	
-	private @NotNull List<XmlAttribute> parseAttributes(String xml, String name, Range range) {
-		Objects.requireNonNull(range, "Range of start tag must not be null");
-		String value = StringUtils.stripToEmpty(StringUtils.substring(xml, range.getMin() + 1 + StringUtils.stripToEmpty(name).length(), range.getMax() - 1));
-		if (value.isBlank()) {
-			return Lists.newArrayList();
-		}
-		if (value.charAt(value.length() - 1) == '/') {
-			value = value.substring(0, value.length() - 1).strip();
-		}
-		return getAttributes(value);
-	}
-	
-	private @NotNull List<XmlAttribute> getAttributes(String value) {
-		List<XmlAttribute> attributes = Lists.newArrayList();
-		for (String part : Utils.splitNoneQuoted(StringUtils.stripToEmpty(value), " ")) {
-			if (part.isBlank()) {
-				continue;
+	private @NotNull List<XmlAttribute> getXmlAttributes(Node node) {
+		Objects.requireNonNull(node, "Node must not be null");
+		List<XmlAttribute> xmlAttributes = Lists.newArrayList();
+		if (node.hasAttributes()) {
+			for (int i = 0; i < node.getAttributes().getLength(); i++) {
+				xmlAttributes.add(new XmlAttribute(node.getAttributes().item(i).getNodeName(), node.getAttributes().item(i).getTextContent()));
 			}
-			String[] split = part.split("=");
-			if (split.length != 2) {
-				throw new IllegalArgumentException("Xml attribute '" + part + "' is not valid");
-			}
-			String attributeValue = split[1];
-			if (attributeValue.charAt(0) != '"' && attributeValue.charAt(attributeValue.length() - 1) != '"') {
-				if (attributeValue.charAt(0) != '\'' && attributeValue.charAt(attributeValue.length() - 1) != '\'') {
-					throw new IllegalArgumentException("Xml attribute '" + part + "' is not valid, value must be surrounded by quotes");
-				}
-			}
-			attributes.add(new XmlAttribute(split[0], attributeValue.substring(1, attributeValue.length() - 1)));
 		}
-		return attributes;
+		return xmlAttributes;
 	}
 	//endregion
+	
+	@Override
+	public void reset() {
+		this.index = 0;
+	}
+	
+	@Override
+	public void close() {
+		this.index = this.type == Node.TEXT_NODE ? 1 : this.nodes.size();
+	}
 }

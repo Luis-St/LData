@@ -1,33 +1,38 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <company>
-	<name>Example Inc.</name>
-	<address>John Doe</address>
+	<name value="Example Inc."/>
+	<address>Any-address</address>
 	<city>Any-town</city>
 	<state>Any-state</state>
 	<zip>12345</zip>
 	<phone>555-555-5555</phone>
-	<employees type="?test">
-		<employee head="false">
-			<name>John Doe</name>
-			<!--<age value="30"/>
-			<email>johndoe@example.com</email>-->
+	<employees>
+		<employee id="1">
+			<name>
+				<first>John</first>
+				<last>Doe</last>
+			</name>
+			<age>47</age>
+			<division>Sales</division>
+			<phone pre="+49">123456789</phone>
 		</employee>
-		<employee head="true" divisions="IT">
-			<name>Jane Smith</name>
-			<division>
-				<name>IT</name>
-				<!--<phone>555-555-5555</phone>-->
-			</division>
+		<employee id="2">
+			<name>
+				<first>Jane</first>
+				<last>Smith</last>
+			</name>
+			<age>31</age>
+			<division>IT</division>
+			<phone pre="+49">123456789</phone>
 		</employee>
-		<employee head="true" divisions="Marketing, Sales">
-			<name>Luis</name>
-			<age>20</age>
-			<team>
-				<sub-employee>Mark</sub-employee>
-				<sub-employee>John</sub-employee>
-				<sub-employee>Peter</sub-employee>
-			</team>
-			<phone>123456789</phone>
+		<employee id="3">
+			<name>
+				<first>Luis</first>
+				<last>Smith</last>
+			</name>
+			<age>19</age>
+			<division>Marketing</division>
+			<phone pre="+49">123456789</phone>
 		</employee>
 	</employees>
 </company>

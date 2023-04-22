@@ -10,4 +10,8 @@ public interface Reader<T> extends Iterator<T>, Iterable<T> {
 	default @NotNull Iterator<T> iterator() {
 		return this;
 	}
+	
+	void reset();
+	
+	void close();
 }

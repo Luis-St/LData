@@ -18,7 +18,6 @@ public class XmlTest {
 	
 	public static void main(String[] args) throws IOException {
 		XmlReader reader = new XmlReader(new File("src/main/resources/test.xml"));
-		LOGGER.info(reader);
 		XmlElement element = reader.toXml();
 		log(element, 0);
 		File file = new File("test.xml");
