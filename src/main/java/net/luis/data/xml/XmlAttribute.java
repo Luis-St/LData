@@ -1,12 +1,11 @@
-package net.luis.data.xml.attributes;
+package net.luis.data.xml;
 
-import net.luis.data.xml.XmlHelper;
 import net.luis.data.xml.config.XmlConfig;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Objects;
 
-public class XmlAttribute {
+public final class XmlAttribute {
 	
 	private final String name;
 	private final String value;
@@ -20,8 +19,8 @@ public class XmlAttribute {
 	}
 	
 	public XmlAttribute(String name, String value) {
-		this.name = XmlHelper.validateXmlEscape(Objects.requireNonNull(name, "Name must not be null"));
-		this.value = Objects.requireNonNull(value, "Value must not be null");
+		this.name = XmlHelper.validateXmlEscape(Objects.requireNonNull(name, "Xml attribute name must not be null"));
+		this.value = Objects.requireNonNull(value, "Xml attribute value must not be null");
 	}
 	
 	public String getName() {

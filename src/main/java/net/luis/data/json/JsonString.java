@@ -1,22 +1,33 @@
-package net.luis.data.properties.primitive;
+package net.luis.data.json;
 
-import net.luis.data.json.JsonObject;
+import net.luis.data.json.config.JsonConfig;
+import org.apache.commons.lang3.StringUtils;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Objects;
 
-public class PropertyString extends PropertyPrimitive {
+/**
+ *
+ * @author Luis-St
+ *
+ */
+
+public final class JsonString extends JsonPrimitive {
 	
 	private final String value;
 	
-	public PropertyString(String key, String value) {
-		super(key);
-		this.value = Objects.requireNonNull(value, "String must not be null");
+	public JsonString(String value) {
+		this.value = StringUtils.defaultString(value);
 	}
 	
 	@Override
-	public @NotNull PropertyString copy() {
-		return new PropertyString(this.getKey(), this.value);
+	public @NotNull String getName() {
+		return "json string";
+	}
+	
+	@Override
+	public @NotNull JsonString copy() {
+		return new JsonString(this.value);
 	}
 	
 	//region Getters
@@ -49,20 +60,18 @@ public class PropertyString extends PropertyPrimitive {
 	public String getAsString() {
 		return this.value;
 	}
+	//endregion
 	
 	@Override
-	public JsonObject getAsJson() {
-		JsonObject object = new JsonObject();
-		object.add(this.getKey(), this.value);
-		return object;
+	public @NotNull String toString(JsonConfig config) {
+		return JsonHelper.quote(this.value, config);
 	}
-	//endregion
 	
 	//region Object overrides
 	@Override
 	public boolean equals(Object o) {
 		if (this == o) return true;
-		if (!(o instanceof PropertyString that)) return false;
+		if (!(o instanceof JsonString that)) return false;
 		
 		return this.value.equals(that.value);
 	}

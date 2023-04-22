@@ -1,8 +1,5 @@
-package net.luis.data.xml.elements;
+package net.luis.data.xml;
 
-import net.luis.data.xml.XmlHelper;
-import net.luis.data.xml.attributes.XmlAttribute;
-import net.luis.data.xml.attributes.XmlAttributes;
 import net.luis.data.xml.config.XmlConfig;
 import net.luis.data.xml.exception.XmlException;
 import org.apache.commons.lang3.StringEscapeUtils;
@@ -11,7 +8,7 @@ import org.jetbrains.annotations.NotNull;
 import java.util.List;
 import java.util.Objects;
 
-public class XmlElement {
+public final class XmlElement {
 	
 	private final String name;
 	private final String value;
@@ -19,7 +16,7 @@ public class XmlElement {
 	private final XmlElements elements = new XmlElements();
 	
 	public XmlElement(String name) {
-		this.name = XmlHelper.validateXmlEscape(Objects.requireNonNull(name, "Name must not be null"));
+		this.name = XmlHelper.validateXmlEscape(Objects.requireNonNull(name, "Xml element name must not be null"));
 		this.value = null;
 	}
 	
@@ -32,8 +29,8 @@ public class XmlElement {
 	}
 	
 	public XmlElement(String name, String value) {
-		this.name = XmlHelper.validateXmlEscape(Objects.requireNonNull(name, "Name must not be null"));
-		this.value = StringEscapeUtils.unescapeXml(Objects.requireNonNull(value, "Value must not be null"));
+		this.name = XmlHelper.validateXmlEscape(Objects.requireNonNull(name, "Xml element name must not be null"));
+		this.value = StringEscapeUtils.unescapeXml(Objects.requireNonNull(value, "Xml element value must not be null"));
 	}
 	
 	public String getName() {
@@ -58,25 +55,26 @@ public class XmlElement {
 		try {
 			return Objects.requireNonNull(this.value);
 		} catch (NullPointerException e) {
-			throw new XmlException("Element has no value");
+			throw new XmlException("Xml element '" + this.getName() + "' has no value");
 		}
 	}
 	
 	public boolean getAsBoolean() {
-		try {
+		if (this.value == null) {
+			throw new XmlException("Xml element '" + this.getName() + "' has no value");
+		} else if (this.value.equalsIgnoreCase("true") || this.value.equalsIgnoreCase("false")) {
 			return Boolean.parseBoolean(this.value);
-		} catch (NullPointerException e) {
-			throw new XmlException("Element has no value");
 		}
+		throw new XmlException("Xml element '" + this.getName() + "' value is not a boolean: " + this.value);
 	}
 	
 	public int getAsInt() {
 		try {
 			return Integer.parseInt(this.value);
 		} catch (NullPointerException e) {
-			throw new XmlException("Element has no value");
+			throw new XmlException("Xml element '" + this.getName() + "' has no value");
 		} catch (NumberFormatException e) {
-			throw new XmlException("Element value is not an integer: " + this.value);
+			throw new XmlException("Xml element '" + this.getName() + "' value is not an integer: " + this.value);
 		}
 	}
 	
@@ -84,9 +82,9 @@ public class XmlElement {
 		try {
 			return Long.parseLong(this.value);
 		} catch (NullPointerException e) {
-			throw new XmlException("Element has no value");
+			throw new XmlException("Xml element '" + this.getName() + "' has no value");
 		} catch (NumberFormatException e) {
-			throw new XmlException("Element value is not a long: " + this.value);
+			throw new XmlException("Xml element '" + this.getName() + "' value is not a long: " + this.value);
 		}
 	}
 	
@@ -94,9 +92,9 @@ public class XmlElement {
 		try {
 			return Double.parseDouble(this.value);
 		} catch (NullPointerException e) {
-			throw new XmlException("Element has no value");
+			throw new XmlException("Xml element '" + this.getName() + "' has no value");
 		} catch (NumberFormatException e) {
-			throw new XmlException("Element value is not a double: " + this.value);
+			throw new XmlException("Xml element '" + this.getName() + "' value is not a double: " + this.value);
 		}
 	}
 	//endregion
@@ -158,14 +156,14 @@ public class XmlElement {
 	
 	public void addElement(String name, String value) {
 		if (this.hasValue()) {
-			throw new XmlException("Element has a value");
+			throw new XmlException("Xml element '" + this.getName() + "' has a value");
 		}
 		this.elements.add(name, value);
 	}
 	
 	public void addElement(XmlElement element) {
 		if (this.hasValue()) {
-			throw new XmlException("Element has a value");
+			throw new XmlException("Xml element '" + this.getName() + "' has a value");
 		}
 		this.elements.add(element);
 	}
@@ -188,10 +186,11 @@ public class XmlElement {
 	//endregion
 	
 	public @NotNull String toString(XmlConfig config) {
+		Objects.requireNonNull(config, "Xml config must not be null");
 		StringBuilder builder = new StringBuilder("<");
 		//region Validation
 		if (!config.allowAttributes() && this.hasAttributes()) {
-			throw new XmlException("Element attributes are not allowed in this configuration");
+			throw new XmlException("Xml element attributes are not allowed in this configuration");
 		}
 		//endregion
 		builder.append(this.name);

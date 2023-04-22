@@ -1,4 +1,4 @@
-package net.luis.data.xml.elements;
+package net.luis.data.xml;
 
 import com.google.common.collect.Lists;
 import net.luis.data.xml.exception.XmlException;
@@ -9,14 +9,14 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Objects;
 
-public class XmlElements implements Iterable<XmlElement> {
+public final class XmlElements implements Iterable<XmlElement> {
 	
 	private final List<String> elementNames = Lists.newArrayList();
 	private final List<XmlElement> elements = Lists.newArrayList();
 	
 	@ApiStatus.Internal
 	XmlElements() {
-	
+		super();
 	}
 	
 	public @NotNull XmlElements copy() {
@@ -37,7 +37,7 @@ public class XmlElements implements Iterable<XmlElement> {
 	
 	//region Adders
 	public void add(XmlElement element) {
-		Objects.requireNonNull(element, "Element must not be null");
+		Objects.requireNonNull(element, "Xml element must not be null");
 		this.elementNames.add(element.getName());
 		this.elements.add(element);
 	}
@@ -61,7 +61,7 @@ public class XmlElements implements Iterable<XmlElement> {
 	public XmlElement get(String name) {
 		List<XmlElement> elements = this.getAll(name);
 		if (elements.size() > 1) {
-			throw new XmlException("Multiple elements where found for: " + name);
+			throw new XmlException("Multiple xml elements where found for name: " + name);
 		}
 		return elements.isEmpty() ? null : elements.get(0);
 	}

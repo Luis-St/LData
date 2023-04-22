@@ -2,7 +2,7 @@ package net.luis.data.json;
 
 import net.luis.data.json.config.JsonConfig;
 import net.luis.data.json.exception.JsonException;
-import net.luis.data.json.primitive.JsonPrimitive;
+import org.jetbrains.annotations.ApiStatus;
 import org.jetbrains.annotations.NotNull;
 
 /**
@@ -11,7 +11,11 @@ import org.jetbrains.annotations.NotNull;
  *
  */
 
-public interface Json {
+public sealed interface Json permits JsonArray, JsonNull, JsonObject, JsonPrimitive {
+	
+	@NotNull
+	@ApiStatus.Internal
+	String getName();
 	
 	@NotNull Json copy();
 	
@@ -24,7 +28,7 @@ public interface Json {
 		if (this.isArray()) {
 			return (JsonArray) this;
 		}
-		throw new JsonException("Not a json array: " + this);
+		throw new JsonException("Not a json array: " + this.getName());
 	}
 	//endregion
 	
@@ -37,7 +41,7 @@ public interface Json {
 		if (this.isObject()) {
 			return (JsonObject) this;
 		}
-		throw new JsonException("Not a json object: " + this);
+		throw new JsonException("Not a json object: " + this.getName());
 	}
 	//endregion
 	
@@ -50,43 +54,43 @@ public interface Json {
 		if (this.isPrimitive()) {
 			return (JsonPrimitive) this;
 		}
-		throw new JsonException("Not a json primitive: " + this);
+		throw new JsonException("Not a json primitive: " + this.getName());
 	}
 	
 	default boolean isBoolean() {
-		throw new JsonException("Not a json primitive: " + this);
+		throw new JsonException("Not a json primitive: " + this.getName());
 	}
 	
 	default boolean getAsBoolean() {
-		throw new JsonException("Not a json primitive: " + this);
+		throw new JsonException("Not a json primitive: " + this.getName());
 	}
 	
 	default boolean isNumber() {
-		throw new JsonException("Not a json primitive: " + this);
+		throw new JsonException("Not a json primitive: " + this.getName());
 	}
 	
 	default Number getAsNumber() {
-		throw new JsonException("Not a json primitive: " + this);
+		throw new JsonException("Not a json primitive: " + this.getName());
 	}
 	
 	default int getAsInt() {
-		throw new JsonException("Not a json primitive: " + this);
+		throw new JsonException("Not a json primitive: " + this.getName());
 	}
 	
 	default long getAsLong() {
-		throw new JsonException("Not a json primitive: " + this);
+		throw new JsonException("Not a json primitive: " + this.getName());
 	}
 	
 	default double getAsDouble() {
-		throw new JsonException("Not a json primitive: " + this);
+		throw new JsonException("Not a json primitive: " + this.getName());
 	}
 	
 	default boolean isString() {
-		throw new JsonException("Not a json primitive: " + this);
+		throw new JsonException("Not a json primitive: " + this.getName());
 	}
 	
 	default String getAsString() {
-		throw new JsonException("Not a json primitive: " + this);
+		throw new JsonException("Not a json primitive: " + this.getName());
 	}
 	//endregion
 	

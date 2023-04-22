@@ -5,23 +5,26 @@ import net.luis.data.json.config.JsonConfig;
 import net.luis.data.json.exception.JsonException;
 import net.luis.data.json.exception.JsonSyntaxException;
 import net.luis.data.json.io.JsonReader;
-import net.luis.data.json.primitive.JsonBoolean;
-import net.luis.data.json.primitive.JsonNumber;
-import net.luis.data.json.primitive.JsonString;
+import org.jetbrains.annotations.ApiStatus;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
 import java.util.Collection;
 import java.util.List;
 import java.util.Objects;
 
-public class JsonHelper {
+@ApiStatus.Internal
+class JsonHelper {
 	
-	public static @NotNull String correctIndents(@NotNull Json element, JsonConfig config, String separator) {
-		if (element.isArray() || element.isObject()) {
-			List<String> lines = Lists.newArrayList(element.toString(config).split(System.lineSeparator()));
+	static @NotNull String correctIndents(Json json, JsonConfig config, String separator) {
+		//region Validation
+		Objects.requireNonNull(json, "Json must not be null");
+		Objects.requireNonNull(config, "Json config must not be null");
+		Objects.requireNonNull(separator, "String separator must not be null");
+		//endregion
+		if (json.isArray() || json.isObject()) {
+			List<String> lines = Lists.newArrayList(json.toString(config).split(System.lineSeparator()));
 			if (2 > lines.size()) {
-				return config.indent() + separator + element.toString(config);
+				return config.indent() + separator + json.toString(config);
 			} else {
 				for (int i = 1; i < lines.size() - 1; i++) {
 					lines.set(i, config.indent() + lines.get(i));
@@ -29,14 +32,15 @@ public class JsonHelper {
 				return config.indent() + separator + String.join(System.lineSeparator(), lines);
 			}
 		}
-		return config.indent() + separator + element.toString(config);
+		return config.indent() + separator + json.toString(config);
 	}
 	
-	public static boolean canBeSimplified(Collection<Json> elements, boolean configValue) {
+	static boolean canBeSimplified(Collection<Json> collection, boolean configValue) {
 		if (!configValue) {
 			return false;
 		}
-		for (Json element : elements) {
+		Objects.requireNonNull(collection, "Json collection must not be null");
+		for (Json element : collection) {
 			if (!element.isPrimitive()) {
 				return false;
 			}
@@ -44,65 +48,17 @@ public class JsonHelper {
 		return true;
 	}
 	
-	public static @NotNull String quote(@NotNull String value, JsonConfig config) {
-		if (value.charAt(0) == '"' && value.charAt(value.length() - 1) == '"') {
-			if (!config.allowQuotedStrings()) {
-				throw new JsonException("Quoted strings are not allowed");
-			}
-			return "\"" + "\\\"" + value.substring(1, value.length() - 1) + "\\\"" + "\"";
-		}
-		return "\"" + value + "\"";
-	}
-	
-	public static Json parse(@Nullable String key, String value) {
+	static @NotNull String quote(String json, JsonConfig config) {
 		//region Validation
-		Objects.requireNonNull(value, "Json value of key key '" + key + "' must not be null");
-		if (value.isEmpty()) {
-			throw new JsonSyntaxException("Json value of key '" + key + "' is empty");
-		}
-		if (value.isBlank()) {
-			throw new JsonSyntaxException("Json value of key '" + key + "' is blank");
-		}
-		char first = value.charAt(0);
-		char last = value.charAt(value.length() - 1);
-		if ((first == '"' && last != '"') || (first != '"' && last == '"')) {
-			throw new JsonSyntaxException("Json value of key '" + key + "' is not a string");
-		}
-		if ((first == '{' && last != '}') || (first != '{' && last == '}')) {
-			throw new JsonSyntaxException("Json value of key '" + key + "' is not an object");
-		}
-		if ((first == '[' && last != ']') || (first != '[' && last == ']')) {
-			throw new JsonSyntaxException("Json value of key '" + key + "' is not an array");
-		}
+		Objects.requireNonNull(json, "Json string must not be null");
+		Objects.requireNonNull(config, "Json config must not be null");
 		//endregion
-		if (value.charAt(0) == '"' && value.charAt(value.length() - 1) == '"') {
-			return new JsonString(value.substring(1, value.length() - 1));
-		} else if (value.charAt(0) == '[' && value.charAt(value.length() - 1) == ']') {
-			JsonArray array = new JsonArray();
-			if (value.length() == 2) {
-				return array;
+		if (json.charAt(0) == '"' && json.charAt(json.length() - 1) == '"') {
+			if (!config.allowQuotedStrings()) {
+				throw new JsonException("Quoted strings are not allowed in this configuration");
 			}
-			new JsonReader(value).forEach(array::add);
-			return array;
-		} else if (value.charAt(0) == '{' && value.charAt(value.length() - 1) == '}') {
-			JsonObject object = new JsonObject();
-			if (value.length() == 2) {
-				return object;
-			}
-			for (Json element : new JsonReader(value)) {
-				if (!(element instanceof JsonObject jsonObject)) {
-					throw new JsonSyntaxException("Json element is not valid, expected a JsonObject but got " + element.getClass().getSimpleName());
-				}
-				jsonObject.forEach((entry) -> object.add(entry.getKey(), entry.getValue()));
-			}
-			return object;
-		} else if (value.equalsIgnoreCase("true") || value.equalsIgnoreCase("false")) {
-			return new JsonBoolean(Boolean.parseBoolean(value));
-		} else if (value.equals("null")) {
-			return JsonNull.INSTANCE;
-		} else {
-			return new JsonNumber(Double.parseDouble(value));
+			return "\"" + "\\\"" + json.substring(1, json.length() - 1) + "\\\"" + "\"";
 		}
+		return "\"" + json + "\"";
 	}
-	
 }

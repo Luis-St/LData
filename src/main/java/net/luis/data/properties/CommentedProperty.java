@@ -2,7 +2,6 @@ package net.luis.data.properties;
 
 import net.luis.data.json.JsonObject;
 import net.luis.data.properties.config.PropertyConfig;
-import net.luis.data.properties.primitive.PropertyPrimitive;
 import org.apache.commons.lang3.ArrayUtils;
 import org.jetbrains.annotations.NotNull;
 
@@ -10,7 +9,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 
-public class CommentedProperty implements Property {
+public final class CommentedProperty implements Property {
 	
 	private final Property actual;
 	private final List<String> comments;
@@ -27,8 +26,13 @@ public class CommentedProperty implements Property {
 		if (actual instanceof CommentedProperty property) {
 			throw new IllegalArgumentException("Cannot nest a commented property inside another commented property");
 		}
-		this.actual = Objects.requireNonNull(actual, "Property must not be null");
+		this.actual = Objects.requireNonNull(actual, "Actual property must not be null");
 		this.comments = comments;
+	}
+	
+	@Override
+	public @NotNull String getName() {
+		return "commented property";
 	}
 	
 	@Override

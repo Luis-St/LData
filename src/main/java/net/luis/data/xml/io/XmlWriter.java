@@ -2,7 +2,7 @@ package net.luis.data.xml.io;
 
 import net.luis.data.common.io.AbstractWriter;
 import net.luis.data.xml.config.XmlConfig;
-import net.luis.data.xml.elements.XmlElement;
+import net.luis.data.xml.XmlElement;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.File;
@@ -48,7 +48,7 @@ public class XmlWriter extends AbstractWriter<XmlConfig> {
 		try {
 			this.writer.write(xml + System.lineSeparator());
 		} catch (Exception e) {
-			throw new RuntimeException(e);
+			throw new RuntimeException("Failed to write xml element to file", e);
 		}
 	}
 }

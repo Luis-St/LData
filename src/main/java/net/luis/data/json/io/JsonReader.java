@@ -2,11 +2,9 @@ package net.luis.data.json.io;
 
 import net.luis.data.common.io.AbstractReader;
 import net.luis.data.common.io.FileHelper;
-import net.luis.data.common.util.Utils;
-import net.luis.data.json.Json;
-import net.luis.data.json.JsonArray;
-import net.luis.data.json.JsonHelper;
-import net.luis.data.json.JsonObject;
+import net.luis.data.common.util.DataUtils;
+import net.luis.data.json.*;
+import net.luis.data.json.exception.JsonReaderIndexOutOfBoundsException;
 import net.luis.data.json.exception.JsonSyntaxException;
 import org.jetbrains.annotations.NotNull;
 
@@ -37,7 +35,7 @@ public class JsonReader extends AbstractReader<Json> {
 		} else if (first != '{' && first != '[' && last != '}' && last != ']') {
 			return JsonType.PROPERTY;
 		} else {
-			throw new JsonSyntaxException("Json string is not a valid json object, expected a property, array or object");
+			throw new JsonSyntaxException("Json string is not a valid, expected a property, array or object");
 		}
 	}
 	
@@ -49,7 +47,7 @@ public class JsonReader extends AbstractReader<Json> {
 		Stack<Character> stack = new Stack<>();
 		for (int i = 0; i < value.length(); i++) {
 			char c = value.charAt(i);
-			if (value.charAt(i) == '"' && Utils.isNotEscaped(value, i)) {
+			if (value.charAt(i) == '"' && DataUtils.isNotEscaped(value, i)) {
 				inQuotes = !inQuotes;
 			}
 			if (!inQuotes) {
@@ -75,21 +73,21 @@ public class JsonReader extends AbstractReader<Json> {
 			}
 		}
 		if (!stack.isEmpty()) {
-			throw new JsonSyntaxException("The given json string is invalid");
+			throw new JsonSyntaxException("Given json string is invalid because it is missing at least one closing bracket");
 		}
 		//endregion
 	}
 	
 	@Override
 	protected String modify(String original) {
-		return Utils.deleteWhitespace(original, '\"');
+		return DataUtils.deleteWhitespace(original, '\"');
 	}
 	
 	@Override
 	public Json next() {
 		//region Validation
 		if (!this.hasNext()) {
-			throw new IndexOutOfBoundsException("Index out of bounds");
+			throw new JsonReaderIndexOutOfBoundsException("Json reader is at the end of the file");
 		}
 		if (this.type != JsonType.PROPERTY && this.index == 0) {
 			this.index++;
@@ -111,7 +109,7 @@ public class JsonReader extends AbstractReader<Json> {
 		//endregion
 		String value = this.value().substring(this.index, this.findNextInScope(this.index, ',').orElse(this.length() - 1));
 		this.index += value.length() + 1;
-		return JsonHelper.parse("JsonArray part", value);
+		return this.parse("json array part", value);
 	}
 	
 	private @NotNull Json nextObject() {
@@ -126,7 +124,7 @@ public class JsonReader extends AbstractReader<Json> {
 		String key = this.validateKey(this.fromIndex(keyIndex));
 		this.index = keyIndex + 1;
 		JsonObject object = new JsonObject();
-		object.add(key, JsonHelper.parse(key, this.fromIndex(valueIndex)));
+		object.add(key, this.parse(key, this.fromIndex(valueIndex)));
 		this.index = valueIndex + 1;
 		return object;
 	}
@@ -136,7 +134,7 @@ public class JsonReader extends AbstractReader<Json> {
 		this.close();
 		JsonObject object = new JsonObject();
 		String key = this.validateKey(this.value().substring(0, index));
-		object.add(key, JsonHelper.parse(key, this.value().substring(index + 1)));
+		object.add(key, this.parse(key, this.value().substring(index + 1)));
 		return object;
 	}
 	
@@ -147,8 +145,9 @@ public class JsonReader extends AbstractReader<Json> {
 		}
 		JsonObject result = new JsonObject();
 		while (this.hasNext()) {
-			if (!(this.next() instanceof JsonObject object)) {
-				throw new JsonSyntaxException("Expected JsonObject but got " + this.next().getClass().getSimpleName());
+			Json json = this.next();
+			if (!(json instanceof JsonObject object)) {
+				throw new JsonSyntaxException("Expected json object but got: " + json.getName());
 			}
 			for (Map.Entry<String, Json> entry : object) {
 				result.add(entry.getKey(), entry.getValue());
@@ -165,13 +164,13 @@ public class JsonReader extends AbstractReader<Json> {
 		Stack<Character> stack = new Stack<>();
 		for (int i = nextIndex; i < (this.type == JsonType.PROPERTY ? this.length() : this.length() - 1); i++) {
 			char c = this.value().charAt(i);
-			if (c == '"' && Utils.isNotEscaped(this.value(), i)) {
+			if (c == '"' && DataUtils.isNotEscaped(this.value(), i)) {
 				inQuotes = !inQuotes;
 			}
 			if (inQuotes) {
 				continue;
 			}
-			if (Utils.isNotEscaped(this.value(), i)) {
+			if (DataUtils.isNotEscaped(this.value(), i)) {
 				if (c == '{' || c == '[') {
 					stack.push(c);
 					continue;
@@ -198,6 +197,58 @@ public class JsonReader extends AbstractReader<Json> {
 			throw new JsonSyntaxException("Json key is empty");
 		}
 		return key;
+	}
+	
+	private Json parse(String key, String json) {
+		//region Validation
+		Objects.requireNonNull(key, "Json key must not be null");
+		Objects.requireNonNull(json, "Json string of key '" + key + "' must not be null");
+		if (json.isEmpty()) {
+			throw new JsonSyntaxException("Json string of key '" + key + "' is empty");
+		}
+		if (json.isBlank()) {
+			throw new JsonSyntaxException("Json value of key '" + key + "' is blank");
+		}
+		char first = json.charAt(0);
+		char last = json.charAt(json.length() - 1);
+		if ((first == '"' && last != '"') || (first != '"' && last == '"')) {
+			throw new JsonSyntaxException("Json string of key '" + key + "' is not a string");
+		}
+		if ((first == '{' && last != '}') || (first != '{' && last == '}')) {
+			throw new JsonSyntaxException("Json string of key '" + key + "' is not an object");
+		}
+		if ((first == '[' && last != ']') || (first != '[' && last == ']')) {
+			throw new JsonSyntaxException("Json string of key '" + key + "' is not an array");
+		}
+		//endregion
+		if (json.charAt(0) == '"' && json.charAt(json.length() - 1) == '"') {
+			return new JsonString(json.substring(1, json.length() - 1));
+		} else if (json.charAt(0) == '[' && json.charAt(json.length() - 1) == ']') {
+			JsonArray array = new JsonArray();
+			if (json.length() == 2) {
+				return array;
+			}
+			new JsonReader(json).forEach(array::add);
+			return array;
+		} else if (json.charAt(0) == '{' && json.charAt(json.length() - 1) == '}') {
+			JsonObject object = new JsonObject();
+			if (json.length() == 2) {
+				return object;
+			}
+			for (Json element : new JsonReader(json)) {
+				if (!(element instanceof JsonObject jsonObject)) {
+					throw new JsonSyntaxException("Json is not valid, expected a json object but got " + element.getName());
+				}
+				jsonObject.forEach((entry) -> object.add(entry.getKey(), entry.getValue()));
+			}
+			return object;
+		} else if (json.equalsIgnoreCase("true") || json.equalsIgnoreCase("false")) {
+			return new JsonBoolean(Boolean.parseBoolean(json));
+		} else if (json.equals("null")) {
+			return JsonNull.INSTANCE;
+		} else {
+			return new JsonNumber(Double.parseDouble(json));
+		}
 	}
 	//endregion
 	

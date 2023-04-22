@@ -1,4 +1,4 @@
-package net.luis.data.json.primitive;
+package net.luis.data.json;
 
 import net.luis.data.json.config.JsonConfig;
 import org.jetbrains.annotations.NotNull;
@@ -11,12 +11,17 @@ import java.util.Objects;
  *
  */
 
-public class JsonNumber extends JsonPrimitive {
+public final class JsonNumber extends JsonPrimitive {
 	
 	private final Number number;
 	
 	public JsonNumber(Number number) {
 		this.number = Objects.requireNonNull(number);
+	}
+	
+	@Override
+	public @NotNull String getName() {
+		return "json number";
 	}
 	
 	@Override

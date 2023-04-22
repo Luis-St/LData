@@ -6,6 +6,11 @@ import org.jetbrains.annotations.NotNull;
 public record PropertyNull(String getKey) implements Property {
 	
 	@Override
+	public @NotNull String getName() {
+		return "property null";
+	}
+	
+	@Override
 	public @NotNull PropertyNull copy() {
 		return new PropertyNull(this.getKey());
 	}

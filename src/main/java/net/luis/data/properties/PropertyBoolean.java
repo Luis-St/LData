@@ -1,27 +1,27 @@
-package net.luis.data.json.primitive;
+package net.luis.data.properties;
 
-import net.luis.data.json.config.JsonConfig;
+import net.luis.data.json.JsonObject;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Objects;
 
-/**
- *
- * @author Luis-St
- *
- */
-
-public class JsonBoolean extends JsonPrimitive {
+public final class PropertyBoolean extends PropertyPrimitive {
 	
 	private final boolean value;
 	
-	public JsonBoolean(boolean value) {
+	public PropertyBoolean(String key, boolean value) {
+		super(key);
 		this.value = value;
 	}
 	
 	@Override
-	public @NotNull JsonBoolean copy() {
-		return new JsonBoolean(this.value);
+	public @NotNull String getName() {
+		return "property boolean";
+	}
+	
+	@Override
+	public @NotNull PropertyBoolean copy() {
+		return new PropertyBoolean(this.getKey(), this.value);
 	}
 	
 	//region Getters
@@ -44,18 +44,20 @@ public class JsonBoolean extends JsonPrimitive {
 	public String getAsString() {
 		return Boolean.toString(this.value);
 	}
-	//endregion
 	
 	@Override
-	public @NotNull String toString(JsonConfig config) {
-		return Boolean.toString(this.value);
+	public JsonObject getAsJson() {
+		JsonObject object = new JsonObject();
+		object.add(this.getKey(), this.value);
+		return object;
 	}
+	//endregion
 	
 	//region Object overrides
 	@Override
 	public boolean equals(Object o) {
 		if (this == o) return true;
-		if (!(o instanceof JsonBoolean that)) return false;
+		if (!(o instanceof PropertyBoolean that)) return false;
 		
 		return this.value == that.value;
 	}

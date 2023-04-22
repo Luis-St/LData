@@ -1,8 +1,8 @@
 package net.luis.data;
 
-import net.luis.data.xml.attributes.XmlAttribute;
+import net.luis.data.xml.XmlAttribute;
 import net.luis.data.xml.config.XmlConfig;
-import net.luis.data.xml.elements.XmlElement;
+import net.luis.data.xml.XmlElement;
 import net.luis.data.xml.io.XmlReader;
 import net.luis.data.xml.io.XmlWriter;
 import org.apache.logging.log4j.LogManager;

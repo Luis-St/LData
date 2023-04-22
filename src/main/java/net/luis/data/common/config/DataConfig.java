@@ -20,7 +20,5 @@ public interface DataConfig {
 	interface Builder<T extends DataConfig> {
 		
 		T build();
-		
 	}
-	
 }

@@ -3,10 +3,8 @@ package net.luis.data.properties.io;
 import net.luis.data.common.io.AbstractReader;
 import net.luis.data.json.io.JsonReader;
 import net.luis.data.properties.*;
-import net.luis.data.properties.exception.PropertyException;
-import net.luis.data.properties.primitive.PropertyBoolean;
-import net.luis.data.properties.primitive.PropertyNumber;
-import net.luis.data.properties.primitive.PropertyString;
+import net.luis.data.properties.exception.PropertyReaderIndexOutOfBoundsException;
+import net.luis.data.properties.exception.PropertySyntaxException;
 import org.apache.commons.lang3.math.NumberUtils;
 import org.jetbrains.annotations.NotNull;
 
@@ -29,7 +27,6 @@ public class PropertyReader extends AbstractReader<Property> {
 	public PropertyReader(String value, char delimiter) {
 		super(value);
 		this.delimiter = delimiter;
-		System.out.println(this.delimiter);
 	}
 	
 	@Override
@@ -41,10 +38,10 @@ public class PropertyReader extends AbstractReader<Property> {
 				continue;
 			}
 			if (!line.contains(String.valueOf(this.delimiter))) {
-				throw new PropertyException("Invalid property line, no delimiter (" + this.delimiter + ") found: '" + line + "'");
+				throw new PropertySyntaxException("Invalid property line, no delimiter (" + this.delimiter + ") found: '" + line + "'");
 			}
 			if (line.substring(0, line.indexOf(this.delimiter)).isBlank()) {
-				throw new PropertyException("Invalid property line, no key found: '" + line + "'");
+				throw new PropertySyntaxException("Invalid property line, no key found: '" + line + "'");
 			}
 		}
 		//endregion
@@ -60,7 +57,7 @@ public class PropertyReader extends AbstractReader<Property> {
 	public Property next() {
 		//region Validation
 		if (!this.hasNext()) {
-			throw new IndexOutOfBoundsException("Index out of bounds");
+			throw new PropertyReaderIndexOutOfBoundsException("Property reader is at the end of the file");
 		}
 		//endregion
 		String line = this.fromIndex(this.findNext(System.lineSeparator()).orElse(this.length()));

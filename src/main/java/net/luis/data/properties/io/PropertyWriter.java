@@ -1,7 +1,7 @@
 package net.luis.data.properties.io;
 
 import net.luis.data.common.io.AbstractWriter;
-import net.luis.data.common.util.Utils;
+import net.luis.data.common.util.DataUtils;
 import net.luis.data.properties.Property;
 import net.luis.data.properties.config.PropertyConfig;
 
@@ -83,7 +83,7 @@ public class PropertyWriter extends AbstractWriter<PropertyConfig> {
 		}
 		int index = value.indexOf(this.config.delimiter());
 		if (index != -1) {
-			if (Utils.isNotEscaped(value, index)) {
+			if (DataUtils.isNotEscaped(value, index)) {
 				throw new IllegalArgumentException("Property value must not contain the delimiter character '" + this.config.delimiter() + "' unless it is escaped");
 			}
 			if (!this.config.allowEscapedDelimiter()) {
@@ -105,7 +105,7 @@ public class PropertyWriter extends AbstractWriter<PropertyConfig> {
 		try {
 			this.writer.write(line + System.lineSeparator());
 		} catch (Exception e) {
-			throw new RuntimeException(e);
+			throw new RuntimeException("Fail to write to property file", e);
 		}
 	}
 }

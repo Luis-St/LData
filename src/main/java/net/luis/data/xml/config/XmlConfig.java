@@ -12,9 +12,9 @@ public record XmlConfig(Charset encoding, boolean prettyPrint, String indent, bo
 	public static final XmlConfig DEFAULT = new XmlConfig(StandardCharsets.UTF_8, true, "\t", true, false);
 	
 	public XmlConfig {
-		Objects.requireNonNull(indent, "Indent cannot be null");
+		Objects.requireNonNull(indent, "Xml indent cannot be null");
 		if (!indent.isBlank()) {
-			throw new IllegalArgumentException("Indent must be whitespace characters only");
+			throw new IllegalArgumentException("Xml indent must be whitespace characters only");
 		}
 	}
 	
@@ -31,10 +31,12 @@ public record XmlConfig(Charset encoding, boolean prettyPrint, String indent, bo
 		return false;
 	}
 	
+	//region Object overrides
 	@Override
 	public String toString() {
 		return "XmlConfig";
 	}
+	//endregion
 	
 	//region Builder
 	public static class Builder implements DataConfig.Builder<XmlConfig> {
@@ -45,12 +47,13 @@ public record XmlConfig(Charset encoding, boolean prettyPrint, String indent, bo
 		private boolean allowAttributes;
 		private boolean allowCustomExtensions;
 		
-		private Builder(@NotNull XmlConfig config) {
-			this.encoding = config.encoding();
-			this.prettyPrint = config.prettyPrint();
-			this.indent = config.indent();
-			this.allowAttributes = config.allowAttributes();
-			this.allowCustomExtensions = config.allowCustomExtensions();
+		private Builder(XmlConfig baseConfig) {
+			Objects.requireNonNull(baseConfig, "Xml base config cannot be null");
+			this.encoding = baseConfig.encoding();
+			this.prettyPrint = baseConfig.prettyPrint();
+			this.indent = baseConfig.indent();
+			this.allowAttributes = baseConfig.allowAttributes();
+			this.allowCustomExtensions = baseConfig.allowCustomExtensions();
 		}
 		
 		public XmlConfig.Builder encoding(Charset encoding) {
@@ -64,7 +67,7 @@ public record XmlConfig(Charset encoding, boolean prettyPrint, String indent, bo
 		}
 		
 		public XmlConfig.Builder indent(String indent) {
-			this.indent = indent;
+			this.indent = Objects.requireNonNull(indent, "Xml indent cannot be null");
 			return this;
 		}
 		

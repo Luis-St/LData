@@ -3,9 +3,9 @@ package net.luis.data.json.io;
 import net.luis.data.common.io.AbstractWriter;
 import net.luis.data.json.JsonObject;
 import net.luis.data.json.config.JsonConfig;
-import org.jetbrains.annotations.NotNull;
 
 import java.io.File;
+import java.util.Objects;
 
 public class JsonWriter extends AbstractWriter<JsonConfig> {
 	
@@ -30,12 +30,12 @@ public class JsonWriter extends AbstractWriter<JsonConfig> {
 		return extension == null || !extension.equals("json");
 	}
 	
-	public void write(@NotNull JsonObject object) {
-		String json = object.toString(this.config);
+	public void write(JsonObject object) {
+		String json = Objects.requireNonNull(object, "Json object must not be null").toString(this.config);
 		try {
 			this.writer.write(this.removeLastIndent(json) + System.lineSeparator());
 		} catch (Exception e) {
-			throw new RuntimeException(e);
+			throw new RuntimeException("Failed to write json object to file", e);
 		}
 	}
 	

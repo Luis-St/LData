@@ -9,12 +9,17 @@ import org.jetbrains.annotations.NotNull;
  *
  */
 
-public class JsonNull implements Json {
+public final class JsonNull implements Json {
 	
 	public static final JsonNull INSTANCE = new JsonNull();
 	
 	private JsonNull() {
+		super();
+	}
 	
+	@Override
+	public @NotNull String getName() {
+		return "json null";
 	}
 	
 	@Override
@@ -26,4 +31,11 @@ public class JsonNull implements Json {
 	public @NotNull String toString(JsonConfig config) {
 		return "null";
 	}
+	
+	//region Object overrides
+	@Override
+	public String toString() {
+		return "null";
+	}
+	//endregion
 }

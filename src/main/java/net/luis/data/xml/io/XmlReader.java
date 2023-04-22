@@ -2,9 +2,10 @@ package net.luis.data.xml.io;
 
 import com.google.common.collect.Lists;
 import net.luis.data.common.io.Reader;
-import net.luis.data.xml.attributes.XmlAttribute;
-import net.luis.data.xml.elements.XmlElement;
+import net.luis.data.xml.XmlAttribute;
+import net.luis.data.xml.XmlElement;
 import net.luis.data.xml.exception.XmlException;
+import net.luis.data.xml.exception.XmlReaderIndexOutOfBoundsException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.jetbrains.annotations.NotNull;
@@ -51,7 +52,7 @@ public class XmlReader implements Reader<XmlElement> {
 			} else if (nodes.getLength() > 1) {
 				throw new XmlException("The xml file contains more than one root element");
 			} else if (nodes.item(0).getNodeType() != Node.ELEMENT_NODE && nodes.item(0).getNodeType() != Node.TEXT_NODE) {
-				throw new XmlException("Invalid node type of the root node: " + nodes.item(0).getNodeType());
+				throw new XmlException("Invalid xml node type of the root node: " + nodes.item(0).getNodeType());
 			}
 			Node node = nodes.item(0);
 			//endregion
@@ -78,14 +79,14 @@ public class XmlReader implements Reader<XmlElement> {
 		} else if (this.type == Node.ELEMENT_NODE) {
 			return !this.nodes.isEmpty() && this.index < this.nodes.size();
 		}
-		throw new XmlException("Invalid node type of the root node: " + this.type);
+		throw new XmlException("Invalid xml node type of the root node: " + this.type);
 	}
 	
 	@Override
 	public XmlElement next() {
 		//region Validation
 		if (!this.hasNext()) {
-			throw new IndexOutOfBoundsException("Index out of bounds");
+			throw new XmlReaderIndexOutOfBoundsException("Xml reader is at the end of the file");
 		}
 		//endregion
 		if (this.type == Node.TEXT_NODE) {
@@ -99,7 +100,7 @@ public class XmlReader implements Reader<XmlElement> {
 			this.index++;
 			return rootElement;
 		}
-		throw new XmlException("Invalid node type of the root node: " + this.type);
+		throw new XmlException("Invalid xml node type of the root node: " + this.type);
 	}
 	
 	public XmlElement toXml() {

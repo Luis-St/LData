@@ -18,7 +18,7 @@ public class FileHelper {
 		try {
 			return FileUtils.readLines(file, Charset.defaultCharset());
 		} catch (Exception e) {
-			throw new RuntimeException(e);
+			throw new RuntimeException("Could not read lines from file '" + file.getAbsolutePath() + "'", e);
 		}
 	}
 	
@@ -26,7 +26,7 @@ public class FileHelper {
 		try {
 			return FileUtils.readFileToString(file, Charset.defaultCharset());
 		} catch (Exception e) {
-			throw new RuntimeException(e);
+			throw new RuntimeException("Could not read file '" + file.getAbsolutePath() + "'", e);
 		}
 	}
 	

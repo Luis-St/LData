@@ -10,14 +10,19 @@ import java.util.List;
 import java.util.Objects;
 import java.util.stream.Stream;
 
-public class PropertyArray implements Property {
+public final class PropertyArray implements Property {
 	
 	private final String key;
 	private final List<String> values;
 	
 	public PropertyArray(String key) {
-		this.key = Objects.requireNonNull(key, "Key must not be null");
+		this.key = Objects.requireNonNull(key, "Property key must not be null");
 		this.values = Lists.newArrayList();
+	}
+	
+	@Override
+	public @NotNull String getName() {
+		return "property array";
 	}
 	
 	@Override
@@ -46,7 +51,7 @@ public class PropertyArray implements Property {
 	}
 	
 	public void addAll(PropertyArray array) {
-		this.values.addAll(Objects.requireNonNull(array, "Array must not be null").values);
+		this.values.addAll(Objects.requireNonNull(array, "Property array must not be null").values);
 	}
 	
 	public void addAll(boolean... values) {
@@ -76,7 +81,7 @@ public class PropertyArray implements Property {
 	}
 	
 	public boolean containsAll(PropertyArray array) {
-		return new HashSet<>(this.values).containsAll(Objects.requireNonNull(array, "Array must not be null").values);
+		return new HashSet<>(this.values).containsAll(Objects.requireNonNull(array, "Property array must not be null").values);
 	}
 	//endregion
 	
@@ -152,7 +157,7 @@ public class PropertyArray implements Property {
 	
 	@Override
 	public @NotNull String toString(PropertyConfig config) {
-		Objects.requireNonNull(config, "Config must not be null");
+		Objects.requireNonNull(config, "Property config must not be null");
 		return "[" + String.join(config.prettyPrint() ? ", " : ",", this.values) + "]";
 	}
 	

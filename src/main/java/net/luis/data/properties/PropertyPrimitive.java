@@ -1,20 +1,28 @@
-package net.luis.data.json.primitive;
+package net.luis.data.properties;
 
-import net.luis.data.json.Json;
 import net.luis.data.json.exception.JsonException;
+import net.luis.data.properties.config.PropertyConfig;
+import org.jetbrains.annotations.NotNull;
 
-/**
- *
- * @author Luis-St
- *
- */
+import java.util.Objects;
 
-public abstract class JsonPrimitive implements Json {
+public abstract sealed class PropertyPrimitive implements Property permits PropertyBoolean, PropertyNumber, PropertyString {
 	
-	//region JsonElement overrides
+	private final String key;
+	
+	public PropertyPrimitive(String key) {
+		this.key = Objects.requireNonNull(key, "Property key must not be null");
+	}
+	
+	@Override
+	public final @NotNull String getKey() {
+		return this.key;
+	}
+	
+	//region Property overrides
 	@Override
 	public boolean isBoolean() {
-		return this instanceof JsonBoolean;
+		return this instanceof PropertyBoolean;
 	}
 	
 	@Override
@@ -27,15 +35,12 @@ public abstract class JsonPrimitive implements Json {
 	
 	@Override
 	public boolean isNumber() {
-		return this instanceof JsonNumber;
+		return this instanceof PropertyNumber;
 	}
 	
 	@Override
 	public Number getAsNumber() {
-		if (this.isNumber()) {
-			throw new UnsupportedOperationException("Not implemented");
-		}
-		throw new JsonException("Not a number: " + this);
+		return Property.super.getAsNumber();
 	}
 	
 	@Override
@@ -64,7 +69,7 @@ public abstract class JsonPrimitive implements Json {
 	
 	@Override
 	public boolean isString() {
-		return this instanceof JsonString;
+		return this instanceof PropertyString;
 	}
 	
 	@Override
@@ -76,10 +81,15 @@ public abstract class JsonPrimitive implements Json {
 	}
 	//endregion
 	
+	@Override
+	public @NotNull String toString(PropertyConfig config) {
+		return this.getAsString();
+	}
+	
 	//region Object overrides
 	@Override
 	public String toString() {
-		return this.getAsString();
+		return this.key + "=" + this.getAsString();
 	}
 	//endregion
 }

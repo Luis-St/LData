@@ -1,17 +1,22 @@
-package net.luis.data.properties.primitive;
+package net.luis.data.properties;
 
 import net.luis.data.json.JsonObject;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Objects;
 
-public class PropertyNumber extends PropertyPrimitive {
+public final class PropertyNumber extends PropertyPrimitive {
 	
 	private final Number number;
 	
 	public PropertyNumber(String key, Number number) {
 		super(key);
 		this.number = Objects.requireNonNull(number, "Number must not be null");
+	}
+	
+	@Override
+	public @NotNull String getName() {
+		return "property number";
 	}
 	
 	@Override

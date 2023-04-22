@@ -10,9 +10,9 @@ public record JsonConfig(boolean prettyPrint, String indent, boolean simplifyPri
 	public static final JsonConfig DEFAULT = new JsonConfig(true, "\t", false, false, true, false, false);
 	
 	public JsonConfig {
-		Objects.requireNonNull(indent, "Indent cannot be null");
+		Objects.requireNonNull(indent, "Json indent cannot be null");
 		if (!indent.isBlank()) {
-			throw new IllegalArgumentException("Indent must be whitespace characters only");
+			throw new IllegalArgumentException("Json indent must be whitespace characters only");
 		}
 	}
 	
@@ -29,10 +29,12 @@ public record JsonConfig(boolean prettyPrint, String indent, boolean simplifyPri
 		return false;
 	}
 	
+	//region Object overrides
 	@Override
 	public String toString() {
 		return "JsonConfig";
 	}
+	//endregion
 	
 	//region Builder
 	public static class Builder implements DataConfig.Builder<JsonConfig> {
@@ -45,14 +47,15 @@ public record JsonConfig(boolean prettyPrint, String indent, boolean simplifyPri
 		private boolean allowQuotedStrings;
 		private boolean allowCustomExtensions;
 		
-		private Builder(@NotNull JsonConfig config) {
-			this.prettyPrint = config.prettyPrint();
-			this.indent = config.indent();
-			this.simplifyPrimitiveArrays = config.simplifyPrimitiveArrays();
-			this.simplifyPrimitiveObjects = config.simplifyPrimitiveObjects();
-			this.allowBlankKeys = config.allowBlankKeys();
-			this.allowQuotedStrings = config.allowQuotedStrings();
-			this.allowCustomExtensions = config.allowCustomExtensions();
+		private Builder(JsonConfig baseConfig) {
+			Objects.requireNonNull(baseConfig, "Json base config must not be null");
+			this.prettyPrint = baseConfig.prettyPrint();
+			this.indent = baseConfig.indent();
+			this.simplifyPrimitiveArrays = baseConfig.simplifyPrimitiveArrays();
+			this.simplifyPrimitiveObjects = baseConfig.simplifyPrimitiveObjects();
+			this.allowBlankKeys = baseConfig.allowBlankKeys();
+			this.allowQuotedStrings = baseConfig.allowQuotedStrings();
+			this.allowCustomExtensions = baseConfig.allowCustomExtensions();
 		}
 		
 		public JsonConfig.Builder prettyPrint(boolean prettyPrint) {
@@ -61,7 +64,7 @@ public record JsonConfig(boolean prettyPrint, String indent, boolean simplifyPri
 		}
 		
 		public JsonConfig.Builder indent(String indent) {
-			this.indent = indent;
+			this.indent = Objects.requireNonNull(indent, "Json indent must not be null");
 			return this;
 		}
 		

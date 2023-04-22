@@ -17,16 +17,16 @@ public record PropertyConfig(char delimiter, boolean prettyPrint, boolean allowA
 	
 	public PropertyConfig {
 		if (Character.isWhitespace(delimiter)) {
-			throw new IllegalArgumentException("Delimiter cannot be a whitespace character");
+			throw new IllegalArgumentException("Property delimiter cannot be a whitespace character");
 		}
 		if (delimiter == '\\') {
-			throw new IllegalArgumentException("Delimiter cannot be a backslash");
+			throw new IllegalArgumentException("Property delimiter cannot be a backslash");
 		}
 		if (delimiter == '#') {
-			throw new IllegalArgumentException("Delimiter cannot be a hash");
+			throw new IllegalArgumentException("Property delimiter cannot be a hash");
 		}
 		if (delimiter == '.') {
-			throw new IllegalArgumentException("Delimiter cannot be a dot");
+			throw new IllegalArgumentException("Property delimiter cannot be a dot");
 		}
 	}
 	
@@ -57,7 +57,7 @@ public record PropertyConfig(char delimiter, boolean prettyPrint, boolean allowA
 		private boolean allowCustomExtensions;
 		
 		private Builder(PropertyConfig baseConfig) {
-			Objects.requireNonNull(baseConfig, "Base config must not be null");
+			Objects.requireNonNull(baseConfig, "Property base config must not be null");
 			this.delimiter = baseConfig.delimiter();
 			this.prettyPrint = baseConfig.prettyPrint();
 			this.allowAppend = baseConfig.allowAppend();

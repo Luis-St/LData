@@ -7,14 +7,19 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.Objects;
 
-public class PropertyJson implements Property {
+public final class PropertyJson implements Property {
 	
 	private final String key;
 	private final JsonObject value;
 	
 	public PropertyJson(String key, JsonObject value) {
-		this.key = Objects.requireNonNull(key, "Key must not be null");
-		this.value = Objects.requireNonNull(value, "Json element must not be null");
+		this.key = Objects.requireNonNull(key, "Property key must not be null");
+		this.value = Objects.requireNonNull(value, "Json object must not be null");
+	}
+	
+	@Override
+	public @NotNull String getName() {
+		return "property json";
 	}
 	
 	@Override

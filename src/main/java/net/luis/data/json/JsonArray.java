@@ -2,9 +2,6 @@ package net.luis.data.json;
 
 import com.google.common.collect.Lists;
 import net.luis.data.json.config.JsonConfig;
-import net.luis.data.json.primitive.JsonBoolean;
-import net.luis.data.json.primitive.JsonNumber;
-import net.luis.data.json.primitive.JsonString;
 import net.luis.utils.util.Utils;
 import org.jetbrains.annotations.NotNull;
 
@@ -16,7 +13,7 @@ import java.util.*;
  *
  */
 
-public class JsonArray implements Json, Iterable<Json> {
+public final class JsonArray implements Json, Iterable<Json> {
 	
 	private final List<Json> elements = Lists.newArrayList();
 	
@@ -26,6 +23,11 @@ public class JsonArray implements Json, Iterable<Json> {
 	
 	public JsonArray(Json... elements) {
 		this.elements.addAll(Arrays.asList(elements));
+	}
+	
+	@Override
+	public @NotNull String getName() {
+		return "json array";
 	}
 	
 	@Override
@@ -57,7 +59,7 @@ public class JsonArray implements Json, Iterable<Json> {
 	
 	//region List methods
 	public boolean addAll(JsonArray array) {
-		return this.elements.addAll(Objects.requireNonNull(array, "Array must not be null").elements);
+		return this.elements.addAll(Objects.requireNonNull(array, "Json array must not be null").elements);
 	}
 	
 	public Json set(int index, Json element) {
@@ -85,7 +87,7 @@ public class JsonArray implements Json, Iterable<Json> {
 	}
 	
 	public boolean containsAll(JsonArray array) {
-		return new HashSet<>(this.elements).containsAll(Objects.requireNonNull(array, "Array must not be null").elements);
+		return new HashSet<>(this.elements).containsAll(Objects.requireNonNull(array, "Json array must not be null").elements);
 	}
 	
 	@Override
@@ -99,60 +101,36 @@ public class JsonArray implements Json, Iterable<Json> {
 		return this.elements.get(index);
 	}
 	
-	public JsonObject getAsObject() {
-		if (this.elements.size() == 1) {
-			return this.elements.get(0).getAsObject();
-		}
-		throw new IllegalStateException("JsonArray is not a single object");
+	public JsonObject getAsObject(int index) {
+		return this.elements.get(index).getAsObject();
 	}
 	
-	public JsonArray getAsArray() {
-		if (this.elements.size() == 1) {
-			return this.elements.get(0).getAsArray();
-		}
-		throw new IllegalStateException("JsonArray is not a single array");
+	public JsonArray getAsArray(int index) {
+		return this.elements.get(index).getAsArray();
 	}
 	
-	public boolean getAsBoolean() {
-		if (this.elements.size() == 1) {
-			return this.elements.get(0).getAsBoolean();
-		}
-		throw new IllegalStateException("JsonArray is not a single boolean");
+	public boolean getAsBoolean(int index) {
+		return this.elements.get(index).getAsBoolean();
 	}
 	
-	public Number getAsNumber() {
-		if (this.elements.size() == 1) {
-			return this.elements.get(0).getAsNumber();
-		}
-		throw new IllegalStateException("JsonArray is not a single number");
+	public Number getAsNumber(int index) {
+		return this.elements.get(index).getAsNumber();
 	}
 	
-	public int getAsInt() {
-		if (this.elements.size() == 1) {
-			return this.elements.get(0).getAsInt();
-		}
-		throw new IllegalStateException("JsonArray is not a single int");
+	public int getAsInt(int index) {
+		return this.elements.get(index).getAsInt();
 	}
 	
-	public long getAsLong() {
-		if (this.elements.size() == 1) {
-			return this.elements.get(0).getAsLong();
-		}
-		throw new IllegalStateException("JsonArray is not a single long");
+	public long getAsLong(int index) {
+		return this.elements.get(index).getAsLong();
 	}
 	
-	public double getAsDouble() {
-		if (this.elements.size() == 1) {
-			return this.elements.get(0).getAsDouble();
-		}
-		throw new IllegalStateException("JsonArray is not a single double");
+	public double getAsDouble(int index) {
+		return this.elements.get(index).getAsDouble();
 	}
 	
-	public String getAsString() {
-		if (this.elements.size() == 1) {
-			return this.elements.get(0).getAsString();
-		}
-		throw new IllegalStateException("JsonArray is not a single string");
+	public String getAsString(int index) {
+		return this.elements.get(index).getAsString();
 	}
 	//endregion
 	
@@ -161,6 +139,7 @@ public class JsonArray implements Json, Iterable<Json> {
 		if (this.elements.isEmpty()) {
 			return "[]";
 		}
+		Objects.requireNonNull(config, "Json config must not be null");
 		boolean simplify = JsonHelper.canBeSimplified(this.elements, config.simplifyPrimitiveArrays());
 		List<String> values = Utils.mapList(this.elements, element -> {
 			if (config.prettyPrint() && !simplify) {

@@ -6,7 +6,7 @@ import net.luis.data.properties.Property;
 import net.luis.data.properties.config.PropertyConfig;
 import net.luis.data.properties.io.PropertyReader;
 import net.luis.data.properties.io.PropertyWriter;
-import net.luis.data.properties.primitive.PropertyString;
+import net.luis.data.properties.PropertyString;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -23,7 +23,7 @@ public class PropertyTest {
 		for (Property property : reader) {
 			if (property instanceof ObjectProperty object) {
 				Property actual = object.getActual();
-				LOGGER.info("ObjectProperty with actual {}: {}", actual.getClass().getSimpleName(), actual);
+				LOGGER.info("ObjectProperty with getActual {}: {}", actual.getClass().getSimpleName(), actual);
 			} else {
 				LOGGER.info("{}: {}", property.getClass().getSimpleName(), property);
 			}

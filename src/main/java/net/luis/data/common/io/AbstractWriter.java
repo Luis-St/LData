@@ -31,7 +31,7 @@ public abstract class AbstractWriter<T extends DataConfig> implements Writer {
 			throw new IllegalArgumentException("File cannot be written to");
 		}
 		if (this.isExtensionNotAllowed(FilenameUtils.getExtension(file.getName())) && !config.allowCustomExtensions()) {
-			throw new IllegalArgumentException("File extension is not allowed");
+			throw new IllegalArgumentException("File extension is not allowed in this configuration");
 		}
 		//endregion
 		try {

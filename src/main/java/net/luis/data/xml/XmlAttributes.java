@@ -1,4 +1,4 @@
-package net.luis.data.xml.attributes;
+package net.luis.data.xml;
 
 import com.google.common.collect.Maps;
 import net.luis.data.xml.config.XmlConfig;
@@ -10,13 +10,13 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
-public class XmlAttributes implements Iterable<XmlAttribute> {
+public final class XmlAttributes implements Iterable<XmlAttribute> {
 	
 	private final Map<String, XmlAttribute> attributes = Maps.newHashMap();
 	
 	@ApiStatus.Internal
 	public XmlAttributes() {
-	
+		super();
 	}
 	
 	public @NotNull XmlAttributes copy() {
@@ -84,6 +84,7 @@ public class XmlAttributes implements Iterable<XmlAttribute> {
 		if (this.isEmpty()) {
 			return "";
 		}
+		Objects.requireNonNull(config, "Xml config must not be null");
 		StringBuilder builder = new StringBuilder();
 		for (XmlAttribute attribute : this) {
 			builder.append(" ").append(attribute.toString(config));

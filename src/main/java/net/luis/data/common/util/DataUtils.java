@@ -6,7 +6,7 @@ import org.jetbrains.annotations.NotNull;
 import java.util.List;
 import java.util.Objects;
 
-public class Utils {
+public class DataUtils {
 	
 	public static boolean isNotEscaped(String value, int index) {
 		return index - 1 < 0 || value.charAt(index - 1) != '\\';
@@ -40,6 +40,7 @@ public class Utils {
 	
 	public static int countNoneQuoted(String value, String toCheck) {
 		Objects.requireNonNull(value, "Value must not be null");
+		Objects.requireNonNull(toCheck, "String to check must not be null");
 		int count = 0;
 		boolean inQuotes = false;
 		for (int i = 0; i < value.length(); i++) {

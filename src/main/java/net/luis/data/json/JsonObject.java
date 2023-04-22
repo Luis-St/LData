@@ -6,10 +6,6 @@ import net.luis.data.common.io.Writable;
 import net.luis.data.json.config.JsonConfig;
 import net.luis.data.json.exception.JsonException;
 import net.luis.data.json.io.JsonWriter;
-import net.luis.data.json.primitive.JsonBoolean;
-import net.luis.data.json.primitive.JsonNumber;
-import net.luis.data.json.primitive.JsonPrimitive;
-import net.luis.data.json.primitive.JsonString;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.File;
@@ -21,13 +17,13 @@ import java.util.*;
  *
  */
 
-public class JsonObject implements Json, Iterable<Map.Entry<String, Json>>, Writable<JsonWriter> {
+public final class JsonObject implements Json, Iterable<Map.Entry<String, Json>>, Writable<JsonWriter> {
 	
 	private final Map<String, Json> elements = Maps.newTreeMap();
 	
 	//region Constructors
 	public JsonObject() {
-	
+		super();
 	}
 	
 	public JsonObject(String key, Json value) {
@@ -54,17 +50,19 @@ public class JsonObject implements Json, Iterable<Map.Entry<String, Json>>, Writ
 	//region Validation
 	private static @NotNull String validateKey(String key) {
 		if (key == null) {
-			throw new NullPointerException("Key is null");
+			throw new NullPointerException("Json key is null");
 		}
 		if (key.isEmpty()) {
-			throw new IllegalArgumentException("Key is empty");
-		}
-		if (key.isBlank()) {
-			throw new IllegalArgumentException("Key is blank");
+			throw new IllegalArgumentException("Json key is empty");
 		}
 		return key;
 	}
 	//endregion
+	
+	@Override
+	public @NotNull String getName() {
+		return "json object";
+	}
 	
 	@Override
 	public @NotNull JsonObject copy() {
@@ -105,7 +103,7 @@ public class JsonObject implements Json, Iterable<Map.Entry<String, Json>>, Writ
 		return this.elements.size();
 	}
 	
-	public Set<String> keySet() {
+	public @NotNull Set<String> keySet() {
 		return this.elements.keySet();
 	}
 	
@@ -118,37 +116,28 @@ public class JsonObject implements Json, Iterable<Map.Entry<String, Json>>, Writ
 		if (this.has(key)) {
 			return this.elements.get(key);
 		}
-		throw new IllegalStateException("No such key: " + key);
+		throw new JsonException("No such json key: " + key);
 	}
 	
 	public JsonArray getAsArray(String key) {
 		if (this.has(key)) {
-			if (this.get(key).isArray()) {
-				return this.get(key).getAsArray();
-			}
-			throw new JsonException("Not a JsonArray: " + this.get(key));
+			return this.get(key).getAsArray();
 		}
-		throw new IllegalStateException("No such key: " + key);
+		throw new JsonException("No such json key: " + key);
 	}
 	
 	public JsonPrimitive getAsPrimitive(String key) {
 		if (this.has(key)) {
-			if (this.get(key).isPrimitive()) {
-				return this.get(key).getAsPrimitive();
-			}
-			throw new JsonException("Not a JsonPrimitive: " + this.get(key));
+			return this.get(key).getAsPrimitive();
 		}
-		throw new IllegalStateException("No such key: " + key);
+		throw new JsonException("No such json key: " + key);
 	}
 	
 	public JsonObject getAsObject(String key) {
 		if (this.has(key)) {
-			if (this.get(key).isObject()) {
-				return this.get(key).getAsObject();
-			}
-			throw new JsonException("Not a JsonObject: " + this.get(key));
+			return this.get(key).getAsObject();
 		}
-		throw new IllegalStateException("No such key: " + key);
+		throw new JsonException("No such json key: " + key);
 	}
 	//endregion
 	
@@ -162,12 +151,13 @@ public class JsonObject implements Json, Iterable<Map.Entry<String, Json>>, Writ
 		if (this.elements.isEmpty()) {
 			return "{}";
 		}
+		Objects.requireNonNull(config, "Json config must not be null");
 		boolean simplify = JsonHelper.canBeSimplified(this.elements.values(), config.simplifyPrimitiveObjects());
 		List<String> values = Lists.newArrayList();
 		for (Map.Entry<String, Json> entry : this.elements.entrySet()) {
 			String key = JsonHelper.quote(entry.getKey(), config);
 			if (key.substring(1, key.length() - 1).isBlank() && !config.allowBlankKeys()) {
-				throw new JsonException("Key of value " + entry.getValue() + " is blank which is not allowed");
+				throw new JsonException("Key of value " + entry.getValue() + " is blank which is not allowed in this configuation");
 			}
 			if (config.prettyPrint()) {
 				if (simplify) {
@@ -197,7 +187,7 @@ public class JsonObject implements Json, Iterable<Map.Entry<String, Json>>, Writ
 	
 	@Override
 	public void write(JsonWriter writer) {
-		Objects.requireNonNull(writer, "Writer must not be null").write(this);
+		Objects.requireNonNull(writer, "Json writer must not be null").write(this);
 	}
 	
 	//region Object overrides
