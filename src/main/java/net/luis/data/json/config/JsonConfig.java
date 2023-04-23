@@ -5,6 +5,12 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.Objects;
 
+/**
+ *
+ * @author Luis-St
+ *
+ */
+
 public record JsonConfig(boolean prettyPrint, String indent, boolean simplifyPrimitiveArrays, boolean simplifyPrimitiveObjects, boolean allowBlankKeys, boolean allowQuotedStrings, boolean allowCustomExtensions) implements DataConfig {
 	
 	public static final JsonConfig DEFAULT = new JsonConfig(true, "\t", false, false, true, false, false);

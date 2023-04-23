@@ -8,6 +8,12 @@ import java.io.File;
 import java.io.FileWriter;
 import java.util.Objects;
 
+/**
+ *
+ * @author Luis-St
+ *
+ */
+
 public abstract class AbstractWriter<T extends DataConfig> implements Writer {
 	
 	protected final T config;

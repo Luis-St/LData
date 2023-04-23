@@ -5,6 +5,12 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.Objects;
 
+/**
+ *
+ * @author Luis-St
+ *
+ */
+
 public final class PropertyString extends PropertyPrimitive {
 	
 	private final String value;

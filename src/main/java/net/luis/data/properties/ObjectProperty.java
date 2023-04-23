@@ -6,6 +6,12 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.Objects;
 
+/**
+ *
+ * @author Luis-St
+ *
+ */
+
 public final record ObjectProperty(String getObject, Property getActual) implements Property {
 	
 	public ObjectProperty {

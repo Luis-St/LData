@@ -15,6 +15,12 @@ import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.Stream;
 
+/**
+ *
+ * @author Luis-St
+ *
+ */
+
 public class PropertyReader extends AbstractReader<Property> {
 	
 	private final char delimiter;

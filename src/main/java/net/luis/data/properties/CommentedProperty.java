@@ -9,6 +9,12 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 
+/**
+ *
+ * @author Luis-St
+ *
+ */
+
 public final class CommentedProperty implements Property {
 	
 	private final Property actual;

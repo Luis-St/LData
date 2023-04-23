@@ -7,7 +7,12 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.Objects;
 
-public final class PropertyJson implements Property {
+/**
+ *
+ * @author Luis-St
+ *
+ */
+
 	
 	private final String key;
 	private final JsonObject value;

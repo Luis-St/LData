@@ -7,6 +7,12 @@ import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.util.Objects;
 
+/**
+ *
+ * @author Luis-St
+ *
+ */
+
 public record XmlConfig(Charset encoding, boolean prettyPrint, String indent, boolean allowAttributes, boolean allowCustomExtensions) implements DataConfig {
 	
 	public static final XmlConfig DEFAULT = new XmlConfig(StandardCharsets.UTF_8, true, "\t", true, false);

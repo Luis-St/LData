@@ -14,7 +14,13 @@ import java.util.Objects;
 import java.util.Optional;
 import java.util.Stack;
 
-public class JsonReader extends AbstractReader<Json> {
+/**
+ *
+ * @author Luis-St
+ *
+ */
+
+public class JsonReader extends AbstractReader<Json> implements JsonConvertible<JsonObject> {
 	
 	private final JsonType type;
 	
@@ -159,7 +165,6 @@ public class JsonReader extends AbstractReader<Json> {
 	
 	//region Helper methods
 	private Optional<Integer> findNextInScope(int nextIndex, char key) {
-		int result = -1;
 		boolean inQuotes = false;
 		Stack<Character> stack = new Stack<>();
 		for (int i = nextIndex; i < (this.type == JsonType.PROPERTY ? this.length() : this.length() - 1); i++) {

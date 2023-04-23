@@ -1,5 +1,11 @@
 package net.luis.data.properties.exception;
 
+/**
+ *
+ * @author Luis-St
+ *
+ */
+
 public class PropertyException extends RuntimeException {
 	
 	public PropertyException() {

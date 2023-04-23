@@ -10,6 +10,12 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
+/**
+ *
+ * @author Luis-St
+ *
+ */
+
 public final class XmlAttributes implements Iterable<XmlAttribute> {
 	
 	private final Map<String, XmlAttribute> attributes = Maps.newHashMap();

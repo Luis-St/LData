@@ -5,6 +5,12 @@ import net.luis.utils.util.LazyLoad;
 import java.io.File;
 import java.util.Objects;
 
+/**
+ *
+ * @author Luis-St
+ *
+ */
+
 public abstract class AbstractReader<T> implements Reader<T> {
 	
 	private final LazyLoad<String> lazyValue;

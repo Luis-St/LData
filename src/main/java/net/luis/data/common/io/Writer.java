@@ -1,5 +1,11 @@
 package net.luis.data.common.io;
 
+/**
+ *
+ * @author Luis-St
+ *
+ */
+
 public interface Writer {
 	
 	void flush();

@@ -1,11 +1,17 @@
 package net.luis.data.xml.io;
 
 import net.luis.data.common.io.AbstractWriter;
-import net.luis.data.xml.config.XmlConfig;
 import net.luis.data.xml.XmlElement;
+import net.luis.data.xml.config.XmlConfig;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.File;
+
+/**
+ *
+ * @author Luis-St
+ *
+ */
 
 public class XmlWriter extends AbstractWriter<XmlConfig> {
 	

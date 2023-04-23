@@ -7,6 +7,12 @@ import net.luis.data.json.config.JsonConfig;
 import java.io.File;
 import java.util.Objects;
 
+/**
+ *
+ * @author Luis-St
+ *
+ */
+
 public class JsonWriter extends AbstractWriter<JsonConfig> {
 	
 	public JsonWriter(String file) {

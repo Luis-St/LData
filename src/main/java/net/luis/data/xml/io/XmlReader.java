@@ -20,7 +20,13 @@ import java.io.File;
 import java.util.List;
 import java.util.Objects;
 
-public class XmlReader implements Reader<XmlElement> {
+/**
+ *
+ * @author Luis-St
+ *
+ */
+
+public class XmlReader implements Reader<XmlElement>, XmlConvertible {
 	
 	private final String name;
 	private final List<XmlAttribute> attributes;

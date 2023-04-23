@@ -8,7 +8,13 @@ import org.jetbrains.annotations.NotNull;
 import java.util.List;
 import java.util.Objects;
 
-public final class XmlElement {
+/**
+ *
+ * @author Luis-St
+ *
+ */
+
+public final class XmlElement implements JsonConvertible<JsonObject> {
 	
 	private final String name;
 	private final String value;

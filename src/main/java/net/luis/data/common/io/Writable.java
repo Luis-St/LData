@@ -2,6 +2,12 @@ package net.luis.data.common.io;
 
 import java.io.File;
 
+/**
+ *
+ * @author Luis-St
+ *
+ */
+
 public interface Writable<T extends Writer> {
 	
 	void write(File file);

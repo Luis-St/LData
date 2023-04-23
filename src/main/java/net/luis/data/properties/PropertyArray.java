@@ -10,6 +10,12 @@ import java.util.List;
 import java.util.Objects;
 import java.util.stream.Stream;
 
+/**
+ *
+ * @author Luis-St
+ *
+ */
+
 public final class PropertyArray implements Property {
 	
 	private final String key;

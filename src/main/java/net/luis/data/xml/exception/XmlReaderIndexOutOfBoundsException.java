@@ -1,5 +1,11 @@
 package net.luis.data.xml.exception;
 
+/**
+ *
+ * @author Luis-St
+ *
+ */
+
 public class XmlReaderIndexOutOfBoundsException extends IndexOutOfBoundsException {
 	
 	public XmlReaderIndexOutOfBoundsException() {

@@ -1,5 +1,11 @@
 package net.luis.data.json.exception;
 
+/**
+ *
+ * @author Luis-St
+ *
+ */
+
 public class JsonReaderIndexOutOfBoundsException extends IndexOutOfBoundsException {
 	
 	public JsonReaderIndexOutOfBoundsException() {

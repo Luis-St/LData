@@ -6,6 +6,12 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.Objects;
 
+/**
+ *
+ * @author Luis-St
+ *
+ */
+
 public abstract sealed class PropertyPrimitive implements Property permits PropertyBoolean, PropertyNumber, PropertyString {
 	
 	private final String key;

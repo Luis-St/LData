@@ -6,6 +6,12 @@ import org.jetbrains.annotations.NotNull;
 import java.util.List;
 import java.util.Objects;
 
+/**
+ *
+ * @author Luis-St
+ *
+ */
+
 public class DataUtils {
 	
 	public static boolean isNotEscaped(String value, int index) {

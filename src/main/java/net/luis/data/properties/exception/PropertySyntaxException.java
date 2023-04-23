@@ -1,5 +1,11 @@
 package net.luis.data.properties.exception;
 
+/**
+ *
+ * @author Luis-St
+ *
+ */
+
 public class PropertySyntaxException extends PropertyException {
 	
 	public PropertySyntaxException() {

@@ -1,5 +1,6 @@
 package net.luis.data.properties;
 
+import net.luis.data.json.JsonConvertible;
 import net.luis.data.json.JsonObject;
 import net.luis.data.properties.config.PropertyConfig;
 import net.luis.data.properties.exception.PropertyException;
@@ -12,7 +13,7 @@ import org.jetbrains.annotations.NotNull;
  *
  */
 
-public sealed interface Property permits CommentedProperty, ObjectProperty, PropertyArray, PropertyJson, PropertyNull, PropertyPrimitive {
+public sealed interface Property extends JsonConvertible<JsonObject> permits CommentedProperty, ObjectProperty, PropertyArray, PropertyJson, PropertyNull, PropertyPrimitive {
 	
 	@NotNull
 	@ApiStatus.Internal

@@ -9,6 +9,12 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Objects;
 
+/**
+ *
+ * @author Luis-St
+ *
+ */
+
 public final class XmlElements implements Iterable<XmlElement> {
 	
 	private final List<String> elementNames = Lists.newArrayList();
