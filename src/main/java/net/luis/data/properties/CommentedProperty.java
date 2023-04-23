@@ -150,6 +150,11 @@ public final class CommentedProperty implements Property {
 	}
 	
 	@Override
+	public @NotNull JsonObject toJson() {
+		return new JsonObject(this.actual.getKey(), this.actual.toJson());
+	}
+	
+	@Override
 	public @NotNull String toString(PropertyConfig config) {
 		return this.actual.toString(config);
 	}

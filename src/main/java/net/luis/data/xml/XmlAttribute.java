@@ -1,5 +1,7 @@
 package net.luis.data.xml;
 
+import net.luis.data.json.JsonConvertible;
+import net.luis.data.json.JsonObject;
 import net.luis.data.xml.config.XmlConfig;
 import org.jetbrains.annotations.NotNull;
 
@@ -11,7 +13,7 @@ import java.util.Objects;
  *
  */
 
-public final class XmlAttribute {
+public final class XmlAttribute implements JsonConvertible<JsonObject> {
 	
 	private final String name;
 	private final String value;
@@ -58,6 +60,14 @@ public final class XmlAttribute {
 		return Double.parseDouble(this.value);
 	}
 	//endregion
+	
+	@Override
+	public @NotNull JsonObject toJson() {
+		JsonObject json = new JsonObject();
+		json.add("name", this.name);
+		json.add("value", this.value);
+		return json;
+	}
 	
 	public @NotNull String toString(XmlConfig config) {
 		return this.name + "=\"" + this.value + "\"";

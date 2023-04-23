@@ -1,5 +1,6 @@
 package net.luis.data.properties;
 
+import net.luis.data.json.JsonConvertible;
 import net.luis.data.json.JsonObject;
 import net.luis.data.json.config.JsonConfig;
 import net.luis.data.properties.config.PropertyConfig;
@@ -13,6 +14,7 @@ import java.util.Objects;
  *
  */
 
+public final class PropertyJson implements Property, JsonConvertible<JsonObject> {
 	
 	private final String key;
 	private final JsonObject value;
@@ -73,6 +75,11 @@ import java.util.Objects;
 		return this.value;
 	}
 	//endregion
+	
+	@Override
+	public @NotNull JsonObject toJson() {
+		return new JsonObject(this.key, this.value);
+	}
 	
 	@Override
 	public @NotNull String toString(PropertyConfig config) {

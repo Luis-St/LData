@@ -69,6 +69,11 @@ public final class PropertyString extends PropertyPrimitive {
 	}
 	//endregion
 	
+	@Override
+	public @NotNull JsonObject toJson() {
+		return new JsonObject(this.getKey(), this.value);
+	}
+	
 	//region Object overrides
 	@Override
 	public boolean equals(Object o) {

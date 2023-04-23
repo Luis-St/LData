@@ -24,6 +24,11 @@ public record PropertyNull(String getKey) implements Property {
 	}
 	
 	@Override
+	public @NotNull JsonObject toJson() {
+		return new JsonObject(this.getKey(), JsonNull.INSTANCE);
+	}
+	
+	@Override
 	public @NotNull String toString(PropertyConfig config) {
 		return "null";
 	}

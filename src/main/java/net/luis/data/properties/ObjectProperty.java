@@ -152,6 +152,11 @@ public final record ObjectProperty(String getObject, Property getActual) impleme
 	//endregion
 	
 	@Override
+	public @NotNull JsonObject toJson() {
+		return new JsonObject(this.getObject, this.getActual.toJson());
+	}
+	
+	@Override
 	public @NotNull String toString(PropertyConfig config) {
 		return this.getActual.toString(config);
 	}

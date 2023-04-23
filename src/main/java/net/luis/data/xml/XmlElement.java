@@ -1,5 +1,9 @@
 package net.luis.data.xml;
 
+import net.luis.data.json.Json;
+import net.luis.data.json.JsonArray;
+import net.luis.data.json.JsonConvertible;
+import net.luis.data.json.JsonObject;
 import net.luis.data.xml.config.XmlConfig;
 import net.luis.data.xml.exception.XmlException;
 import org.apache.commons.lang3.StringEscapeUtils;
@@ -190,6 +194,22 @@ public final class XmlElement implements JsonConvertible<JsonObject> {
 		return this.hasElements() ? this.elements : new XmlElements();
 	}
 	//endregion
+	
+	@Override
+	public @NotNull JsonObject toJson() {
+		JsonObject json = new JsonObject();
+		json.add("name", this.name);
+		if (this.hasValue()) {
+			json.add("value", this.value);
+		}
+		if (this.hasAttributes()) {
+			json.add("attributes", this.attributes.toJson());
+		}
+		if (this.hasElements()) {
+			json.add("elements", this.elements.toJson());
+		}
+		return json;
+	}
 	
 	public @NotNull String toString(XmlConfig config) {
 		Objects.requireNonNull(config, "Xml config must not be null");

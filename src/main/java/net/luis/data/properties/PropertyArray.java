@@ -1,6 +1,8 @@
 package net.luis.data.properties;
 
 import com.google.common.collect.Lists;
+import net.luis.data.json.JsonArray;
+import net.luis.data.json.JsonObject;
 import net.luis.data.properties.config.PropertyConfig;
 import org.jetbrains.annotations.NotNull;
 
@@ -160,6 +162,13 @@ public final class PropertyArray implements Property {
 		return this.values.toArray(new String[0]);
 	}
 	//endregion
+	
+	@Override
+	public @NotNull JsonObject toJson() {
+		JsonArray array = new JsonArray();
+		this.values.forEach(array::add);
+		return new JsonObject(this.key, array);
+	}
 	
 	@Override
 	public @NotNull String toString(PropertyConfig config) {

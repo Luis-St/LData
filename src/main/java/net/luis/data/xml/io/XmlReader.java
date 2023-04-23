@@ -3,6 +3,7 @@ package net.luis.data.xml.io;
 import com.google.common.collect.Lists;
 import net.luis.data.common.io.Reader;
 import net.luis.data.xml.XmlAttribute;
+import net.luis.data.xml.XmlConvertible;
 import net.luis.data.xml.XmlElement;
 import net.luis.data.xml.exception.XmlException;
 import net.luis.data.xml.exception.XmlReaderIndexOutOfBoundsException;
@@ -105,7 +106,8 @@ public class XmlReader implements Reader<XmlElement>, XmlConvertible {
 		throw new XmlException("Invalid xml node type of the root node: " + this.type);
 	}
 	
-	public XmlElement toXml() {
+	@Override
+	public @NotNull XmlElement toXml() {
 		XmlElement rootElement = this.getRootElement();
 		while (this.hasNext()) {
 			XmlElement element = this.next();

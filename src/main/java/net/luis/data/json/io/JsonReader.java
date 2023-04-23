@@ -144,7 +144,8 @@ public class JsonReader extends AbstractReader<Json> implements JsonConvertible<
 		return object;
 	}
 	
-	public JsonObject toJson() {
+	@Override
+	public @NotNull JsonObject toJson() {
 		if (this.type != JsonType.OBJECT) {
 			this.close();
 			return new JsonObject();
