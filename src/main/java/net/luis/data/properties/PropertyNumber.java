@@ -13,11 +13,11 @@ import java.util.Objects;
 
 public final class PropertyNumber extends PropertyPrimitive {
 	
-	private final Number number;
+	private final Number value;
 	
-	public PropertyNumber(String key, Number number) {
+	public PropertyNumber(String key, Number value) {
 		super(key);
-		this.number = Objects.requireNonNull(number, "Number must not be null");
+		this.value = Objects.requireNonNull(value, "Number must not be null");
 	}
 	
 	@Override
@@ -27,28 +27,28 @@ public final class PropertyNumber extends PropertyPrimitive {
 	
 	@Override
 	public @NotNull PropertyNumber copy() {
-		return new PropertyNumber(this.getKey(), this.number);
+		return new PropertyNumber(this.getKey(), this.value);
 	}
 	
 	//region Getters
 	@Override
 	public Number getAsNumber() {
-		return this.number;
+		return this.value;
 	}
 	
 	@Override
 	public int getAsInt() {
-		return this.number.intValue();
+		return this.value.intValue();
 	}
 	
 	@Override
 	public long getAsLong() {
-		return this.number.longValue();
+		return this.value.longValue();
 	}
 	
 	@Override
 	public double getAsDouble() {
-		return this.number.doubleValue();
+		return this.value.doubleValue();
 	}
 	
 	@Override
@@ -60,7 +60,7 @@ public final class PropertyNumber extends PropertyPrimitive {
 	@Override
 	public JsonObject getAsJson() {
 		JsonObject object = new JsonObject();
-		object.add(this.getKey(), this.number);
+		object.add(this.getKey(), this.value);
 		return object;
 	}
 	//endregion
@@ -71,12 +71,12 @@ public final class PropertyNumber extends PropertyPrimitive {
 		if (this == o) return true;
 		if (!(o instanceof PropertyNumber that)) return false;
 		
-		return this.number.equals(that.number);
+		return this.value.equals(that.value);
 	}
 	
 	@Override
 	public int hashCode() {
-		return Objects.hash(this.number);
+		return Objects.hash(this.value);
 	}
 	//endregion
 }

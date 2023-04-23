@@ -143,7 +143,7 @@ public final class CommentedProperty implements Property {
 	}
 	//endregion
 	
-	public String getComment(PropertyConfig config) {
+	public @NotNull String getComment(PropertyConfig config) {
 		Objects.requireNonNull(config, "Property config must not be null");
 		String comment = config.prettyPrint() ? "# " : "#";
 		return comment + String.join(System.lineSeparator() + comment, this.comments);

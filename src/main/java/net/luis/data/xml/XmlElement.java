@@ -39,7 +39,7 @@ public final class XmlElement implements JsonConvertible<JsonObject> {
 		this.value = StringEscapeUtils.unescapeXml(Objects.requireNonNull(value, "Xml element value must not be null"));
 	}
 	
-	public String getName() {
+	public @NotNull String getName() {
 		return this.name;
 	}
 	

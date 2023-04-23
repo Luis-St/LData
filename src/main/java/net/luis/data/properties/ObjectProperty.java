@@ -20,6 +20,9 @@ public final record ObjectProperty(String getObject, Property getActual) impleme
 		}
 		Objects.requireNonNull(getObject, "Object must not be null");
 		Objects.requireNonNull(getActual, "Actual property must not be null");
+		if (getObject.contains(".")) {
+			throw new IllegalArgumentException("Object must not contain a dot");
+		}
 	}
 	
 	@Override

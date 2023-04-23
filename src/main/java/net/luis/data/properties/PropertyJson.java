@@ -76,7 +76,7 @@ import java.util.Objects;
 	
 	@Override
 	public @NotNull String toString(PropertyConfig config) {
-		return this.value.toString(JsonConfig.builder().prettyPrint(false).simplifyPrimitiveArrays(false).simplifyPrimitiveObjects(false).build());
+		return this.value.toString(JsonConfig.builder().prettyPrint(false).simplifyPrimitiveArrays(true).simplifyPrimitiveObjects(true).build());
 	}
 	
 	//region Object overrides

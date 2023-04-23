@@ -13,10 +13,10 @@ import java.util.Objects;
 
 public final class JsonNumber extends JsonPrimitive {
 	
-	private final Number number;
+	private final Number value;
 	
-	public JsonNumber(Number number) {
-		this.number = Objects.requireNonNull(number);
+	public JsonNumber(Number value) {
+		this.value = Objects.requireNonNull(value);
 	}
 	
 	@Override
@@ -26,28 +26,28 @@ public final class JsonNumber extends JsonPrimitive {
 	
 	@Override
 	public @NotNull JsonNumber copy() {
-		return new JsonNumber(this.number);
+		return new JsonNumber(this.value);
 	}
 	
 	//region Getters
 	@Override
 	public Number getAsNumber() {
-		return this.number;
+		return this.value;
 	}
 	
 	@Override
 	public int getAsInt() {
-		return this.number.intValue();
+		return this.value.intValue();
 	}
 	
 	@Override
 	public long getAsLong() {
-		return this.number.longValue();
+		return this.value.longValue();
 	}
 	
 	@Override
 	public double getAsDouble() {
-		return this.number.doubleValue();
+		return this.value.doubleValue();
 	}
 	
 	@Override
@@ -68,12 +68,12 @@ public final class JsonNumber extends JsonPrimitive {
 		if (this == o) return true;
 		if (!(o instanceof JsonNumber that)) return false;
 		
-		return this.number.equals(that.number);
+		return this.value.equals(that.value);
 	}
 	
 	@Override
 	public int hashCode() {
-		return Objects.hash(this.number);
+		return Objects.hash(this.value);
 	}
 	//endregion
 }
