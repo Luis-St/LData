@@ -17,7 +17,7 @@ import java.util.Objects;
  *
  */
 
-final class XmlElements implements Iterable<XmlElement>, JsonConvertible<JsonArray> {
+public final class XmlElements implements Iterable<XmlElement>, JsonConvertible<JsonArray> {
 	
 	private final List<String> elementNames = Lists.newArrayList();
 	private final List<XmlElement> elements = Lists.newArrayList();
