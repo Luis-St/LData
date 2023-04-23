@@ -6,8 +6,6 @@ import net.luis.data.xml.XmlAttribute;
 import net.luis.data.xml.XmlElement;
 import net.luis.data.xml.exception.XmlException;
 import net.luis.data.xml.exception.XmlReaderIndexOutOfBoundsException;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import org.jetbrains.annotations.NotNull;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
@@ -23,8 +21,6 @@ import java.util.List;
 import java.util.Objects;
 
 public class XmlReader implements Reader<XmlElement> {
-	
-	private static final Logger LOGGER = LogManager.getLogger(XmlReader.class);
 	
 	private final String name;
 	private final List<XmlAttribute> attributes;

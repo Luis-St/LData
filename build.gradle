@@ -16,15 +16,10 @@ dependencies {
 	// Google
 	implementation "com.google.guava:guava:${GoogleGuava}" // Utility
 	// Apache
-	implementation "org.apache.logging.log4j:log4j-api:${Log4jAPI}" // Logging
-	implementation "org.apache.logging.log4j:log4j-core:${Log4jCore}" // Logging
 	implementation "org.apache.commons:commons-lang3:${ApacheLang}" // Utility
 	implementation "commons-io:commons-io:${ApacheIO}" // Utility
 	// Other
 	implementation "org.jetbrains:annotations:${JetBrainsAnnotations}" // Annotations
-	// Test
-	testImplementation "org.junit.jupiter:junit-jupiter-api:5.8.1"
-	testRuntimeOnly "org.junit.jupiter:junit-jupiter-engine:5.8.1"
 }
 
 tasks.register("run", JavaExec) {
@@ -53,10 +48,6 @@ tasks.register("testProperty", JavaExec) {
 	getMainClass().set("net.luis.data.PropertyTest")
 	classpath = sourceSets.test.runtimeClasspath
 	enableAssertions = true
-}
-
-test {
-	useJUnitPlatform()
 }
 
 java {

@@ -29,5 +29,4 @@ public class FileHelper {
 			throw new RuntimeException("Could not read file '" + file.getAbsolutePath() + "'", e);
 		}
 	}
-	
 }
