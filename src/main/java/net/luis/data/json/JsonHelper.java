@@ -3,8 +3,6 @@ package net.luis.data.json;
 import com.google.common.collect.Lists;
 import net.luis.data.json.config.JsonConfig;
 import net.luis.data.json.exception.JsonException;
-import net.luis.data.json.exception.JsonSyntaxException;
-import net.luis.data.json.io.JsonReader;
 import org.jetbrains.annotations.ApiStatus;
 import org.jetbrains.annotations.NotNull;
 

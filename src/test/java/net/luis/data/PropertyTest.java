@@ -3,10 +3,10 @@ package net.luis.data;
 import net.luis.data.properties.ObjectProperty;
 import net.luis.data.properties.Properties;
 import net.luis.data.properties.Property;
+import net.luis.data.properties.PropertyString;
 import net.luis.data.properties.config.PropertyConfig;
 import net.luis.data.properties.io.PropertyReader;
 import net.luis.data.properties.io.PropertyWriter;
-import net.luis.data.properties.PropertyString;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 

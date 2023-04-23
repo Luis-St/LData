@@ -32,19 +32,6 @@ public sealed interface Json permits JsonArray, JsonNull, JsonObject, JsonPrimit
 	}
 	//endregion
 	
-	//region JsonObject
-	default boolean isObject() {
-		return this instanceof JsonObject;
-	}
-	
-	default JsonObject getAsObject() {
-		if (this.isObject()) {
-			return (JsonObject) this;
-		}
-		throw new JsonException("Not a json object: " + this.getName());
-	}
-	//endregion
-	
 	//region JsonPrimitive
 	default boolean isPrimitive() {
 		return this instanceof JsonPrimitive;
@@ -91,6 +78,19 @@ public sealed interface Json permits JsonArray, JsonNull, JsonObject, JsonPrimit
 	
 	default String getAsString() {
 		throw new JsonException("Not a json primitive: " + this.getName());
+	}
+	//endregion
+	
+	//region JsonObject
+	default boolean isObject() {
+		return this instanceof JsonObject;
+	}
+	
+	default JsonObject getAsObject() {
+		if (this.isObject()) {
+			return (JsonObject) this;
+		}
+		throw new JsonException("Not a json object: " + this.getName());
 	}
 	//endregion
 	

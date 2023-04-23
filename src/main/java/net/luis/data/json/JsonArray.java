@@ -18,7 +18,7 @@ public final class JsonArray implements Json, Iterable<Json> {
 	private final List<Json> elements = Lists.newArrayList();
 	
 	public JsonArray() {
-	
+		super();
 	}
 	
 	public JsonArray(Json... elements) {
