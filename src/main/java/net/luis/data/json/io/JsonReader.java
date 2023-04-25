@@ -4,6 +4,7 @@ import net.luis.data.common.io.AbstractReader;
 import net.luis.data.common.io.FileHelper;
 import net.luis.data.common.util.DataUtils;
 import net.luis.data.json.*;
+import net.luis.data.json.exception.JsonException;
 import net.luis.data.json.exception.JsonReaderIndexOutOfBoundsException;
 import net.luis.data.json.exception.JsonSyntaxException;
 import org.jetbrains.annotations.NotNull;
@@ -20,7 +21,7 @@ import java.util.Stack;
  *
  */
 
-public class JsonReader extends AbstractReader<Json> implements JsonConvertible<JsonObject> {
+public class JsonReader extends AbstractReader<Json> implements JsonSerializable<Json> {
 	
 	private final JsonType type;
 	
@@ -145,24 +146,44 @@ public class JsonReader extends AbstractReader<Json> implements JsonConvertible<
 	}
 	
 	@Override
-	public @NotNull JsonObject toJson() {
-		if (this.type != JsonType.OBJECT) {
-			this.close();
-			return new JsonObject();
+	public @NotNull Json toJson() {
+		this.reset();
+		return switch (this.type) {
+			case ARRAY -> this.toArray();
+			case OBJECT ->  this.toObject();
+			case PROPERTY -> {
+				Json json = this.next();
+				this.close();
+				yield json;
+			}
+			default -> throw new JsonException("Json type is not a valid type");
+		};
+	}
+	
+	private @NotNull Json toArray() {
+		JsonArray array = new JsonArray();
+		while (this.hasNext()) {
+			array.add(this.next());
 		}
-		JsonObject result = new JsonObject();
+		this.close();
+		return array;
+	}
+	
+	private @NotNull Json toObject() {
+		JsonObject object = new JsonObject();
 		while (this.hasNext()) {
 			Json json = this.next();
-			if (!(json instanceof JsonObject object)) {
+			if (!(json instanceof JsonObject jsonObject)) {
 				throw new JsonSyntaxException("Expected json object but got: " + json.getName());
 			}
-			for (Map.Entry<String, Json> entry : object) {
-				result.add(entry.getKey(), entry.getValue());
+			for (Map.Entry<String, Json> entry : jsonObject) {
+				object.add(entry.getKey(), entry.getValue());
 			}
 		}
 		this.close();
-		return result;
+		return object;
 	}
+	
 	
 	//region Helper methods
 	private Optional<Integer> findNextInScope(int nextIndex, char key) {
