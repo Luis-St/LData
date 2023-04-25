@@ -6,11 +6,18 @@ import org.jetbrains.annotations.NotNull;
 import java.util.Objects;
 
 /**
+ * Json configuration which is use to write json to file
  *
  * @author Luis-St
  *
+ * @param prettyPrint Whether to pretty print the json
+ * @param indent The indent to use when pretty printing
+ * @param simplifyPrimitiveArrays Whether to simplify arrays which only contain primitive values into a single line
+ * @param simplifyPrimitiveObjects Whether to simplify objects which only contain primitive values into a single line
+ * @param allowBlankKeys Whether to allow blank keys in json objects
+ * @param allowQuotedStrings Whether to allow quoted strings in json strings
+ * @param allowCustomExtensions Whether to allow writing into none json files
  */
-
 public record JsonConfig(boolean prettyPrint, String indent, boolean simplifyPrimitiveArrays, boolean simplifyPrimitiveObjects, boolean allowBlankKeys, boolean allowQuotedStrings, boolean allowCustomExtensions) implements DataConfig {
 	
 	public static final JsonConfig DEFAULT = new JsonConfig(true, "\t", false, false, true, false, false);
@@ -22,14 +29,24 @@ public record JsonConfig(boolean prettyPrint, String indent, boolean simplifyPri
 		}
 	}
 	
+	/**
+	 * @return A new {@link JsonConfig.Builder} with the default configuration
+	 */
 	public static @NotNull JsonConfig.Builder builder() {
 		return builder(DEFAULT);
 	}
 	
+	/**
+	 * @param baseConfig The base configuration to use
+	 * @return A new {@link JsonConfig.Builder} with the given base configuration
+	 */
 	public static @NotNull JsonConfig.Builder builder(JsonConfig baseConfig) {
 		return new JsonConfig.Builder(baseConfig);
 	}
 	
+	/**
+	 * @return False as json does not support appending
+	 */
 	@Override
 	public boolean allowAppend() {
 		return false;

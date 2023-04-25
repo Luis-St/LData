@@ -54,6 +54,7 @@ public abstract class AbstractWriter<T extends DataConfig> implements Writer {
 	
 	}
 	
+	//region IO operations
 	@Override
 	public void flush() {
 		try {
@@ -71,4 +72,5 @@ public abstract class AbstractWriter<T extends DataConfig> implements Writer {
 			throw new RuntimeException(e);
 		}
 	}
+	//endregion
 }

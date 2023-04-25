@@ -56,6 +56,7 @@ public abstract class AbstractReader<T> implements Reader<T> {
 		return this.value().substring(this.index);
 	}
 	
+	//region IO operations
 	@Override
 	public void reset() {
 		this.index = 0;
@@ -65,6 +66,7 @@ public abstract class AbstractReader<T> implements Reader<T> {
 	public void close() {
 		this.index = this.length();
 	}
+	//endregion
 	
 	//region Object overrides
 	@Override

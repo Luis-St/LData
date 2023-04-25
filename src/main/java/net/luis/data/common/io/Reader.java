@@ -17,7 +17,13 @@ public interface Reader<T> extends Iterator<T>, Iterable<T> {
 		return this;
 	}
 	
+	/**
+	 * Resets the reader to the beginning of the file
+	 */
 	void reset();
 	
+	/**
+	 * Closes the reader by setting the reader to the end of the file
+	 */
 	void close();
 }
