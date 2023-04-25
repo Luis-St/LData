@@ -1,10 +1,8 @@
 package net.luis.data.xml;
 
 import com.google.common.collect.Maps;
-import net.luis.data.json.Json;
 import net.luis.data.json.JsonArray;
-import net.luis.data.json.JsonConvertible;
-import net.luis.data.json.JsonObject;
+import net.luis.data.json.io.JsonSerializable;
 import net.luis.data.xml.config.XmlConfig;
 import org.jetbrains.annotations.ApiStatus;
 import org.jetbrains.annotations.NotNull;
@@ -20,7 +18,7 @@ import java.util.Objects;
  *
  */
 
-public final class XmlAttributes implements Iterable<XmlAttribute>, JsonConvertible<JsonArray> {
+public final class XmlAttributes implements Iterable<XmlAttribute>, JsonSerializable<JsonArray> {
 	
 	private final Map<String, XmlAttribute> attributes = Maps.newHashMap();
 	

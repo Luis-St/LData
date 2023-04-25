@@ -3,7 +3,6 @@ package net.luis.data.xml.io;
 import com.google.common.collect.Lists;
 import net.luis.data.common.io.Reader;
 import net.luis.data.xml.XmlAttribute;
-import net.luis.data.xml.XmlConvertible;
 import net.luis.data.xml.XmlElement;
 import net.luis.data.xml.exception.XmlException;
 import net.luis.data.xml.exception.XmlReaderIndexOutOfBoundsException;
@@ -27,7 +26,7 @@ import java.util.Objects;
  *
  */
 
-public class XmlReader implements Reader<XmlElement>, XmlConvertible {
+public class XmlReader implements Reader<XmlElement>, XmlSerializable {
 	
 	private final String name;
 	private final List<XmlAttribute> attributes;

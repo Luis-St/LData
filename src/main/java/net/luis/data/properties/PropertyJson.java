@@ -1,6 +1,6 @@
 package net.luis.data.properties;
 
-import net.luis.data.json.JsonConvertible;
+import net.luis.data.json.io.JsonSerializable;
 import net.luis.data.json.JsonObject;
 import net.luis.data.json.config.JsonConfig;
 import net.luis.data.properties.config.PropertyConfig;
@@ -14,7 +14,7 @@ import java.util.Objects;
  *
  */
 
-public final class PropertyJson implements Property, JsonConvertible<JsonObject> {
+public final class PropertyJson implements Property, JsonSerializable<JsonObject> {
 	
 	private final String key;
 	private final JsonObject value;

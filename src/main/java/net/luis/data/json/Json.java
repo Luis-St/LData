@@ -2,6 +2,7 @@ package net.luis.data.json;
 
 import net.luis.data.json.config.JsonConfig;
 import net.luis.data.json.exception.JsonException;
+import net.luis.data.json.io.JsonReader;
 import org.jetbrains.annotations.ApiStatus;
 import org.jetbrains.annotations.NotNull;
 
@@ -12,6 +13,10 @@ import org.jetbrains.annotations.NotNull;
  */
 
 public sealed interface Json permits JsonArray, JsonNull, JsonObject, JsonPrimitive {
+	
+	static @NotNull Json parse(String json) {
+		return new JsonReader(json).toJson();
+	}
 	
 	@NotNull
 	@ApiStatus.Internal

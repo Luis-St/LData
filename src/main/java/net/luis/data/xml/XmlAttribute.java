@@ -1,6 +1,6 @@
 package net.luis.data.xml;
 
-import net.luis.data.json.JsonConvertible;
+import net.luis.data.json.io.JsonSerializable;
 import net.luis.data.json.JsonObject;
 import net.luis.data.xml.config.XmlConfig;
 import org.jetbrains.annotations.NotNull;
@@ -13,7 +13,7 @@ import java.util.Objects;
  *
  */
 
-public final class XmlAttribute implements JsonConvertible<JsonObject> {
+public final class XmlAttribute implements JsonSerializable<JsonObject> {
 	
 	private final String name;
 	private final String value;

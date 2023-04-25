@@ -1,5 +1,6 @@
-package net.luis.data.xml;
+package net.luis.data.xml.io;
 
+import net.luis.data.xml.XmlElement;
 import org.jetbrains.annotations.NotNull;
 
 /**
@@ -8,7 +9,7 @@ import org.jetbrains.annotations.NotNull;
  *
  */
 
-public interface XmlConvertible {
+public interface XmlSerializable {
 	
 	@NotNull XmlElement toXml();
 }

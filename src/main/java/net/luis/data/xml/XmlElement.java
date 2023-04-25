@@ -1,8 +1,6 @@
 package net.luis.data.xml;
 
-import net.luis.data.json.Json;
-import net.luis.data.json.JsonArray;
-import net.luis.data.json.JsonConvertible;
+import net.luis.data.json.io.JsonSerializable;
 import net.luis.data.json.JsonObject;
 import net.luis.data.xml.config.XmlConfig;
 import net.luis.data.xml.exception.XmlException;
@@ -18,7 +16,7 @@ import java.util.Objects;
  *
  */
 
-public final class XmlElement implements JsonConvertible<JsonObject> {
+public final class XmlElement implements JsonSerializable<JsonObject> {
 	
 	private final String name;
 	private final String value;
