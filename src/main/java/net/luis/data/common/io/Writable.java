@@ -3,9 +3,9 @@ package net.luis.data.common.io;
 import java.io.File;
 
 /**
+ * An interface for objects that can be written to a file or writer
  *
  * @author Luis-St
- *
  */
 
 public interface Writable<T extends Writer> {

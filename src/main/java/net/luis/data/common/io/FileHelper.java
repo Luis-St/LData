@@ -7,9 +7,9 @@ import java.nio.charset.Charset;
 import java.util.List;
 
 /**
+ * Helper class for reading files
  *
  * @author Luis-St
- *
  */
 
 public class FileHelper {

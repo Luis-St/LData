@@ -5,9 +5,12 @@ import org.jetbrains.annotations.NotNull;
 import java.util.Iterator;
 
 /**
+ * A reader that reads data from a file
+ *
+ * @see Iterator
+ * @see Iterable
  *
  * @author Luis-St
- *
  */
 
 public interface Reader<T> extends Iterator<T>, Iterable<T> {

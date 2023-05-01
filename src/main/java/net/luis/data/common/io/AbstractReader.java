@@ -1,14 +1,15 @@
 package net.luis.data.common.io;
 
+import net.luis.data.json.exception.JsonReaderIndexOutOfBoundsException;
 import net.luis.utils.util.LazyLoad;
 
 import java.io.File;
 import java.util.Objects;
 
 /**
+ * An abstract implementation of {@link Reader reader} that loads the value lazily
  *
  * @author Luis-St
- *
  */
 
 public abstract class AbstractReader<T> implements Reader<T> {
@@ -29,16 +30,31 @@ public abstract class AbstractReader<T> implements Reader<T> {
 		this.lazyLength = new LazyLoad<>(() -> this.value().length());
 	}
 	
+	/**
+	 * Validates the given value
+	 * @param value The value to validate
+	 */
 	protected void validate(String value) {
 		Objects.requireNonNull(value, "Value must not be null");
 	}
 	
+	/**
+	 * Modifies the given value
+	 * @param original The original value
+	 * @return The modified value
+	 */
 	protected abstract String modify(String original);
 	
+	/**
+	 * @return The value loaded lazily
+	 */
 	protected final String value() {
 		return this.lazyValue.get();
 	}
 	
+	/**
+	 * @return The length of the value loaded lazily
+	 */
 	protected final int length() {
 		return this.lazyLength.get();
 	}
@@ -48,10 +64,18 @@ public abstract class AbstractReader<T> implements Reader<T> {
 		return this.index < this.length() && !this.value().isBlank();
 	}
 	
+	/**
+	 * Creates a substring from the current index to the given index
+	 * @param index The index to create the substring to
+	 * @return The substring
+	 */
 	protected String fromIndex(int index) {
 		return this.value().substring(this.index, index);
 	}
 	
+	/**
+	 * @return The remaining string from the current index
+	 */
 	protected String remaining() {
 		return this.value().substring(this.index);
 	}

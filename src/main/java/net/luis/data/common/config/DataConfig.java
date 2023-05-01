@@ -1,9 +1,11 @@
 package net.luis.data.common.config;
 
 /**
+ * Configuration which is used to write data to file
+ *
+ * @see Builder
  *
  * @author Luis-St
- *
  */
 
 public interface DataConfig {
@@ -24,9 +26,11 @@ public interface DataConfig {
 	boolean allowCustomExtensions();
 	
 	/**
+	 * Builder for {@link DataConfig}
 	 *
 	 * @author Luis-St
 	 *
+	 * @param <T> The type of {@link DataConfig} which is being built
 	 */
 	interface Builder<T extends DataConfig> {
 		

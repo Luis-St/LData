@@ -1,9 +1,9 @@
 package net.luis.data.common.io;
 
 /**
+ * An interface for writing data to a file
  *
  * @author Luis-St
- *
  */
 
 public interface Writer {

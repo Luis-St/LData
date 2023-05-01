@@ -7,9 +7,9 @@ import java.util.List;
 import java.util.Objects;
 
 /**
+ * Utility class for data
  *
  * @author Luis-St
- *
  */
 
 public class DataUtils {

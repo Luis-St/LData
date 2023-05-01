@@ -9,9 +9,9 @@ import java.io.FileWriter;
 import java.util.Objects;
 
 /**
+ * An abstract implementation of {@link Writer writer}
  *
  * @author Luis-St
- *
  */
 
 public abstract class AbstractWriter<T extends DataConfig> implements Writer {
@@ -48,8 +48,16 @@ public abstract class AbstractWriter<T extends DataConfig> implements Writer {
 		this.init();
 	}
 	
+	/**
+	 * Checks if the extension is allowed in this configuration
+	 * @param extension The extension to check
+	 * @return True if the extension is not allowed, false otherwise
+	 */
 	protected abstract boolean isExtensionNotAllowed(String extension);
 	
+	/**
+	 * Called after the writer has been initialized
+	 */
 	protected void init() {
 	
 	}
