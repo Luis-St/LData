@@ -6,15 +6,27 @@ import org.jetbrains.annotations.NotNull;
 import java.util.Objects;
 
 /**
+ * Property configuration which is use to write properties to file
  *
  * @author Luis-St
- *
  */
-
 public record PropertyConfig(char delimiter, boolean prettyPrint, boolean allowAppend, boolean allowComments, boolean allowEmptyValues, boolean allowEscapedDelimiter, boolean allowCustomExtensions) implements DataConfig {
 	
 	public static final PropertyConfig DEFAULT = new PropertyConfig('=', true, false, true, true, true, false);
 	
+	/**
+	 * Constructs a new {@link PropertyConfig property configuration}
+	 * @param delimiter The delimiter to separate the key and the value of a property.
+	 *                  The delimiter cannot be a whitespace character, a backslash, a hash or a dot
+	 * @param prettyPrint Whether to pretty print the properties
+	 * @param allowAppend Whether to allow appending the properties to an existing file.
+	 *                    If set to false, the file will be overwritten
+	 * @param allowComments Whether to allow comments in the properties file
+	 * @param allowEmptyValues Whether to allow empty values in the properties file
+	 * @param allowEscapedDelimiter Whether to allow escaped delimiters in the value of a property
+	 * @param allowCustomExtensions Whether to allow writing into none properties files like .txt files
+	 * @throws IllegalArgumentException If the delimiter is a whitespace character, a backslash, a hash or a dot
+	 */
 	public PropertyConfig {
 		if (Character.isWhitespace(delimiter)) {
 			throw new IllegalArgumentException("Property delimiter cannot be a whitespace character");
@@ -30,10 +42,17 @@ public record PropertyConfig(char delimiter, boolean prettyPrint, boolean allowA
 		}
 	}
 	
+	/**
+	 * @return A new {@link PropertyConfig.Builder} with the default configuration
+	 */
 	public static @NotNull PropertyConfig.Builder builder() {
 		return builder(DEFAULT);
 	}
 	
+	/**
+	 * @param baseConfig The base configuration to use
+	 * @return A new {@link PropertyConfig.Builder} with the given base configuration
+	 */
 	public static @NotNull PropertyConfig.Builder builder(PropertyConfig baseConfig) {
 		return new PropertyConfig.Builder(baseConfig);
 	}

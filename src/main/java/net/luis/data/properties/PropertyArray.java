@@ -1,8 +1,6 @@
 package net.luis.data.properties;
 
 import com.google.common.collect.Lists;
-import net.luis.data.json.JsonArray;
-import net.luis.data.json.JsonObject;
 import net.luis.data.properties.config.PropertyConfig;
 import org.jetbrains.annotations.NotNull;
 
@@ -13,9 +11,9 @@ import java.util.Objects;
 import java.util.stream.Stream;
 
 /**
+ * Property that represents an array of values
  *
  * @author Luis-St
- *
  */
 
 public final class PropertyArray implements Property {
@@ -23,6 +21,11 @@ public final class PropertyArray implements Property {
 	private final String key;
 	private final List<String> values;
 	
+	/**
+	 * Constructs a new property array with the given key
+	 * @param key The key of the property array
+	 * @throws NullPointerException If the key is null
+	 */
 	public PropertyArray(String key) {
 		this.key = Objects.requireNonNull(key, "Property key must not be null");
 		this.values = Lists.newArrayList();
@@ -35,7 +38,7 @@ public final class PropertyArray implements Property {
 	
 	@Override
 	public @NotNull String getKey() {
-		return this.key;
+		return this.key.toLowerCase();
 	}
 	
 	@Override
@@ -46,48 +49,88 @@ public final class PropertyArray implements Property {
 	}
 	
 	//region Adders
+	
+	/**
+	 * Adds the given boolean value to the property array
+	 * @param value The boolean value to add
+	 * @return True if the value was added
+	 */
 	public boolean add(boolean value) {
 		return this.values.add(String.valueOf(value));
 	}
 	
+	/**
+	 * Adds the given number value to the property array
+	 * @param value The number value to add
+	 * @return True if the value was added
+	 */
 	public boolean add(Number value) {
 		return this.values.add(String.valueOf(value));
 	}
 	
+	/**
+	 * Adds the given string value to the property array
+	 * @param value The string value to add
+	 * @return True if the value was added
+	 */
 	public boolean add(String value) {
 		return this.values.add(value);
 	}
 	
+	/**
+	 * Adds all values of the given property array to this property array
+	 * @param array The property array to add
+	 */
 	public void addAll(PropertyArray array) {
 		this.values.addAll(Objects.requireNonNull(array, "Property array must not be null").values);
 	}
 	
+	/**
+	 * Adds all values of the given boolean array to this property array
+	 * @param values The boolean array to add
+	 */
 	public void addAll(boolean... values) {
 		Stream.of(values).map(String::valueOf).forEach(this.values::add);
 	}
 	
+	/**
+	 * Adds all values of the given number array to this property array
+	 * @param values The number array to add
+	 */
 	public void addAll(Number... values) {
 		Arrays.stream(values).map(String::valueOf).forEach(this.values::add);
 	}
 	
+	/**
+	 * Adds all values of the given string array to this property array
+	 * @param values The string array to add
+	 */
 	public void addAll(String... values) {
 		this.values.addAll(Arrays.asList(values));
 	}
 	//endregion
 	
 	//region List methods
+	
+	/**
+	 * @return The size of the property array
+	 */
 	public int size() {
 		return this.values.size();
 	}
 	
+	/**
+	 * @return True if the property array is empty
+	 */
 	public boolean isEmpty() {
 		return this.values.isEmpty();
 	}
 	
-	public boolean contains(Object value) {
-		return this.values.contains(value);
-	}
-	
+	/**
+	 * Checks if the property array contains all values of the given array
+	 * @param array The array to check
+	 * @return True if the property array contains all values of the given array
+	 */
 	public boolean containsAll(PropertyArray array) {
 		return new HashSet<>(this.values).containsAll(Objects.requireNonNull(array, "Property array must not be null").values);
 	}
@@ -162,13 +205,6 @@ public final class PropertyArray implements Property {
 		return this.values.toArray(new String[0]);
 	}
 	//endregion
-	
-	@Override
-	public @NotNull JsonObject toJson() {
-		JsonArray array = new JsonArray();
-		this.values.forEach(array::add);
-		return new JsonObject(this.key, array);
-	}
 	
 	@Override
 	public @NotNull String toString(PropertyConfig config) {

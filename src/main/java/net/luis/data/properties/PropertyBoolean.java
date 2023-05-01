@@ -5,10 +5,22 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.Objects;
 
+/**
+ * Property that represents a boolean value
+ *
+ * @author Luis-St
+ */
+
 public final class PropertyBoolean extends PropertyPrimitive {
 	
 	private final boolean value;
 	
+	/**
+	 * Constructs a new property boolean with the given key and value
+	 * @param key The key of the property boolean
+	 * @param value The value of the property boolean
+	 * @throws NullPointerException If the key is null
+	 */
 	public PropertyBoolean(String key, boolean value) {
 		super(key);
 		this.value = value;
@@ -25,38 +37,49 @@ public final class PropertyBoolean extends PropertyPrimitive {
 	}
 	
 	//region Getters
+	
+	/**
+	 * @return The value of the {@link PropertyBoolean property boolean}
+	 */
 	@Override
 	public boolean getAsBoolean() {
 		return this.value;
 	}
 	
+	/**
+	 * @return The value of the {@link PropertyBoolean property boolean} as an integer, 1 if true otherwise 0
+	 */
 	@Override
 	public int getAsInt() {
 		return this.value ? 1 : 0;
 	}
 	
+	/**
+	 * @return The value of the {@link PropertyBoolean property boolean} as a long, 1 if true otherwise 0
+	 */
 	@Override
 	public long getAsLong() {
 		return this.value ? 1L : 0L;
 	}
 	
+	/**
+	 * @return The value of the {@link PropertyBoolean property boolean} as a string, "true" if true otherwise "false"
+	 */
 	@Override
-	public String getAsString() {
+	public @NotNull String getAsString() {
 		return Boolean.toString(this.value);
 	}
 	
+	/**
+	 * @return The value of the {@link PropertyBoolean property boolean} as {@link JsonObject json object}
+	 */
 	@Override
-	public JsonObject getAsJson() {
+	public @NotNull JsonObject getAsJson() {
 		JsonObject object = new JsonObject();
 		object.add(this.getKey(), this.value);
 		return object;
 	}
 	//endregion
-	
-	@Override
-	public @NotNull JsonObject toJson() {
-		return new JsonObject(this.getKey(), this.value);
-	}
 	
 	//region Object overrides
 	@Override

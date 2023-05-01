@@ -1,8 +1,8 @@
 package net.luis.data.properties;
 
-import net.luis.data.json.io.JsonSerializable;
 import net.luis.data.json.JsonObject;
 import net.luis.data.json.config.JsonConfig;
+import net.luis.data.json.io.JsonSerializable;
 import net.luis.data.properties.config.PropertyConfig;
 import org.jetbrains.annotations.NotNull;
 
@@ -19,6 +19,12 @@ public final class PropertyJson implements Property, JsonSerializable<JsonObject
 	private final String key;
 	private final JsonObject value;
 	
+	/**
+	 * Constructs a new property json with the given key and value
+	 * @param key The key of the property json
+	 * @param value The value of the property json
+	 * @throws NullPointerException If the key or the value is null
+	 */
 	public PropertyJson(String key, JsonObject value) {
 		this.key = Objects.requireNonNull(key, "Property key must not be null");
 		this.value = Objects.requireNonNull(value, "Json object must not be null");
@@ -31,7 +37,7 @@ public final class PropertyJson implements Property, JsonSerializable<JsonObject
 	
 	@Override
 	public @NotNull String getKey() {
-		return this.key;
+		return this.key.toLowerCase();
 	}
 	
 	@Override
@@ -40,36 +46,58 @@ public final class PropertyJson implements Property, JsonSerializable<JsonObject
 	}
 	
 	//region Getters
+	
+	/**
+	 * @return The value of the {@link PropertyJson property json} as a boolean using {@link JsonObject#getAsBoolean()}
+	 */
 	@Override
 	public boolean getAsBoolean() {
 		return this.value.getAsBoolean();
 	}
 	
+	/**
+	 * @return The value of the {@link PropertyJson property json} as a number using {@link JsonObject#getAsNumber()}
+	 */
 	@Override
 	public Number getAsNumber() {
 		return this.value.getAsNumber();
 	}
 	
+	/**
+	 * @return The value of the {@link PropertyJson property json} as an integer using {@link JsonObject#getAsInt()}
+	 */
 	@Override
 	public int getAsInt() {
 		return this.value.getAsInt();
 	}
 	
+	/**
+	 * @return The value of the {@link PropertyJson property json} as a long using {@link JsonObject#getAsLong()}
+	 */
 	@Override
 	public long getAsLong() {
 		return this.value.getAsLong();
 	}
 	
+	/**
+	 * @return The value of the {@link PropertyJson property json} as a double using {@link JsonObject#getAsDouble()}
+	 */
 	@Override
 	public double getAsDouble() {
 		return this.value.getAsDouble();
 	}
 	
+	/**
+	 * @return The value of the {@link PropertyJson property json} as a string using {@link JsonObject#getAsString()}
+	 */
 	@Override
 	public String getAsString() {
 		return this.value.getAsString();
 	}
 	
+	/**
+	 * @return The value of the {@link PropertyJson property json} as a json object
+	 */
 	@Override
 	public JsonObject getAsJson() {
 		return this.value;

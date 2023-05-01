@@ -1,9 +1,11 @@
 package net.luis.data.properties.exception;
 
 /**
+ * Exception thrown when an error occurs which is related to properties
+ *
+ * @see RuntimeException
  *
  * @author Luis-St
- *
  */
 
 public class PropertyException extends RuntimeException {

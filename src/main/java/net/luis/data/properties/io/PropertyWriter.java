@@ -10,6 +10,7 @@ import java.util.List;
 import java.util.Objects;
 
 /**
+ * A writer for {@link Property} objects to write them to a file
  *
  * @author Luis-St
  *
@@ -19,18 +20,36 @@ public class PropertyWriter extends AbstractWriter<PropertyConfig> {
 	
 	private static final List<String> ALLOWED_EXTENSIONS = List.of("props", "properties", "cfg", "conf", "config", "configuration", "ini", "settings", "prefs", "preferences");
 	
+	/**
+	 * Constructs a new {@link PropertyWriter} with the default {@link PropertyConfig property config}
+	 * @param file The file to write to as a string
+	 */
 	public PropertyWriter(String file) {
 		super(file, PropertyConfig.DEFAULT);
 	}
 	
+	/**
+	 * Constructs a new {@link PropertyWriter} with the default {@link PropertyConfig property config}
+	 * @param file The file to write to
+	 */
 	public PropertyWriter(File file) {
 		super(file, PropertyConfig.DEFAULT);
 	}
 	
+	/**
+	 * Constructs a new {@link PropertyWriter} with the given {@link PropertyConfig property config}
+	 * @param file The file to write to as a string
+	 * @param config The {@link PropertyConfig property config} to use
+	 */
 	public PropertyWriter(String file, PropertyConfig config) {
 		super(file, config);
 	}
 	
+	/**
+	 * Constructs a new {@link PropertyWriter} with the given {@link PropertyConfig property config}
+	 * @param file The file to write to
+	 * @param config The {@link PropertyConfig property config} to use
+	 */
 	public PropertyWriter(File file, PropertyConfig config) {
 		super(file, config);
 	}
@@ -40,6 +59,13 @@ public class PropertyWriter extends AbstractWriter<PropertyConfig> {
 		return !ALLOWED_EXTENSIONS.contains(extension);
 	}
 	
+	/**
+	 * Writes a comment to the file
+	 * @param comment The comment to write
+	 * @throws NullPointerException If the comment is null
+	 * @throws UnsupportedOperationException If comments are not allowed in the {@link PropertyConfig property config}
+	 * @throws RuntimeException If an error occurs while writing the comment to the file
+	 */
 	public void writeComment(String comment) {
 		Objects.requireNonNull(comment, "Comment must not be null");
 		if (this.config.allowComments()) {
@@ -56,6 +82,13 @@ public class PropertyWriter extends AbstractWriter<PropertyConfig> {
 		}
 	}
 	
+	/**
+	 * Writes a {@link Property} to the file
+	 * @param property The property to write
+	 * @throws NullPointerException If the property is null
+	 * @throws IllegalArgumentException If the property key or value is invalid
+	 * @throws RuntimeException If an error occurs while writing the property to the file
+	 */
 	public void write(Property property) {
 		Objects.requireNonNull(property, "Property must not be null");
 		String key = Objects.requireNonNull(property.getKey(), "Property key must not be null");

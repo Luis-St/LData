@@ -6,15 +6,21 @@ import org.jetbrains.annotations.NotNull;
 import java.util.Objects;
 
 /**
+ * Property that represents a number value
  *
  * @author Luis-St
- *
  */
 
 public final class PropertyNumber extends PropertyPrimitive {
 	
 	private final Number value;
 	
+	/**
+	 * Constructs a new property number with the given key and value
+	 * @param key The key of the property number
+	 * @param value The value of the property number
+	 * @throws NullPointerException If the key or value is null
+	 */
 	public PropertyNumber(String key, Number value) {
 		super(key);
 		this.value = Objects.requireNonNull(value, "Number must not be null");
@@ -51,12 +57,18 @@ public final class PropertyNumber extends PropertyPrimitive {
 		return this.value.doubleValue();
 	}
 	
+	/**
+	 * @return The value of the {@link PropertyNumber property number} as a string
+	 */
 	@Override
 	public String getAsString() {
 		String value = Double.toString(this.getAsDouble());
 		return value.endsWith(".0") ? value.substring(0, value.length() - 2) : value;
 	}
 	
+	/**
+	 * @return The value of the {@link PropertyNumber property number} as a {@link JsonObject json object}
+	 */
 	@Override
 	public JsonObject getAsJson() {
 		JsonObject object = new JsonObject();
@@ -64,11 +76,6 @@ public final class PropertyNumber extends PropertyPrimitive {
 		return object;
 	}
 	//endregion
-	
-	@Override
-	public @NotNull JsonObject toJson() {
-		return new JsonObject(this.getKey(), this.value);
-	}
 	
 	//region Object overrides
 	@Override

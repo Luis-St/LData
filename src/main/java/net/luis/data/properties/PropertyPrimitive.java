@@ -7,22 +7,27 @@ import org.jetbrains.annotations.NotNull;
 import java.util.Objects;
 
 /**
+ * Property that represents a primitive value
  *
  * @author Luis-St
- *
  */
 
 public abstract sealed class PropertyPrimitive implements Property permits PropertyBoolean, PropertyNumber, PropertyString {
 	
 	private final String key;
 	
+	/**
+	 * Constructs a new property primitive with the given key
+	 * @param key The key of the property primitive
+	 * @throws NullPointerException If the key is null
+	 */
 	public PropertyPrimitive(String key) {
 		this.key = Objects.requireNonNull(key, "Property key must not be null");
 	}
 	
 	@Override
 	public final @NotNull String getKey() {
-		return this.key;
+		return this.key.toLowerCase();
 	}
 	
 	//region Property overrides

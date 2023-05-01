@@ -1,6 +1,7 @@
 package net.luis.data.properties.io;
 
 import net.luis.data.common.io.AbstractReader;
+import net.luis.data.json.JsonObject;
 import net.luis.data.json.io.JsonReader;
 import net.luis.data.properties.*;
 import net.luis.data.properties.exception.PropertyReaderIndexOutOfBoundsException;
@@ -16,20 +17,30 @@ import java.util.Optional;
 import java.util.stream.Stream;
 
 /**
+ * A reader for property files which converts them into {@link Property} objects
  *
  * @author Luis-St
- *
  */
 
 public class PropertyReader extends AbstractReader<Property> {
 	
 	private final char delimiter;
 	
+	/**
+	 * Constructs a new {@link PropertyReader} with the given property file and the given delimiter
+	 * @param file The property file to read
+	 * @param delimiter The delimiter to use
+	 */
 	public PropertyReader(File file, char delimiter) {
 		super(file);
 		this.delimiter = delimiter;
 	}
 	
+	/**
+	 * Constructs a new {@link PropertyReader} with the given property string and the given delimiter
+	 * @param value The property string to read
+	 * @param delimiter The delimiter to use
+	 */
 	public PropertyReader(String value, char delimiter) {
 		super(value);
 		this.delimiter = delimiter;
@@ -125,7 +136,7 @@ public class PropertyReader extends AbstractReader<Property> {
 		char last = value.charAt(value.length() - 1);
 		String inner = value.substring(1, value.length() - 1);
 		if (first == '{' && last == '}') {
-			return new PropertyJson(key, new JsonReader(value).toJson());
+			return new PropertyJson(key, (JsonObject) new JsonReader(value).toJson());
 		} else if (first == '[' && last == ']') {
 			PropertyArray array = new PropertyArray(key);
 			if (inner.isBlank()) {
