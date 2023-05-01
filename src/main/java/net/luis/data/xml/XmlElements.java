@@ -1,8 +1,6 @@
 package net.luis.data.xml;
 
 import com.google.common.collect.Lists;
-import net.luis.data.json.JsonArray;
-import net.luis.data.json.io.JsonSerializable;
 import net.luis.data.xml.exception.XmlException;
 import org.jetbrains.annotations.ApiStatus;
 import org.jetbrains.annotations.NotNull;
@@ -17,7 +15,7 @@ import java.util.Objects;
  *
  */
 
-public final class XmlElements implements Iterable<XmlElement>, JsonSerializable<JsonArray> {
+public final class XmlElements implements Iterable<XmlElement> {
 	
 	private final List<String> elementNames = Lists.newArrayList();
 	private final List<XmlElement> elements = Lists.newArrayList();
@@ -94,13 +92,6 @@ public final class XmlElements implements Iterable<XmlElement>, JsonSerializable
 	
 	public @NotNull Iterator<XmlElement> iterator() {
 		return this.elements.iterator();
-	}
-	
-	@Override
-	public @NotNull JsonArray toJson() {
-		JsonArray array = new JsonArray();
-		this.elements.forEach(element -> array.add(element.toJson()));
-		return array;
 	}
 	
 	//region Object overrides
