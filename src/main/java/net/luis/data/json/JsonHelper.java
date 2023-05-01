@@ -10,9 +10,22 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Objects;
 
+/**
+ * Helper class for {@link Json json}
+ *
+ * @author Luis-St
+ */
+
 @ApiStatus.Internal
 class JsonHelper {
 	
+	/**
+	 * Returns the correct indent for the given {@link Json json} using the given {@link JsonConfig config}
+	 * @param json The json
+	 * @param config The config to use
+	 * @param separator The separator between the json and the indent
+	 * @return A string with the correct indent
+	 */
 	static @NotNull String correctIndents(Json json, JsonConfig config, String separator) {
 		//region Validation
 		Objects.requireNonNull(json, "Json must not be null");
@@ -33,6 +46,12 @@ class JsonHelper {
 		return config.indent() + separator + json.toString(config);
 	}
 	
+	/**
+	 * Returns true if the given {@link Collection collection} of {@link Json json} contains only primitives
+	 * @param collection The collection to check
+	 * @param configValue The {@link JsonConfig json config} value
+	 * @return Whether the json collection can be simplified
+	 */
 	static boolean canBeSimplified(Collection<Json> collection, boolean configValue) {
 		if (!configValue) {
 			return false;
@@ -46,6 +65,13 @@ class JsonHelper {
 		return true;
 	}
 	
+	/**
+	 * Returns the given string with quotes if the given {@link JsonConfig config} allows it and the string is not already quoted
+	 * @param json The json string to quote
+	 * @param config The config to use
+	 * @return The quoted string
+	 * @throws JsonException If the given string is already quoted and the config does not allow it
+	 */
 	static @NotNull String quote(String json, JsonConfig config) {
 		//region Validation
 		Objects.requireNonNull(json, "Json string must not be null");

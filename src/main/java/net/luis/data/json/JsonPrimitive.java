@@ -3,9 +3,13 @@ package net.luis.data.json;
 import net.luis.data.json.exception.JsonException;
 
 /**
+ * Json element that represents a json primitive
+ *
+ * @see JsonBoolean
+ * @see JsonNumber
+ * @see JsonString
  *
  * @author Luis-St
- *
  */
 
 public abstract sealed class JsonPrimitive implements Json permits JsonBoolean, JsonNumber, JsonString {

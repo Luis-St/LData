@@ -16,19 +16,30 @@ import java.util.Optional;
 import java.util.Stack;
 
 /**
+ * A reader for json strings which converts them into {@link Json json} objects
+ *
+ * @see Json
+ * @see AbstractReader
  *
  * @author Luis-St
- *
  */
 
 public class JsonReader extends AbstractReader<Json> implements JsonSerializable<Json> {
 	
 	private final JsonType type;
 	
+	/**
+	 * Constructs a new {@link JsonReader} with the given json file
+	 * @param file The json file to read
+	 */
 	public JsonReader(File file) {
 		this(FileHelper.read(file));
 	}
 	
+	/**
+	 * Constructs a new {@link JsonReader} with the given json string
+	 * @param json The json string to read
+	 */
 	public JsonReader(String json) {
 		super(json);
 		this.type = this.value().isEmpty() ? JsonType.OBJECT : getType(this.value().charAt(0), this.value().charAt(this.value().length() - 1));

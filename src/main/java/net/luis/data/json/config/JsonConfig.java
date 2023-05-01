@@ -1,6 +1,7 @@
 package net.luis.data.json.config;
 
 import net.luis.data.common.config.DataConfig;
+import net.luis.data.json.io.JsonWriter;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Objects;
@@ -8,20 +9,28 @@ import java.util.Objects;
 /**
  * Json configuration which is use to write json to file
  *
- * @author Luis-St
+ * @see JsonWriter
  *
- * @param prettyPrint Whether to pretty print the json
- * @param indent The indent to use when pretty printing
- * @param simplifyPrimitiveArrays Whether to simplify arrays which only contain primitive values into a single line
- * @param simplifyPrimitiveObjects Whether to simplify objects which only contain primitive values into a single line
- * @param allowBlankKeys Whether to allow blank keys in json objects
- * @param allowQuotedStrings Whether to allow quoted strings in json strings
- * @param allowCustomExtensions Whether to allow writing into none json files
+ * @author Luis-St
  */
 public record JsonConfig(boolean prettyPrint, String indent, boolean simplifyPrimitiveArrays, boolean simplifyPrimitiveObjects, boolean allowBlankKeys, boolean allowQuotedStrings, boolean allowCustomExtensions) implements DataConfig {
 	
 	public static final JsonConfig DEFAULT = new JsonConfig(true, "\t", false, false, true, false, false);
 	
+	/**
+	 * Constructs a new {@link JsonConfig json configuration}
+	 * @param prettyPrint Whether to pretty print the json.
+	 *                    If pretty printing is enabled, the json will be written with newlines and indents
+	 * @param indent The indent to use when pretty printing.
+	 *               The indent must only contain whitespace characters
+	 * @param simplifyPrimitiveArrays Whether to simplify arrays which only contain primitive values into a single line
+	 * @param simplifyPrimitiveObjects Whether to simplify objects which only contain primitive values into a single line
+	 * @param allowBlankKeys Whether to allow blank keys in json objects
+	 * @param allowQuotedStrings Whether to allow quoted strings in json strings like "Hello World"
+	 * @param allowCustomExtensions Whether to allow writing into none json files like .txt files
+	 * @throws NullPointerException If the indent is null
+	 * @throws IllegalArgumentException If the indent is not whitespace characters only
+	 */
 	public JsonConfig {
 		Objects.requireNonNull(indent, "Json indent cannot be null");
 		if (!indent.isBlank()) {

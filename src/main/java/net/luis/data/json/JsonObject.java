@@ -12,9 +12,9 @@ import java.io.File;
 import java.util.*;
 
 /**
+ * Json element that represents a json object
  *
  * @author Luis-St
- *
  */
 
 public final class JsonObject implements Json, Iterable<Map.Entry<String, Json>>, Writable<JsonWriter> {
@@ -22,26 +22,54 @@ public final class JsonObject implements Json, Iterable<Map.Entry<String, Json>>
 	private final Map<String, Json> elements = Maps.newTreeMap();
 	
 	//region Constructors
+	/**
+	 * Constructs a new empty json object
+	 */
 	public JsonObject() {
 		super();
 	}
 	
+	/**
+	 * Constructs a new json object with the given json element
+	 * @param key The key of the element
+	 * @param value The value of the element
+	 */
 	public JsonObject(String key, Json value) {
 		this.add(key, value);
 	}
 	
+	/**
+	 * Constructs a new json object with the given string value
+	 * @param key The key of the element
+	 * @param value The string value
+	 */
 	public JsonObject(String key, String value) {
 		this.add(key, value);
 	}
 	
+	/**
+	 * Constructs a new json object with the given number value
+	 * @param key The key of the element
+	 * @param value The number value
+	 */
 	public JsonObject(String key, Number value) {
 		this.add(key, value);
 	}
 	
+	/**
+	 * Constructs a new json object with the given boolean value
+	 * @param key The key of the element
+	 * @param value The boolean value
+	 */
 	public JsonObject(String key, boolean value) {
 		this.add(key, value);
 	}
 	
+	/**
+	 * Constructs a new json object with the given json object value
+	 * @param key The key of the element
+	 * @param value The json object value
+	 */
 	public JsonObject(String key, JsonObject value) {
 		this.add(key, value);
 	}
@@ -74,44 +102,103 @@ public final class JsonObject implements Json, Iterable<Map.Entry<String, Json>>
 	}
 	
 	//region Adders
+	/**
+	 * Adds the given json element to this json object
+	 * @param key The key of the element
+	 * @param value The json element
+	 * @throws NullPointerException If the key is null
+	 * @throws IllegalArgumentException If the key is empty
+	 */
 	public void add(String key, Json value) {
 		this.elements.put(validateKey(key), value == null ? JsonNull.INSTANCE : value);
 	}
 	
+	/**
+	 * Adds the given string value to this json object as a {@link JsonString json string}
+	 * @param key The key of the element
+	 * @param value The string value
+	 * @throws NullPointerException If the key is null
+	 * @throws IllegalArgumentException If the key is empty
+	 */
 	public void add(String key, String value) {
 		this.elements.put(validateKey(key), value == null ? JsonNull.INSTANCE : new JsonString(value));
 	}
 	
+	/**
+	 * Adds the given number value to this json object as a {@link JsonNumber json number}
+	 * @param key The key of the element
+	 * @param value The number value
+	 * @throws NullPointerException If the key is null
+	 * @throws IllegalArgumentException If the key is empty
+	 */
 	public void add(String key, Number value) {
 		this.elements.put(validateKey(key), value == null ? JsonNull.INSTANCE : new JsonNumber(value));
 	}
 	
+	/**
+	 * Adds the given boolean value to this json object as a {@link JsonBoolean json boolean}
+	 * @param key The key of the element
+	 * @param value The boolean value
+	 * @throws NullPointerException If the key is null
+	 * @throws IllegalArgumentException If the key is empty
+	 */
 	public void add(String key, boolean value) {
 		this.elements.put(validateKey(key), new JsonBoolean(value));
 	}
 	
+	/**
+	 * Adds the given json array to this json object
+	 * @param key The key of the element
+	 * @param value The json array
+	 * @throws NullPointerException If the key is null
+	 * @throws IllegalArgumentException If the key is empty
+	 */
+	public void add(String key, JsonArray value) {
+		this.elements.put(validateKey(key), value == null ? JsonNull.INSTANCE : value);
+	}
+	
+	/**
+	 * Adds the given json object to this json object
+	 * @param key The key of the element
+	 * @param value The json object
+	 * @throws NullPointerException If the key is null
+	 * @throws IllegalArgumentException If the key is empty
+	 */
 	public void add(String key, JsonObject value) {
 		this.elements.put(validateKey(key), value == null ? JsonNull.INSTANCE : value);
 	}
 	//endregion
 	
-	public void add(String key, JsonArray value) {
-		this.elements.put(validateKey(key), value == null ? JsonNull.INSTANCE : value);
-	}
-	
+	/**
+	 * @return The number of elements in this json object
+	 */
 	public int size() {
 		return this.elements.size();
 	}
 	
+	/**
+	 * @return The keys of the elements in this json object as an unmodifiable set
+	 */
 	public @NotNull Set<String> keySet() {
 		return this.elements.keySet();
 	}
 	
+	/**
+	 * Checks if this json object contains an element with the given key
+	 * @param key The key to check
+	 * @return True if this json object contains an element with the given key, false otherwise
+	 */
 	public boolean has(String key) {
 		return this.elements.containsKey(key);
 	}
 	
 	//region Getters
+	/**
+	 * Gets the json element with the given key
+	 * @param key The key of the element
+	 * @return The json element
+	 * @throws JsonException If this json object does not contain an element with the given key
+	 */
 	public Json get(String key) {
 		if (this.has(key)) {
 			return this.elements.get(key);
@@ -119,6 +206,12 @@ public final class JsonObject implements Json, Iterable<Map.Entry<String, Json>>
 		throw new JsonException("No such json key: " + key);
 	}
 	
+	/**
+	 * Gets the json element with the given key as a {@link JsonArray json array}
+	 * @param key The key of the element
+	 * @return The json array
+	 * @throws JsonException If this json object does not contain an element with the given key
+	 */
 	public JsonArray getAsArray(String key) {
 		if (this.has(key)) {
 			return this.get(key).getAsArray();
@@ -126,6 +219,12 @@ public final class JsonObject implements Json, Iterable<Map.Entry<String, Json>>
 		throw new JsonException("No such json key: " + key);
 	}
 	
+	/**
+	 * Gets the json element with the given key as a {@link JsonPrimitive json primitive}
+	 * @param key The key of the element
+	 * @return The json primitive
+	 * @throws JsonException If this json object does not contain an element with the given key
+	 */
 	public JsonPrimitive getAsPrimitive(String key) {
 		if (this.has(key)) {
 			return this.get(key).getAsPrimitive();
@@ -133,6 +232,12 @@ public final class JsonObject implements Json, Iterable<Map.Entry<String, Json>>
 		throw new JsonException("No such json key: " + key);
 	}
 	
+	/**
+	 * Gets the json element with the given key as a {@link JsonObject json object}
+	 * @param key The key of the element
+	 * @return The json object
+	 * @throws JsonException If this json object does not contain an element with the given key
+	 */
 	public JsonObject getAsObject(String key) {
 		if (this.has(key)) {
 			return this.get(key).getAsObject();

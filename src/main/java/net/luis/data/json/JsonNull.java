@@ -4,13 +4,16 @@ import net.luis.data.json.config.JsonConfig;
 import org.jetbrains.annotations.NotNull;
 
 /**
+ * Json element that represents a null value
  *
  * @author Luis-St
- *
  */
 
 public final class JsonNull implements Json {
 	
+	/**
+	 * The only instance of {@code JsonNull json null}
+	 */
 	public static final JsonNull INSTANCE = new JsonNull();
 	
 	private JsonNull() {

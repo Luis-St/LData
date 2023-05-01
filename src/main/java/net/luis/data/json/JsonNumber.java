@@ -6,15 +6,20 @@ import org.jetbrains.annotations.NotNull;
 import java.util.Objects;
 
 /**
+ * Json element that represents a number
  *
  * @author Luis-St
- *
  */
 
 public final class JsonNumber extends JsonPrimitive {
 	
 	private final Number value;
 	
+	/**
+	 * Constructs a {@link JsonNumber json number} with the given value
+	 * @param value The value of the json number
+	 * @throws NullPointerException If the value is null
+	 */
 	public JsonNumber(Number value) {
 		this.value = Objects.requireNonNull(value);
 	}
@@ -50,6 +55,9 @@ public final class JsonNumber extends JsonPrimitive {
 		return this.value.doubleValue();
 	}
 	
+	/**
+	 * @return The value of the {@link JsonNumber json number} as a string
+	 */
 	@Override
 	public String getAsString() {
 		String value = Double.toString(this.getAsDouble());

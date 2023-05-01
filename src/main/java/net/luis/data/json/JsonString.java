@@ -7,15 +7,20 @@ import org.jetbrains.annotations.NotNull;
 import java.util.Objects;
 
 /**
+ * Json element that represents a string
  *
  * @author Luis-St
- *
  */
 
 public final class JsonString extends JsonPrimitive {
 	
 	private final String value;
 	
+	/**
+	 * Constructs a new {@link JsonString json string} with the given value
+	 * @param value The value of the json string
+	 *              If the value is null, it will be converted to an empty string
+	 */
 	public JsonString(String value) {
 		this.value = StringUtils.defaultString(value);
 	}
@@ -31,31 +36,49 @@ public final class JsonString extends JsonPrimitive {
 	}
 	
 	//region Getters
+	/**
+	 * @return The value of the {@link JsonString json string} as a boolean using {@link Boolean#parseBoolean(String)}
+	 */
 	@Override
 	public boolean getAsBoolean() {
 		return Boolean.parseBoolean(this.value);
 	}
 	
+	/**
+	 * @return The value of the {@link JsonString json string} as a number using {@link Double#parseDouble(String)}
+	 */
 	@Override
 	public Number getAsNumber() {
 		return this.getAsDouble();
 	}
 	
+	/**
+	 * @return The value of the {@link JsonString json string} as a int using {@link Integer#parseInt(String)}
+	 */
 	@Override
 	public int getAsInt() {
 		return Integer.parseInt(this.value);
 	}
 	
+	/**
+	 * @return The value of the {@link JsonString json string} as a long using {@link Long#parseLong(String)}
+	 */
 	@Override
 	public long getAsLong() {
 		return Long.parseLong(this.value);
 	}
 	
+	/**
+	 * @return The value of the {@link JsonString json string} as a double using {@link Double#parseDouble(String)}
+	 */
 	@Override
 	public double getAsDouble() {
 		return Double.parseDouble(this.value);
 	}
 	
+	/**
+	 * @return The value of the {@link JsonString json string}
+	 */
 	@Override
 	public String getAsString() {
 		return this.value;

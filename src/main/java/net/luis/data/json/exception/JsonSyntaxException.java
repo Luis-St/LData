@@ -1,9 +1,11 @@
 package net.luis.data.json.exception;
 
 /**
+ * Exception thrown when an error occurs which is related to json syntax
  *
  * @author Luis-St
  *
+ * @see JsonException
  */
 
 public class JsonSyntaxException extends JsonException {
