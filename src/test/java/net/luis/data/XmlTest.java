@@ -5,16 +5,12 @@ import net.luis.data.xml.XmlElement;
 import net.luis.data.xml.config.XmlConfig;
 import net.luis.data.xml.io.XmlReader;
 import net.luis.data.xml.io.XmlWriter;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 
 public class XmlTest {
-	
-	private static final Logger LOGGER = LogManager.getLogger(XmlTest.class);
 	
 	public static void main(String[] args) throws IOException {
 		XmlReader reader = new XmlReader(new File("src/main/resources/test.xml"));
@@ -31,9 +27,9 @@ public class XmlTest {
 	}
 	
 	private static void log(XmlElement element, int depth) {
-		LOGGER.info("\t".repeat(depth) + element);
+		System.out.println("\t".repeat(depth) + element);
 		for (XmlAttribute attribute : element.getAttributes()) {
-			LOGGER.info("\t".repeat(depth + 1) + attribute);
+			System.out.println("\t".repeat(depth + 1) + attribute);
 		}
 		for (XmlElement child : element.getElements()) {
 			log(child, depth + 1);
