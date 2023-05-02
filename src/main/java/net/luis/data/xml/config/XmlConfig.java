@@ -1,6 +1,7 @@
 package net.luis.data.xml.config;
 
 import net.luis.data.common.config.DataConfig;
+import net.luis.data.xml.io.XmlWriter;
 import org.jetbrains.annotations.NotNull;
 
 import java.nio.charset.Charset;
@@ -8,15 +9,29 @@ import java.nio.charset.StandardCharsets;
 import java.util.Objects;
 
 /**
+ * Xml configuration which is use to write xml to file
+ *
+ * @see XmlWriter
  *
  * @author Luis-St
- *
  */
 
 public record XmlConfig(Charset encoding, boolean prettyPrint, String indent, boolean allowAttributes, boolean allowCustomExtensions) implements DataConfig {
 	
 	public static final XmlConfig DEFAULT = new XmlConfig(StandardCharsets.UTF_8, true, "\t", true, false);
 	
+	/**
+	 * Constructs a new {@link XmlConfig}
+	 * @param encoding The encoding to use to write the xml
+	 * @param prettyPrint Whether to pretty print the xml.
+	 *                    If pretty printing is enabled, the xml will be written with newlines and indents
+	 * @param indent The indent to use when pretty printing.
+	 *               The indent must only contain whitespace characters
+	 * @param allowAttributes Whether to allow attributes in xml elements
+	 * @param allowCustomExtensions Whether to allow writing into none xml files like .txt files
+	 * @throws NullPointerException If the indent is null
+	 * @throws IllegalArgumentException If the indent is not whitespace characters only
+	 */
 	public XmlConfig {
 		Objects.requireNonNull(indent, "Xml indent cannot be null");
 		if (!indent.isBlank()) {
@@ -24,14 +39,24 @@ public record XmlConfig(Charset encoding, boolean prettyPrint, String indent, bo
 		}
 	}
 	
+	/**
+	 * @return A new {@link XmlConfig.Builder} with the default configuration
+	 */
 	public static @NotNull XmlConfig.Builder builder() {
 		return builder(DEFAULT);
 	}
 	
+	/**
+	 * @param baseConfig The base configuration to use
+	 * @return A new {@link XmlConfig.Builder} with the given base configuration
+	 */
 	public static @NotNull XmlConfig.Builder builder(XmlConfig baseConfig) {
 		return new XmlConfig.Builder(baseConfig);
 	}
 	
+	/**
+	 * @return False as xml does not support appending
+	 */
 	@Override
 	public boolean allowAppend() {
 		return false;

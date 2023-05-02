@@ -1,6 +1,5 @@
 package net.luis.data;
 
-import net.luis.data.properties.ObjectProperty;
 import net.luis.data.properties.Properties;
 import net.luis.data.properties.Property;
 import net.luis.data.properties.PropertyString;

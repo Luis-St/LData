@@ -21,9 +21,12 @@ import java.util.List;
 import java.util.Objects;
 
 /**
+ * A reader for xml files which converts them into {@link XmlElement} objects
+ *
+ * @see XmlElement
+ * @see Reader
  *
  * @author Luis-St
- *
  */
 
 public class XmlReader implements Reader<XmlElement>, XmlSerializable {
@@ -34,10 +37,18 @@ public class XmlReader implements Reader<XmlElement>, XmlSerializable {
 	private final List<Node> nodes;
 	private int index;
 	
+	/**
+	 * Constructs a new {@link XmlReader} with the given xml file
+	 * @param path The path to the xml file to read as a string
+	 */
 	public XmlReader(String path) {
 		this(new File(path));
 	}
 	
+	/**
+	 * Constructs a new {@link XmlReader} with the given xml file
+	 * @param file The xml file to read
+	 */
 	public XmlReader(File file) {
 		try {
 			//region XPath creation
