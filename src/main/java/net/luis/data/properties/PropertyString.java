@@ -39,7 +39,7 @@ public final class PropertyString extends PropertyPrimitive {
 	//region Getters
 	
 	/**
-	 * @return The value of the {@link PropertyString property string} as a boolean using {@link Boolean#parseBoolean(String)}
+	 * @return The value of the {@link PropertyString} as a boolean using {@link Boolean#parseBoolean(String)}
 	 */
 	@Override
 	public boolean getAsBoolean() {
@@ -47,7 +47,7 @@ public final class PropertyString extends PropertyPrimitive {
 	}
 	
 	/**
-	 * @return The value of the {@link PropertyString property string} as a number using {@link Double#parseDouble(String)}
+	 * @return The value of the {@link PropertyString} as a number using {@link Double#parseDouble(String)}
 	 */
 	@Override
 	public Number getAsNumber() {
@@ -55,7 +55,7 @@ public final class PropertyString extends PropertyPrimitive {
 	}
 	
 	/**
-	 * @return The value of the {@link PropertyString property string} as a int using {@link Integer#parseInt(String)}
+	 * @return The value of the {@link PropertyString} as a int using {@link Integer#parseInt(String)}
 	 */
 	@Override
 	public int getAsInt() {
@@ -63,7 +63,7 @@ public final class PropertyString extends PropertyPrimitive {
 	}
 	
 	/**
-	 * @return The value of the {@link PropertyString property string} as a long using {@link Long#parseLong(String)}
+	 * @return The value of the {@link PropertyString} as a long using {@link Long#parseLong(String)}
 	 */
 	@Override
 	public long getAsLong() {
@@ -71,7 +71,7 @@ public final class PropertyString extends PropertyPrimitive {
 	}
 	
 	/**
-	 * @return The value of the {@link PropertyString property string} as a double using {@link Double#parseDouble(String)}
+	 * @return The value of the {@link PropertyString} as a double using {@link Double#parseDouble(String)}
 	 */
 	@Override
 	public double getAsDouble() {
@@ -79,7 +79,7 @@ public final class PropertyString extends PropertyPrimitive {
 	}
 	
 	/**
-	 * @return The value of the {@link PropertyString property string}
+	 * @return The value of the {@link PropertyString}
 	 */
 	@Override
 	public String getAsString() {

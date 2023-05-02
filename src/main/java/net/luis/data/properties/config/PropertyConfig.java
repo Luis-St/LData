@@ -1,6 +1,7 @@
 package net.luis.data.properties.config;
 
 import net.luis.data.common.config.DataConfig;
+import net.luis.data.properties.io.PropertyWriter;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Objects;
@@ -8,14 +9,17 @@ import java.util.Objects;
 /**
  * Property configuration which is use to write properties to file
  *
+ * @see PropertyWriter
+ *
  * @author Luis-St
  */
+
 public record PropertyConfig(char delimiter, boolean prettyPrint, boolean allowAppend, boolean allowComments, boolean allowEmptyValues, boolean allowEscapedDelimiter, boolean allowCustomExtensions) implements DataConfig {
 	
 	public static final PropertyConfig DEFAULT = new PropertyConfig('=', true, false, true, true, true, false);
 	
 	/**
-	 * Constructs a new {@link PropertyConfig property configuration}
+	 * Constructs a new {@link PropertyConfig}
 	 * @param delimiter The delimiter to separate the key and the value of a property.
 	 *                  The delimiter cannot be a whitespace character, a backslash, a hash or a dot
 	 * @param prettyPrint Whether to pretty print the properties

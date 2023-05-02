@@ -13,7 +13,7 @@ import java.util.Objects;
 public record PropertyNull(String getKey) implements Property {
 	
 	/**
-	 * Constructs a new {@link PropertyNull property null}
+	 * Constructs a new {@link PropertyNull}
 	 * @param getKey The key of the property
 	 * @throws NullPointerException If the key is null
 	 */

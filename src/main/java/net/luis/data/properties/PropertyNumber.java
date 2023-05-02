@@ -58,7 +58,7 @@ public final class PropertyNumber extends PropertyPrimitive {
 	}
 	
 	/**
-	 * @return The value of the {@link PropertyNumber property number} as a string
+	 * @return The value of the {@link PropertyNumber} as a string
 	 */
 	@Override
 	public String getAsString() {
@@ -67,7 +67,7 @@ public final class PropertyNumber extends PropertyPrimitive {
 	}
 	
 	/**
-	 * @return The value of the {@link PropertyNumber property number} as a {@link JsonObject json object}
+	 * @return The value of the {@link PropertyNumber} as a {@link JsonObject}
 	 */
 	@Override
 	public JsonObject getAsJson() {

@@ -41,15 +41,15 @@ public sealed interface Property permits CommentedProperty, ObjectProperty, Prop
 	//region PropertyArray
 	
 	/**
-	 * @return True if the Property is a {@link PropertyArray property array}
+	 * @return True if the Property is a {@link PropertyArray}
 	 */
 	default boolean isArray() {
 		return this instanceof PropertyArray;
 	}
 	
 	/**
-	 * @return The Property as a {@link PropertyArray property array}
-	 * @throws PropertyException If the Property is not a {@link PropertyArray property array}
+	 * @return The Property as a {@link PropertyArray}
+	 * @throws PropertyException If the Property is not a {@link PropertyArray}
 	 */
 	default PropertyArray getAsArray() {
 		if (this.isArray()) {
@@ -60,16 +60,17 @@ public sealed interface Property permits CommentedProperty, ObjectProperty, Prop
 	//endregion
 	
 	//region PropertyPrimitive
+	
 	/**
-	 * @return True if the Property is a {@link PropertyPrimitive property primitive}
+	 * @return True if the Property is a {@link PropertyPrimitive}
 	 */
 	default boolean isPrimitive() {
 		return this instanceof PropertyPrimitive;
 	}
 	
 	/**
-	 * @return The Property as a {@link PropertyPrimitive property primitive}
-	 * @throws PropertyException If the Property is not a {@link PropertyPrimitive property primitive}
+	 * @return The Property as a {@link PropertyPrimitive}
+	 * @throws PropertyException If the Property is not a {@link PropertyPrimitive}
 	 */
 	default PropertyPrimitive getAsPrimitive() {
 		if (this.isPrimitive()) {
@@ -79,69 +80,69 @@ public sealed interface Property permits CommentedProperty, ObjectProperty, Prop
 	}
 	
 	/**
-	 * @return True if the Property is a {@link PropertyBoolean property boolean}
+	 * @return True if the Property is a {@link PropertyBoolean}
 	 */
 	default boolean isBoolean() {
 		throw new PropertyException("Not a property primitive: " + this.getName());
 	}
 	
 	/**
-	 * @return The Property as a {@link Boolean boolean}
-	 * @throws PropertyException If the Property is not a {@link PropertyBoolean property boolean}
+	 * @return The Property as a {@link Boolean}
+	 * @throws PropertyException If the Property is not a {@link PropertyBoolean}
 	 */
 	default boolean getAsBoolean() {
 		throw new PropertyException("Not a property primitive: " + this.getName());
 	}
 	
 	/**
-	 * @return True if the Property is a {@link PropertyNumber property number}
+	 * @return True if the Property is a {@link PropertyNumber}
 	 */
 	default boolean isNumber() {
 		throw new PropertyException("Not a property primitive: " + this.getName());
 	}
 	
 	/**
-	 * @return The Property as a {@link Number number}
-	 * @throws PropertyException If the Property is not a {@link PropertyNumber property number}
+	 * @return The Property as a {@link Number}
+	 * @throws PropertyException If the Property is not a {@link PropertyNumber}
 	 */
 	default Number getAsNumber() {
 		throw new PropertyException("Not a property primitive: " + this.getName());
 	}
 	
 	/**
-	 * @return The Property as an {@link Integer integer}
-	 * @throws PropertyException If the Property is not a {@link PropertyNumber property number}
+	 * @return The Property as an {@link Integer}
+	 * @throws PropertyException If the Property is not a {@link PropertyNumber}
 	 */
 	default int getAsInt() {
 		throw new PropertyException("Not a property number: " + this.getName());
 	}
 	
 	/**
-	 * @return The property as a {@link Long long}
-	 * @throws PropertyException If the Property is not a {@link PropertyNumber property number}
+	 * @return The property as a {@link Long}
+	 * @throws PropertyException If the Property is not a {@link PropertyNumber}
 	 */
 	default long getAsLong() {
 		throw new PropertyException("Not a property number: " + this.getName());
 	}
 	
 	/**
-	 * @return The property as a {@link Double double}
-	 * @throws PropertyException If the Property is not a {@link PropertyNumber property number}
+	 * @return The property as a {@link Double}
+	 * @throws PropertyException If the Property is not a {@link PropertyNumber}
 	 */
 	default double getAsDouble() {
 		throw new PropertyException("Not a property number: " + this.getName());
 	}
 	
 	/**
-	 * @return True if the Property is a {@link PropertyString property string}
+	 * @return True if the Property is a {@link PropertyString}
 	 */
 	default boolean isString() {
 		throw new PropertyException("Not a property primitive: " + this.getName());
 	}
 	
 	/**
-	 * @return The Property as a {@link String string}
-	 * @throws PropertyException If the Property is not a {@link PropertyString property string}
+	 * @return The Property as a {@link String}
+	 * @throws PropertyException If the Property is not a {@link PropertyString}
 	 */
 	default String getAsString() {
 		throw new PropertyException("Not a property primitive: " + this.getName());
@@ -151,15 +152,15 @@ public sealed interface Property permits CommentedProperty, ObjectProperty, Prop
 	//region PropertyJson
 	
 	/**
-	 * @return True if the Property is a {@link PropertyJson property json}
+	 * @return True if the Property is a {@link PropertyJson}
 	 */
 	default boolean isJson() {
 		return this instanceof PropertyJson;
 	}
 	
 	/**
-	 * @return The Property as a {@link PropertyJson property json}
-	 * @throws PropertyException If the Property is not a {@link PropertyJson property json}
+	 * @return The Property as a {@link PropertyJson}
+	 * @throws PropertyException If the Property is not a {@link PropertyJson}
 	 */
 	default JsonObject getAsJson() {
 		throw new PropertyException("Not a property json: " + this.getName());
@@ -196,15 +197,15 @@ public sealed interface Property permits CommentedProperty, ObjectProperty, Prop
 	//region CommentedProperty
 	
 	/**
-	 * @return True if the Property is a {@link CommentedProperty commented property}
+	 * @return True if the Property is a {@link CommentedProperty}
 	 */
 	default boolean isCommented() {
 		return this instanceof CommentedProperty;
 	}
 	
 	/**
-	 * @return The Property as a {@link CommentedProperty commented property}
-	 * @throws PropertyException If the Property is not a {@link CommentedProperty commented property}
+	 * @return The Property as a {@link CommentedProperty}
+	 * @throws PropertyException If the Property is not a {@link CommentedProperty}
 	 */
 	default CommentedProperty getAsCommented() {
 		if (this.isCommented()) {

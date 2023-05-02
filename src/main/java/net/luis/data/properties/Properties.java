@@ -44,7 +44,7 @@ public class Properties implements Iterable<Property>, Writable<PropertyWriter> 
 	}
 	
 	/**
-	 * Checks if the properties collection contains the given {@link Property property}
+	 * Checks if the properties collection contains the given {@link Property}
 	 * @param property The property to check
 	 * @return True if the properties collection contains the given property
 	 */
@@ -148,7 +148,7 @@ public class Properties implements Iterable<Property>, Writable<PropertyWriter> 
 	}
 	
 	/**
-	 * Removes the given {@link Property property} from the properties collection
+	 * Removes the given {@link Property} from the properties collection
 	 * @param property The property to remove
 	 */
 	public void remove(Property property) {
@@ -156,7 +156,7 @@ public class Properties implements Iterable<Property>, Writable<PropertyWriter> 
 	}
 	
 	/**
-	 * Adds the given {@link Property property} to the properties collection
+	 * Adds the given {@link Property} to the properties collection
 	 * @param property The property to add
 	 * @throws NullPointerException If the given property is null
 	 * @throws IllegalArgumentException If a property with the same key already exists

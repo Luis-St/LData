@@ -22,7 +22,7 @@ public final class CommentedProperty implements Property {
 	private final List<String> comments;
 	
 	/**
-	 * Constructs a new {@link CommentedProperty commented property}
+	 * Constructs a new {@link CommentedProperty}
 	 * @param actual The actual property
 	 * @param comment The comment of the property
 	 * @throws NullPointerException If the comment is null
@@ -33,7 +33,7 @@ public final class CommentedProperty implements Property {
 	}
 	
 	/**
-	 * Constructs a new {@link CommentedProperty commented property}
+	 * Constructs a new {@link CommentedProperty}
 	 * @param actual The actual property
 	 * @param comments The comments of the property
 	 * @throws NullPointerException If the comment is null
@@ -67,8 +67,9 @@ public final class CommentedProperty implements Property {
 	}
 	
 	//region Property delegation
+	
 	/**
-	 * @return True if the actual property is a {@link PropertyArray property array}
+	 * @return True if the actual property is a {@link PropertyArray}
 	 */
 	@Override
 	public boolean isArray() {
@@ -76,8 +77,8 @@ public final class CommentedProperty implements Property {
 	}
 	
 	/**
-	 * @return The actual property as an {@link PropertyArray property array}
-	 * @throws PropertyException If the actual property is not a {@link PropertyArray property array}
+	 * @return The actual property as an {@link PropertyArray}
+	 * @throws PropertyException If the actual property is not a {@link PropertyArray}
 	 */
 	@Override
 	public PropertyArray getAsArray() {
@@ -85,7 +86,7 @@ public final class CommentedProperty implements Property {
 	}
 	
 	/**
-	 * @return True if the actual property is a {@link PropertyPrimitive property primitive}
+	 * @return True if the actual property is a {@link PropertyPrimitive}
 	 */
 	@Override
 	public boolean isPrimitive() {
@@ -93,8 +94,8 @@ public final class CommentedProperty implements Property {
 	}
 	
 	/**
-	 * @return The actual property as an {@link PropertyPrimitive property primitive}
-	 * @throws PropertyException If the actual property is not a {@link PropertyPrimitive property primitive}
+	 * @return The actual property as an {@link PropertyPrimitive}
+	 * @throws PropertyException If the actual property is not a {@link PropertyPrimitive}
 	 */
 	@Override
 	public PropertyPrimitive getAsPrimitive() {
@@ -102,7 +103,7 @@ public final class CommentedProperty implements Property {
 	}
 	
 	/**
-	 * @return True if the actual property is an {@link PropertyBoolean property boolean}
+	 * @return True if the actual property is an {@link PropertyBoolean}
 	 */
 	@Override
 	public boolean isBoolean() {
@@ -110,8 +111,8 @@ public final class CommentedProperty implements Property {
 	}
 	
 	/**
-	 * @return The actual property as a {@link Boolean boolean}
-	 * @throws PropertyException If the actual property is not a {@link PropertyBoolean property boolean}
+	 * @return The actual property as a {@link Boolean}
+	 * @throws PropertyException If the actual property is not a {@link PropertyBoolean}
 	 */
 	@Override
 	public boolean getAsBoolean() {
@@ -119,7 +120,7 @@ public final class CommentedProperty implements Property {
 	}
 	
 	/**
-	 * @return True if the actual property is a {@link PropertyNumber property number}
+	 * @return True if the actual property is a {@link PropertyNumber}
 	 */
 	@Override
 	public boolean isNumber() {
@@ -127,8 +128,8 @@ public final class CommentedProperty implements Property {
 	}
 	
 	/**
-	 * @return The actual property as a {@link Number number}
-	 * @throws PropertyException If the actual property is not a {@link PropertyNumber property number}
+	 * @return The actual property as a {@link Number}
+	 * @throws PropertyException If the actual property is not a {@link PropertyNumber}
 	 */
 	@Override
 	public Number getAsNumber() {
@@ -136,8 +137,8 @@ public final class CommentedProperty implements Property {
 	}
 	
 	/**
-	 * @return The actual property as an {@link Integer integer}
-	 * @throws PropertyException If the actual property is not a {@link PropertyNumber property number}
+	 * @return The actual property as an {@link Integer}
+	 * @throws PropertyException If the actual property is not a {@link PropertyNumber}
 	 */
 	@Override
 	public int getAsInt() {
@@ -145,8 +146,8 @@ public final class CommentedProperty implements Property {
 	}
 	
 	/**
-	 * @return The actual property as a {@link Long long}
-	 * @throws PropertyException If the actual property is not a {@link PropertyNumber property number}
+	 * @return The actual property as a {@link Long}
+	 * @throws PropertyException If the actual property is not a {@link PropertyNumber}
 	 */
 	@Override
 	public long getAsLong() {
@@ -154,8 +155,8 @@ public final class CommentedProperty implements Property {
 	}
 	
 	/**
-	 * @return The actual property as a {@link Double double}
-	 * @throws PropertyException If the actual property is not a {@link PropertyNumber property number}
+	 * @return The actual property as a {@link Double}
+	 * @throws PropertyException If the actual property is not a {@link PropertyNumber}
 	 */
 	@Override
 	public double getAsDouble() {
@@ -163,7 +164,7 @@ public final class CommentedProperty implements Property {
 	}
 	
 	/**
-	 * @return True if the actual property is a {@link PropertyString property string}
+	 * @return True if the actual property is a {@link PropertyString}
 	 */
 	@Override
 	public boolean isString() {
@@ -171,8 +172,8 @@ public final class CommentedProperty implements Property {
 	}
 	
 	/**
-	 * @return The actual property as a {@link String string}
-	 * @throws PropertyException If the actual property is not a {@link PropertyString property string}
+	 * @return The actual property as a {@link String}
+	 * @throws PropertyException If the actual property is not a {@link PropertyString}
 	 */
 	@Override
 	public String getAsString() {
@@ -180,7 +181,7 @@ public final class CommentedProperty implements Property {
 	}
 	
 	/**
-	 * @return True if the actual property is a {@link PropertyJson property json}
+	 * @return True if the actual property is a {@link PropertyJson}
 	 */
 	@Override
 	public boolean isJson() {
@@ -188,8 +189,8 @@ public final class CommentedProperty implements Property {
 	}
 	
 	/**
-	 * @return The actual property as a {@link JsonObject json object}
-	 * @throws PropertyException If the actual property is not a {@link PropertyJson property json}
+	 * @return The actual property as a {@link JsonObject}
+	 * @throws PropertyException If the actual property is not a {@link PropertyJson}
 	 */
 	@Override
 	public JsonObject getAsJson() {
@@ -197,7 +198,7 @@ public final class CommentedProperty implements Property {
 	}
 	
 	/**
-	 * @return True if the actual property is a {@link PropertyNull property null}
+	 * @return True if the actual property is a {@link PropertyNull}
 	 */
 	@Override
 	public boolean isNull() {

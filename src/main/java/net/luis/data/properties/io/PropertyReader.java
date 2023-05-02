@@ -19,6 +19,9 @@ import java.util.stream.Stream;
 /**
  * A reader for property files which converts them into {@link Property} objects
  *
+ * @see Property
+ * @see AbstractReader
+ *
  * @author Luis-St
  */
 

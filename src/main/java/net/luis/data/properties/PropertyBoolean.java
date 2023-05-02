@@ -39,7 +39,7 @@ public final class PropertyBoolean extends PropertyPrimitive {
 	//region Getters
 	
 	/**
-	 * @return The value of the {@link PropertyBoolean property boolean}
+	 * @return The value of the {@link PropertyBoolean}
 	 */
 	@Override
 	public boolean getAsBoolean() {
@@ -47,7 +47,7 @@ public final class PropertyBoolean extends PropertyPrimitive {
 	}
 	
 	/**
-	 * @return The value of the {@link PropertyBoolean property boolean} as an integer, 1 if true otherwise 0
+	 * @return The value of the {@link PropertyBoolean} as an integer, 1 if true otherwise 0
 	 */
 	@Override
 	public int getAsInt() {
@@ -55,7 +55,7 @@ public final class PropertyBoolean extends PropertyPrimitive {
 	}
 	
 	/**
-	 * @return The value of the {@link PropertyBoolean property boolean} as a long, 1 if true otherwise 0
+	 * @return The value of the {@link PropertyBoolean} as a long, 1 if true otherwise 0
 	 */
 	@Override
 	public long getAsLong() {
@@ -63,7 +63,7 @@ public final class PropertyBoolean extends PropertyPrimitive {
 	}
 	
 	/**
-	 * @return The value of the {@link PropertyBoolean property boolean} as a string, "true" if true otherwise "false"
+	 * @return The value of the {@link PropertyBoolean} as a string, "true" if true otherwise "false"
 	 */
 	@Override
 	public @NotNull String getAsString() {
@@ -71,7 +71,7 @@ public final class PropertyBoolean extends PropertyPrimitive {
 	}
 	
 	/**
-	 * @return The value of the {@link PropertyBoolean property boolean} as {@link JsonObject json object}
+	 * @return The value of the {@link PropertyBoolean} as {@link JsonObject}
 	 */
 	@Override
 	public @NotNull JsonObject getAsJson() {

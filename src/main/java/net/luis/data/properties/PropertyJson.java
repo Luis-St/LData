@@ -48,7 +48,7 @@ public final class PropertyJson implements Property, JsonSerializable<JsonObject
 	//region Getters
 	
 	/**
-	 * @return The value of the {@link PropertyJson property json} as a boolean using {@link JsonObject#getAsBoolean()}
+	 * @return The value of the {@link PropertyJson} as a boolean using {@link JsonObject#getAsBoolean()}
 	 */
 	@Override
 	public boolean getAsBoolean() {
@@ -56,7 +56,7 @@ public final class PropertyJson implements Property, JsonSerializable<JsonObject
 	}
 	
 	/**
-	 * @return The value of the {@link PropertyJson property json} as a number using {@link JsonObject#getAsNumber()}
+	 * @return The value of the {@link PropertyJson} as a number using {@link JsonObject#getAsNumber()}
 	 */
 	@Override
 	public Number getAsNumber() {
@@ -64,7 +64,7 @@ public final class PropertyJson implements Property, JsonSerializable<JsonObject
 	}
 	
 	/**
-	 * @return The value of the {@link PropertyJson property json} as an integer using {@link JsonObject#getAsInt()}
+	 * @return The value of the {@link PropertyJson} as an integer using {@link JsonObject#getAsInt()}
 	 */
 	@Override
 	public int getAsInt() {
@@ -72,7 +72,7 @@ public final class PropertyJson implements Property, JsonSerializable<JsonObject
 	}
 	
 	/**
-	 * @return The value of the {@link PropertyJson property json} as a long using {@link JsonObject#getAsLong()}
+	 * @return The value of the {@link PropertyJson} as a long using {@link JsonObject#getAsLong()}
 	 */
 	@Override
 	public long getAsLong() {
@@ -80,7 +80,7 @@ public final class PropertyJson implements Property, JsonSerializable<JsonObject
 	}
 	
 	/**
-	 * @return The value of the {@link PropertyJson property json} as a double using {@link JsonObject#getAsDouble()}
+	 * @return The value of the {@link PropertyJson} as a double using {@link JsonObject#getAsDouble()}
 	 */
 	@Override
 	public double getAsDouble() {
@@ -88,7 +88,7 @@ public final class PropertyJson implements Property, JsonSerializable<JsonObject
 	}
 	
 	/**
-	 * @return The value of the {@link PropertyJson property json} as a string using {@link JsonObject#getAsString()}
+	 * @return The value of the {@link PropertyJson} as a string using {@link JsonObject#getAsString()}
 	 */
 	@Override
 	public String getAsString() {
@@ -96,7 +96,7 @@ public final class PropertyJson implements Property, JsonSerializable<JsonObject
 	}
 	
 	/**
-	 * @return The value of the {@link PropertyJson property json} as a json object
+	 * @return The value of the {@link PropertyJson} as a json object
 	 */
 	@Override
 	public JsonObject getAsJson() {
