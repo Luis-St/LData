@@ -9,7 +9,7 @@ import java.io.FileWriter;
 import java.util.Objects;
 
 /**
- * An abstract implementation of {@link Writer writer}
+ * An abstract implementation of {@link Writer}
  *
  * @author Luis-St
  */

@@ -1,13 +1,12 @@
 package net.luis.data.common.io;
 
-import net.luis.data.json.exception.JsonReaderIndexOutOfBoundsException;
 import net.luis.utils.util.LazyLoad;
 
 import java.io.File;
 import java.util.Objects;
 
 /**
- * An abstract implementation of {@link Reader reader} that loads the value lazily
+ * An abstract implementation of {@link Reader} that loads the value lazily
  *
  * @author Luis-St
  */
