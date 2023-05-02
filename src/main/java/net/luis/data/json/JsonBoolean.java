@@ -16,7 +16,7 @@ public final class JsonBoolean extends JsonPrimitive {
 	private final boolean value;
 	
 	/**
-	 * Constructs a {@link JsonBoolean json boolean} with the given value
+	 * Constructs a {@link JsonBoolean} with the given value
 	 * @param value The value of the json boolean
 	 */
 	public JsonBoolean(boolean value) {
@@ -34,8 +34,9 @@ public final class JsonBoolean extends JsonPrimitive {
 	}
 	
 	//region Getters
+	
 	/**
-	 * @return The value of the {@link JsonBoolean json boolean}
+	 * @return The value of the {@link JsonBoolean}
 	 */
 	@Override
 	public boolean getAsBoolean() {
@@ -43,7 +44,7 @@ public final class JsonBoolean extends JsonPrimitive {
 	}
 	
 	/**
-	 * @return The value of the {@link JsonBoolean json boolean} as an integer, 1 if true otherwise 0
+	 * @return The value of the {@link JsonBoolean} as an integer, 1 if true otherwise 0
 	 */
 	@Override
 	public int getAsInt() {
@@ -51,7 +52,7 @@ public final class JsonBoolean extends JsonPrimitive {
 	}
 	
 	/**
-	 * @return The value of the {@link JsonBoolean json boolean} as a long, 1 if true otherwise 0
+	 * @return The value of the {@link JsonBoolean} as a long, 1 if true otherwise 0
 	 */
 	@Override
 	public long getAsLong() {
@@ -59,7 +60,7 @@ public final class JsonBoolean extends JsonPrimitive {
 	}
 	
 	/**
-	 * @return The value of the {@link JsonBoolean json boolean} as a string, "true" if true otherwise "false"
+	 * @return The value of the {@link JsonBoolean} as a string, "true" if true otherwise "false"
 	 */
 	@Override
 	public String getAsString() {

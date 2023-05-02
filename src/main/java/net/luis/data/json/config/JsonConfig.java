@@ -13,12 +13,13 @@ import java.util.Objects;
  *
  * @author Luis-St
  */
+
 public record JsonConfig(boolean prettyPrint, String indent, boolean simplifyPrimitiveArrays, boolean simplifyPrimitiveObjects, boolean allowBlankKeys, boolean allowQuotedStrings, boolean allowCustomExtensions) implements DataConfig {
 	
 	public static final JsonConfig DEFAULT = new JsonConfig(true, "\t", false, false, true, false, false);
 	
 	/**
-	 * Constructs a new {@link JsonConfig json configuration}
+	 * Constructs a new {@link JsonConfig} with the given parameters
 	 * @param prettyPrint Whether to pretty print the json.
 	 *                    If pretty printing is enabled, the json will be written with newlines and indents
 	 * @param indent The indent to use when pretty printing.

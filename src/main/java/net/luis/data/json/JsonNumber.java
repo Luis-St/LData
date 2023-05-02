@@ -16,7 +16,7 @@ public final class JsonNumber extends JsonPrimitive {
 	private final Number value;
 	
 	/**
-	 * Constructs a {@link JsonNumber json number} with the given value
+	 * Constructs a {@link JsonNumber} with the given value
 	 * @param value The value of the json number
 	 * @throws NullPointerException If the value is null
 	 */

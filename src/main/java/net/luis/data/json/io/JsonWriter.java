@@ -8,7 +8,7 @@ import java.io.File;
 import java.util.Objects;
 
 /**
- * A writer for {@link JsonObject json objects} to write them to a file
+ * A writer for {@link JsonObject JsonObjects} to write them to a file
  *
  * @see JsonObject
  * @see AbstractWriter
@@ -19,7 +19,7 @@ import java.util.Objects;
 public class JsonWriter extends AbstractWriter<JsonConfig> {
 	
 	/**
-	 * Constructs a new {@link JsonWriter} with the given file using the {@link JsonConfig#DEFAULT default config}
+	 * Constructs a new {@link JsonWriter} with the given file using the {@link JsonConfig#DEFAULT}
 	 * @param file The file to write to as a string
 	 */
 	public JsonWriter(String file) {
@@ -27,7 +27,7 @@ public class JsonWriter extends AbstractWriter<JsonConfig> {
 	}
 	
 	/**
-	 * Constructs a new {@link JsonWriter} with the given file using the {@link JsonConfig#DEFAULT default config}
+	 * Constructs a new {@link JsonWriter} with the given file using the {@link JsonConfig#DEFAULT}
 	 * @param file The file to write to
 	 */
 	public JsonWriter(File file) {

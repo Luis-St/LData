@@ -11,7 +11,7 @@ import java.util.List;
 import java.util.Objects;
 
 /**
- * Helper class for {@link Json json}
+ * Helper class for {@link Json}
  *
  * @author Luis-St
  */
@@ -20,7 +20,7 @@ import java.util.Objects;
 class JsonHelper {
 	
 	/**
-	 * Returns the correct indent for the given {@link Json json} using the given {@link JsonConfig config}
+	 * Returns the correct indent for the given {@link Json} using the given {@link JsonConfig}
 	 * @param json The json
 	 * @param config The config to use
 	 * @param separator The separator between the json and the indent
@@ -47,9 +47,9 @@ class JsonHelper {
 	}
 	
 	/**
-	 * Returns true if the given {@link Collection collection} of {@link Json json} contains only primitives
+	 * Returns true if the given {@link Collection} of {@link Json} contains only primitives
 	 * @param collection The collection to check
-	 * @param configValue The {@link JsonConfig json config} value
+	 * @param configValue The {@link JsonConfig} value
 	 * @return Whether the json collection can be simplified
 	 */
 	static boolean canBeSimplified(Collection<Json> collection, boolean configValue) {
@@ -66,7 +66,7 @@ class JsonHelper {
 	}
 	
 	/**
-	 * Returns the given string with quotes if the given {@link JsonConfig config} allows it and the string is not already quoted
+	 * Returns the given string with quotes if the given {@link JsonConfig} allows it and the string is not already quoted
 	 * @param json The json string to quote
 	 * @param config The config to use
 	 * @return The quoted string

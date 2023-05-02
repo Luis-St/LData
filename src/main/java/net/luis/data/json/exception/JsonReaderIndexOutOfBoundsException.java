@@ -3,7 +3,9 @@ package net.luis.data.json.exception;
 import net.luis.data.json.io.JsonReader;
 
 /**
- * Thrown by {@link JsonReader json reader} when the reader is at the end of the json file
+ * Exception thrown by {@link JsonReader} when the reader is at the end of the json file
+ *
+ * @see IndexOutOfBoundsException
  *
  * @author Luis-St
  */

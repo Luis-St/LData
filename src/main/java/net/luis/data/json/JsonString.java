@@ -17,7 +17,7 @@ public final class JsonString extends JsonPrimitive {
 	private final String value;
 	
 	/**
-	 * Constructs a new {@link JsonString json string} with the given value
+	 * Constructs a new {@link JsonString} with the given value
 	 * @param value The value of the json string
 	 *              If the value is null, it will be converted to an empty string
 	 */
@@ -36,8 +36,9 @@ public final class JsonString extends JsonPrimitive {
 	}
 	
 	//region Getters
+	
 	/**
-	 * @return The value of the {@link JsonString json string} as a boolean using {@link Boolean#parseBoolean(String)}
+	 * @return The value of the {@link JsonString} as a boolean using {@link Boolean#parseBoolean(String)}
 	 */
 	@Override
 	public boolean getAsBoolean() {
@@ -45,7 +46,7 @@ public final class JsonString extends JsonPrimitive {
 	}
 	
 	/**
-	 * @return The value of the {@link JsonString json string} as a number using {@link Double#parseDouble(String)}
+	 * @return The value of the {@link JsonString} as a number using {@link Double#parseDouble(String)}
 	 */
 	@Override
 	public Number getAsNumber() {
@@ -53,7 +54,7 @@ public final class JsonString extends JsonPrimitive {
 	}
 	
 	/**
-	 * @return The value of the {@link JsonString json string} as a int using {@link Integer#parseInt(String)}
+	 * @return The value of the {@link JsonString} as a int using {@link Integer#parseInt(String)}
 	 */
 	@Override
 	public int getAsInt() {
@@ -61,7 +62,7 @@ public final class JsonString extends JsonPrimitive {
 	}
 	
 	/**
-	 * @return The value of the {@link JsonString json string} as a long using {@link Long#parseLong(String)}
+	 * @return The value of the {@link JsonString} as a long using {@link Long#parseLong(String)}
 	 */
 	@Override
 	public long getAsLong() {
@@ -69,7 +70,7 @@ public final class JsonString extends JsonPrimitive {
 	}
 	
 	/**
-	 * @return The value of the {@link JsonString json string} as a double using {@link Double#parseDouble(String)}
+	 * @return The value of the {@link JsonString} as a double using {@link Double#parseDouble(String)}
 	 */
 	@Override
 	public double getAsDouble() {
@@ -77,7 +78,7 @@ public final class JsonString extends JsonPrimitive {
 	}
 	
 	/**
-	 * @return The value of the {@link JsonString json string}
+	 * @return The value of the {@link JsonString}
 	 */
 	@Override
 	public String getAsString() {

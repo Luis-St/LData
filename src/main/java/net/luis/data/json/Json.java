@@ -20,7 +20,7 @@ import org.jetbrains.annotations.NotNull;
 public sealed interface Json permits JsonArray, JsonNull, JsonObject, JsonPrimitive {
 	
 	/**
-	 * Parses the given json string into a Json element
+	 * Parses the given json string into a {@link Json} element
 	 * @param json The json string to parse
 	 * @return The parsed Json element
 	 */
@@ -41,16 +41,17 @@ public sealed interface Json permits JsonArray, JsonNull, JsonObject, JsonPrimit
 	@NotNull Json copy();
 	
 	//region JsonArray
+	
 	/**
-	 * @return True if the Json element is a {@link JsonArray json array}
+	 * @return True if the Json element is a {@link JsonArray}
 	 */
 	default boolean isArray() {
 		return this instanceof JsonArray;
 	}
 	
 	/**
-	 * @return The Json element as a {@link JsonArray json array}
-	 * @throws JsonException If the Json element is not a {@link JsonArray json array}
+	 * @return The Json element as a {@link JsonArray}
+	 * @throws JsonException If the Json element is not a {@link JsonArray}
 	 */
 	default JsonArray getAsArray() {
 		if (this.isArray()) {
@@ -61,16 +62,17 @@ public sealed interface Json permits JsonArray, JsonNull, JsonObject, JsonPrimit
 	//endregion
 	
 	//region JsonPrimitive
+	
 	/**
-	 * @return True if the Json element is a {@link JsonPrimitive json primitive}
+	 * @return True if the Json element is a {@link JsonPrimitive}
 	 */
 	default boolean isPrimitive() {
 		return this instanceof JsonPrimitive;
 	}
 	
 	/**
-	 * @return The Json element as a {@link JsonPrimitive json primitive}
-	 * @throws JsonException If the Json element is not a {@link JsonPrimitive json primitive}
+	 * @return The Json element as a {@link JsonPrimitive}
+	 * @throws JsonException If the Json element is not a {@link JsonPrimitive}
 	 */
 	default JsonPrimitive getAsPrimitive() {
 		if (this.isPrimitive()) {
@@ -80,69 +82,69 @@ public sealed interface Json permits JsonArray, JsonNull, JsonObject, JsonPrimit
 	}
 	
 	/**
-	 * @return True if the Json element is a {@link JsonBoolean json boolean}
+	 * @return True if the Json element is a {@link JsonBoolean}
 	 */
 	default boolean isBoolean() {
 		throw new JsonException("Not a json primitive: " + this.getName());
 	}
 	
 	/**
-	 * @return The Json element as a {@link Boolean boolean}
-	 * @throws JsonException If the Json element is not a {@link JsonBoolean json boolean}
+	 * @return The Json element as a {@link Boolean}
+	 * @throws JsonException If the Json element is not a {@link JsonBoolean}
 	 */
 	default boolean getAsBoolean() {
 		throw new JsonException("Not a json primitive: " + this.getName());
 	}
 	
 	/**
-	 * @return True if the Json element is a {@link JsonNumber json number}
+	 * @return True if the Json element is a {@link JsonNumber}
 	 */
 	default boolean isNumber() {
 		throw new JsonException("Not a json primitive: " + this.getName());
 	}
 	
 	/**
-	 * @return The Json element as a {@link Number number}
-	 * @throws JsonException If the Json element is not a {@link JsonNumber json number}
+	 * @return The Json element as a {@link Number}
+	 * @throws JsonException If the Json element is not a {@link JsonNumber}
 	 */
 	default Number getAsNumber() {
 		throw new JsonException("Not a json primitive: " + this.getName());
 	}
 	
 	/**
-	 * @return The Json element as a {@link Integer integer}
-	 * @throws JsonException If the Json element is not a {@link JsonNumber json number}
+	 * @return The Json element as a {@link Integer}
+	 * @throws JsonException If the Json element is not a {@link JsonNumber}
 	 */
 	default int getAsInt() {
 		throw new JsonException("Not a json primitive: " + this.getName());
 	}
 	
 	/**
-	 * @return The Json element as a {@link Long long}
-	 * @throws JsonException If the Json element is not a {@link JsonNumber json number}
+	 * @return The Json element as a {@link Long}
+	 * @throws JsonException If the Json element is not a {@link JsonNumber}
 	 */
 	default long getAsLong() {
 		throw new JsonException("Not a json primitive: " + this.getName());
 	}
 	
 	/**
-	 * @return The Json element as a {@link Double double}
-	 * @throws JsonException If the Json element is not a {@link JsonNumber json number}
+	 * @return The Json element as a {@link Double}
+	 * @throws JsonException If the Json element is not a {@link JsonNumber}
 	 */
 	default double getAsDouble() {
 		throw new JsonException("Not a json primitive: " + this.getName());
 	}
 	
 	/**
-	 * @return True if the Json element is a {@link JsonString json string}
+	 * @return True if the Json element is a {@link JsonString}
 	 */
 	default boolean isString() {
 		throw new JsonException("Not a json primitive: " + this.getName());
 	}
 	
 	/**
-	 * @return The Json element as a {@link String string}
-	 * @throws JsonException If the Json element is not a {@link JsonString json string}
+	 * @return The Json element as a {@link String}
+	 * @throws JsonException If the Json element is not a {@link JsonString}
 	 */
 	default String getAsString() {
 		throw new JsonException("Not a json primitive: " + this.getName());
@@ -150,16 +152,17 @@ public sealed interface Json permits JsonArray, JsonNull, JsonObject, JsonPrimit
 	//endregion
 	
 	//region JsonObject
+	
 	/**
-	 * @return True if the Json element is a {@link JsonObject json object}
+	 * @return True if the Json element is a {@link JsonObject}
 	 */
 	default boolean isObject() {
 		return this instanceof JsonObject;
 	}
 	
 	/**
-	 * @return The Json element as a {@link JsonObject json object}
-	 * @throws JsonException If the Json element is not a {@link JsonObject json object}
+	 * @return The Json element as a {@link JsonObject}
+	 * @throws JsonException If the Json element is not a {@link JsonObject}
 	 */
 	default JsonObject getAsObject() {
 		if (this.isObject()) {
@@ -170,8 +173,9 @@ public sealed interface Json permits JsonArray, JsonNull, JsonObject, JsonPrimit
 	//endregion
 	
 	//region JsonNull
+	
 	/**
-	 * @return True if the Json element is a {@link JsonNull json null}
+	 * @return True if the Json element is a {@link JsonNull}
 	 */
 	default boolean isNull() {
 		return this instanceof JsonNull;

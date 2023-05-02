@@ -16,7 +16,7 @@ import java.util.Optional;
 import java.util.Stack;
 
 /**
- * A reader for json strings which converts them into {@link Json json} objects
+ * A reader for json files and strings which converts them into {@link Json} objects
  *
  * @see Json
  * @see AbstractReader
@@ -161,7 +161,7 @@ public class JsonReader extends AbstractReader<Json> implements JsonSerializable
 		this.reset();
 		return switch (this.type) {
 			case ARRAY -> this.toArray();
-			case OBJECT ->  this.toObject();
+			case OBJECT -> this.toObject();
 			case PROPERTY -> {
 				Json json = this.next();
 				this.close();

@@ -26,7 +26,7 @@ public final class JsonArray implements Json, Iterable<Json> {
 	}
 	
 	/**
-	 * Constructs a new {@link JsonArray json array} with the given elements
+	 * Constructs a new {@link JsonArray} with the given elements
 	 * @param elements The elements of the json array
 	 * @throws NullPointerException If the elements are null
 	 */
@@ -49,6 +49,7 @@ public final class JsonArray implements Json, Iterable<Json> {
 	}
 	
 	//region Adders
+	
 	/**
 	 * Adds the given element to the json array
 	 * @param element The element to add
@@ -59,7 +60,7 @@ public final class JsonArray implements Json, Iterable<Json> {
 	}
 	
 	/**
-	 * Adds the given boolean as a {@link JsonBoolean json boolean} to the json array
+	 * Adds the given boolean as a {@link JsonBoolean} to the json array
 	 * @param value The boolean to add
 	 * @return True if the boolean was added
 	 */
@@ -68,7 +69,7 @@ public final class JsonArray implements Json, Iterable<Json> {
 	}
 	
 	/**
-	 * Adds the given number as a {@link JsonNumber json number} to the json array
+	 * Adds the given number as a {@link JsonNumber} to the json array
 	 * @param value The number to add
 	 * @return True if the number was added
 	 */
@@ -77,7 +78,7 @@ public final class JsonArray implements Json, Iterable<Json> {
 	}
 	
 	/**
-	 * Adds the given string as a {@link JsonString json string} to the json array
+	 * Adds the given string as a {@link JsonString} to the json array
 	 * @param value The string to add
 	 * @return True if the string was added
 	 */
@@ -86,7 +87,7 @@ public final class JsonArray implements Json, Iterable<Json> {
 	}
 	
 	/**
-	 * Adds all elements of the given {@link JsonArray json array} to this json array
+	 * Adds all elements of the given {@link JsonArray} to this json array
 	 * @param array The json array to add
 	 * @return True if all elements were added
 	 * @throws NullPointerException If the json array is null
@@ -96,7 +97,7 @@ public final class JsonArray implements Json, Iterable<Json> {
 	}
 	
 	/**
-	 * Adds all values of the given boolean array as {@link JsonBoolean json boolean} to the json array
+	 * Adds all values of the given boolean array as {@link JsonBoolean} to the json array
 	 * @param values The boolean array to add
 	 */
 	public void addAll(boolean... values) {
@@ -104,7 +105,7 @@ public final class JsonArray implements Json, Iterable<Json> {
 	}
 	
 	/**
-	 * Adds all values of the given number array as {@link JsonNumber json number} to the json array
+	 * Adds all values of the given number array as {@link JsonNumber} to the json array
 	 * @param values The number array to add
 	 */
 	public void addAll(Number... values) {
@@ -112,7 +113,7 @@ public final class JsonArray implements Json, Iterable<Json> {
 	}
 	
 	/**
-	 * Adds all values of the given string array as {@link JsonString json string} to the json array
+	 * Adds all values of the given string array as {@link JsonString} to the json array
 	 * @param values The string array to add
 	 */
 	public void addAll(String... values) {
@@ -121,6 +122,7 @@ public final class JsonArray implements Json, Iterable<Json> {
 	//endregion
 	
 	//region List methods
+	
 	/**
 	 * Replace the element at the given index with the given element
 	 * @param index The index of the element to replace
@@ -189,6 +191,7 @@ public final class JsonArray implements Json, Iterable<Json> {
 	//endregion
 	
 	//region Getters
+	
 	/**
 	 * Gets the element at the given index
 	 * @param index The index of the element
@@ -199,7 +202,7 @@ public final class JsonArray implements Json, Iterable<Json> {
 	}
 	
 	/**
-	 * Gets the element at the given index as a {@link JsonObject json object}
+	 * Gets the element at the given index as a {@link JsonObject}
 	 * @param index The index of the element
 	 * @return The element at the given index as a json object
 	 */
@@ -208,7 +211,7 @@ public final class JsonArray implements Json, Iterable<Json> {
 	}
 	
 	/**
-	 * Gets the element at the given index as a {@link JsonArray json array}
+	 * Gets the element at the given index as a {@link JsonArray}
 	 * @param index The index of the element
 	 * @return The element at the given index as a json array
 	 */
@@ -217,7 +220,7 @@ public final class JsonArray implements Json, Iterable<Json> {
 	}
 	
 	/**
-	 * Gets the element at the given index as a {@link Boolean boolean}
+	 * Gets the element at the given index as a {@link Boolean}
 	 * @param index The index of the element
 	 * @return The element at the given index as a boolean
 	 */
@@ -226,7 +229,7 @@ public final class JsonArray implements Json, Iterable<Json> {
 	}
 	
 	/**
-	 * Gets the element at the given index as a {@link Number number}
+	 * Gets the element at the given index as a {@link Number}
 	 * @param index The index of the element
 	 * @return The element at the given index as a number
 	 */
@@ -235,7 +238,7 @@ public final class JsonArray implements Json, Iterable<Json> {
 	}
 	
 	/**
-	 * Gets the element at the given index as a {@link Integer integer}
+	 * Gets the element at the given index as a {@link Integer}
 	 * @param index The index of the element
 	 * @return The element at the given index as a integer
 	 */
@@ -244,7 +247,7 @@ public final class JsonArray implements Json, Iterable<Json> {
 	}
 	
 	/**
-	 * Gets the element at the given index as a {@link Long long}
+	 * Gets the element at the given index as a {@link Long}
 	 * @param index The index of the element
 	 * @return The element at the given index as a long
 	 */
@@ -253,7 +256,7 @@ public final class JsonArray implements Json, Iterable<Json> {
 	}
 	
 	/**
-	 * Gets the element at the given index as a {@link Double double}
+	 * Gets the element at the given index as a {@link Double}
 	 * @param index The index of the element
 	 * @return The element at the given index as a double
 	 */
@@ -262,7 +265,7 @@ public final class JsonArray implements Json, Iterable<Json> {
 	}
 	
 	/**
-	 * Gets the element at the given index as a {@link String string}
+	 * Gets the element at the given index as a {@link String}
 	 * @param index The index of the element
 	 * @return The element at the given index as a string
 	 */

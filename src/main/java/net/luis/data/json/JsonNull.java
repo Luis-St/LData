@@ -12,7 +12,7 @@ import org.jetbrains.annotations.NotNull;
 public final class JsonNull implements Json {
 	
 	/**
-	 * The only instance of {@code JsonNull json null}
+	 * The only instance of {@link JsonNull}
 	 */
 	public static final JsonNull INSTANCE = new JsonNull();
 	

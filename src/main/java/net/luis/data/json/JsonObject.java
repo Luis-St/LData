@@ -22,15 +22,16 @@ public final class JsonObject implements Json, Iterable<Map.Entry<String, Json>>
 	private final Map<String, Json> elements = Maps.newTreeMap();
 	
 	//region Constructors
+	
 	/**
-	 * Constructs a new empty json object
+	 * Constructs a new empty {@link JsonObject}
 	 */
 	public JsonObject() {
 		super();
 	}
 	
 	/**
-	 * Constructs a new json object with the given json element
+	 * Constructs a new {@link JsonObject} with the given {@link Json} element
 	 * @param key The key of the element
 	 * @param value The value of the element
 	 */
@@ -39,7 +40,7 @@ public final class JsonObject implements Json, Iterable<Map.Entry<String, Json>>
 	}
 	
 	/**
-	 * Constructs a new json object with the given string value
+	 * Constructs a new {@link JsonObject} with the given {@link String} value
 	 * @param key The key of the element
 	 * @param value The string value
 	 */
@@ -48,7 +49,7 @@ public final class JsonObject implements Json, Iterable<Map.Entry<String, Json>>
 	}
 	
 	/**
-	 * Constructs a new json object with the given number value
+	 * Constructs a new {@link JsonObject} with the given {@link Number} value
 	 * @param key The key of the element
 	 * @param value The number value
 	 */
@@ -57,7 +58,7 @@ public final class JsonObject implements Json, Iterable<Map.Entry<String, Json>>
 	}
 	
 	/**
-	 * Constructs a new json object with the given boolean value
+	 * Constructs a new {@link JsonObject} with the given {@link Boolean} value
 	 * @param key The key of the element
 	 * @param value The boolean value
 	 */
@@ -66,7 +67,7 @@ public final class JsonObject implements Json, Iterable<Map.Entry<String, Json>>
 	}
 	
 	/**
-	 * Constructs a new json object with the given json object value
+	 * Constructs a new {@link JsonObject} with the given {@link JsonObject} value
 	 * @param key The key of the element
 	 * @param value The json object value
 	 */
@@ -102,6 +103,7 @@ public final class JsonObject implements Json, Iterable<Map.Entry<String, Json>>
 	}
 	
 	//region Adders
+	
 	/**
 	 * Adds the given json element to this json object
 	 * @param key The key of the element
@@ -114,7 +116,7 @@ public final class JsonObject implements Json, Iterable<Map.Entry<String, Json>>
 	}
 	
 	/**
-	 * Adds the given string value to this json object as a {@link JsonString json string}
+	 * Adds the given string value to this json object as a {@link JsonString}
 	 * @param key The key of the element
 	 * @param value The string value
 	 * @throws NullPointerException If the key is null
@@ -125,7 +127,7 @@ public final class JsonObject implements Json, Iterable<Map.Entry<String, Json>>
 	}
 	
 	/**
-	 * Adds the given number value to this json object as a {@link JsonNumber json number}
+	 * Adds the given number value to this json object as a {@link JsonNumber}
 	 * @param key The key of the element
 	 * @param value The number value
 	 * @throws NullPointerException If the key is null
@@ -136,7 +138,7 @@ public final class JsonObject implements Json, Iterable<Map.Entry<String, Json>>
 	}
 	
 	/**
-	 * Adds the given boolean value to this json object as a {@link JsonBoolean json boolean}
+	 * Adds the given boolean value to this json object as a {@link JsonBoolean}
 	 * @param key The key of the element
 	 * @param value The boolean value
 	 * @throws NullPointerException If the key is null
@@ -193,6 +195,7 @@ public final class JsonObject implements Json, Iterable<Map.Entry<String, Json>>
 	}
 	
 	//region Getters
+	
 	/**
 	 * Gets the json element with the given key
 	 * @param key The key of the element
@@ -207,7 +210,7 @@ public final class JsonObject implements Json, Iterable<Map.Entry<String, Json>>
 	}
 	
 	/**
-	 * Gets the json element with the given key as a {@link JsonArray json array}
+	 * Gets the json element with the given key as a {@link JsonArray}
 	 * @param key The key of the element
 	 * @return The json array
 	 * @throws JsonException If this json object does not contain an element with the given key
@@ -220,7 +223,7 @@ public final class JsonObject implements Json, Iterable<Map.Entry<String, Json>>
 	}
 	
 	/**
-	 * Gets the json element with the given key as a {@link JsonPrimitive json primitive}
+	 * Gets the json element with the given key as a {@link JsonPrimitive}
 	 * @param key The key of the element
 	 * @return The json primitive
 	 * @throws JsonException If this json object does not contain an element with the given key
@@ -233,7 +236,7 @@ public final class JsonObject implements Json, Iterable<Map.Entry<String, Json>>
 	}
 	
 	/**
-	 * Gets the json element with the given key as a {@link JsonObject json object}
+	 * Gets the json element with the given key as a {@link JsonObject}
 	 * @param key The key of the element
 	 * @return The json object
 	 * @throws JsonException If this json object does not contain an element with the given key
