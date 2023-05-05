@@ -1,6 +1,6 @@
 package net.luis.data.json.io;
 
-import net.luis.data.common.io.AbstractWriter;
+import net.luis.data.internal.io.AbstractWriter;
 import net.luis.data.json.JsonObject;
 import net.luis.data.json.config.JsonConfig;
 

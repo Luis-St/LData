@@ -1,7 +1,7 @@
 package net.luis.data.properties.io;
 
-import net.luis.data.common.io.AbstractWriter;
-import net.luis.data.common.util.DataUtils;
+import net.luis.data.internal.io.AbstractWriter;
+import net.luis.data.internal.util.DataUtils;
 import net.luis.data.properties.Property;
 import net.luis.data.properties.config.PropertyConfig;
 

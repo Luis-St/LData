@@ -1,6 +1,6 @@
-package net.luis.data.common.io;
+package net.luis.data.internal.io;
 
-import net.luis.data.common.config.DataConfig;
+import net.luis.data.internal.config.DataConfig;
 import org.apache.commons.io.FilenameUtils;
 
 import java.io.BufferedWriter;

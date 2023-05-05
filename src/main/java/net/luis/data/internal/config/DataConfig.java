@@ -1,4 +1,4 @@
-package net.luis.data.common.config;
+package net.luis.data.internal.config;
 
 /**
  * Configuration which is used to write data to file

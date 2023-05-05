@@ -1,6 +1,6 @@
 package net.luis.data.xml.io;
 
-import net.luis.data.common.io.AbstractWriter;
+import net.luis.data.internal.io.AbstractWriter;
 import net.luis.data.xml.XmlElement;
 import net.luis.data.xml.config.XmlConfig;
 import org.jetbrains.annotations.NotNull;

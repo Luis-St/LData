@@ -1,6 +1,6 @@
 package net.luis.data.properties.io;
 
-import net.luis.data.common.io.AbstractReader;
+import net.luis.data.internal.io.AbstractReader;
 import net.luis.data.json.JsonObject;
 import net.luis.data.json.io.JsonReader;
 import net.luis.data.properties.*;

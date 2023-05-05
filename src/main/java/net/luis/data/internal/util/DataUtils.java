@@ -1,4 +1,4 @@
-package net.luis.data.common.util;
+package net.luis.data.internal.util;
 
 import com.google.common.collect.Lists;
 import org.jetbrains.annotations.NotNull;

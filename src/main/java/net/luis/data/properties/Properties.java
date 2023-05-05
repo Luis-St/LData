@@ -1,7 +1,7 @@
 package net.luis.data.properties;
 
 import com.google.common.collect.Lists;
-import net.luis.data.common.io.Writable;
+import net.luis.data.internal.io.Writable;
 import net.luis.data.properties.io.PropertyWriter;
 import org.jetbrains.annotations.NotNull;
 

@@ -1,4 +1,4 @@
-package net.luis.data.common.io;
+package net.luis.data.internal.io;
 
 import org.apache.commons.io.FileUtils;
 

@@ -1,7 +1,7 @@
 package net.luis.data.xml.io;
 
 import com.google.common.collect.Lists;
-import net.luis.data.common.io.Reader;
+import net.luis.data.internal.io.Reader;
 import net.luis.data.xml.XmlAttribute;
 import net.luis.data.xml.XmlElement;
 import net.luis.data.xml.exception.XmlException;

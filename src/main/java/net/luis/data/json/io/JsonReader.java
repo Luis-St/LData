@@ -1,8 +1,8 @@
 package net.luis.data.json.io;
 
-import net.luis.data.common.io.AbstractReader;
-import net.luis.data.common.io.FileHelper;
-import net.luis.data.common.util.DataUtils;
+import net.luis.data.internal.io.AbstractReader;
+import net.luis.data.internal.io.FileHelper;
+import net.luis.data.internal.util.DataUtils;
 import net.luis.data.json.*;
 import net.luis.data.json.exception.JsonException;
 import net.luis.data.json.exception.JsonReaderIndexOutOfBoundsException;

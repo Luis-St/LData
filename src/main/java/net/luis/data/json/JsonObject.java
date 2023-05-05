@@ -2,7 +2,7 @@ package net.luis.data.json;
 
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
-import net.luis.data.common.io.Writable;
+import net.luis.data.internal.io.Writable;
 import net.luis.data.json.config.JsonConfig;
 import net.luis.data.json.exception.JsonException;
 import net.luis.data.json.io.JsonWriter;

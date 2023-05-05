@@ -1,6 +1,6 @@
 package net.luis.data.properties.config;
 
-import net.luis.data.common.config.DataConfig;
+import net.luis.data.internal.config.DataConfig;
 import net.luis.data.properties.io.PropertyWriter;
 import org.jetbrains.annotations.NotNull;
 
