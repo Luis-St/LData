@@ -56,7 +56,7 @@ publishing {
 		mavenJava(MavenPublication) {
 			groupId = "net.luis"
 			artifactId = "LData"
-			version = "1.3"
+			version = "1.4"
 			artifact jar
 			artifact sourcesJar
 		}
