@@ -22,6 +22,13 @@ dependencies {
 	implementation "org.jetbrains:annotations:${JetBrainsAnnotations}" // Annotations
 }
 
+tasks.register("run", JavaExec) {
+	group = "runs"
+	getMainClass().set("net.luis.data.Main")
+	classpath = sourceSets.main.runtimeClasspath
+	enableAssertions = true
+}
+
 tasks.register("testJson", JavaExec) {
 	group = "tests"
 	getMainClass().set("net.luis.data.JsonTest")
