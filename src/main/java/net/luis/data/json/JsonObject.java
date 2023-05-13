@@ -194,8 +194,6 @@ public final class JsonObject implements Json, Iterable<Map.Entry<String, Json>>
 		return this.elements.containsKey(key);
 	}
 	
-	//region Getters
-	
 	/**
 	 * Gets the json element with the given key
 	 * @param key The key of the element
@@ -209,6 +207,16 @@ public final class JsonObject implements Json, Iterable<Map.Entry<String, Json>>
 		throw new JsonException("No such json key: " + key);
 	}
 	
+	//region JsonArray
+	
+	/**
+	 * @param key The key of the element
+	 * @return True if this json object contains an element with the given key and it is a {@link JsonArray}, false otherwise
+	 */
+	public boolean isArray(String key) {
+		return this.has(key) && this.get(key).isArray();
+	}
+	
 	/**
 	 * Gets the json element with the given key as a {@link JsonArray}
 	 * @param key The key of the element
@@ -220,6 +228,17 @@ public final class JsonObject implements Json, Iterable<Map.Entry<String, Json>>
 			return this.get(key).getAsArray();
 		}
 		throw new JsonException("No such json key: " + key);
+	}
+	//endregion
+	
+	//region JsonPrimitive
+	
+	/**
+	 * @param key The key of the element
+	 * @return True if this json object contains an element with the given key and it is a {@link JsonPrimitive}, false otherwise
+	 */
+	public boolean isPrimitive(String key) {
+		return this.has(key) && this.get(key).isPrimitive();
 	}
 	
 	/**
@@ -236,6 +255,119 @@ public final class JsonObject implements Json, Iterable<Map.Entry<String, Json>>
 	}
 	
 	/**
+	 * @param key The key of the element
+	 * @return True if this json object contains an element with the given key and it is a {@link JsonBoolean}, false otherwise
+	 */
+	public boolean isBoolean(String key) {
+		return this.has(key) && this.get(key).isBoolean();
+	}
+	
+	/**
+	 * Gets the json element with the given key as a {@link Boolean}
+	 * @param key The key of the element
+	 * @return The boolean value
+	 * @throws JsonException If this json object does not contain an element with the given key
+	 */
+	public boolean getAsBoolean(String key) {
+		if (this.has(key)) {
+			return this.get(key).getAsBoolean();
+		}
+		throw new JsonException("No such json key: " + key);
+	}
+	
+	/**
+	 * @param key The key of the element
+	 * @return True if this json object contains an element with the given key and it is a {@link JsonNumber}, false otherwise
+	 */
+	public boolean isNumber(String key) {
+		return this.has(key) && this.get(key).isNumber();
+	}
+	
+	/**
+	 * Gets the json element with the given key as a {@link Number}
+	 * @param key The key of the element
+	 * @return The number value
+	 * @throws JsonException If this json object does not contain an element with the given key
+	 */
+	public Number getAsNumber(String key) {
+		if (this.has(key)) {
+			return this.get(key).getAsNumber();
+		}
+		throw new JsonException("No such json key: " + key);
+	}
+	
+	/**
+	 * Gets the json element with the given key as a {@link Integer}
+	 * @param key The key of the element
+	 * @return The integer value
+	 * @throws JsonException If this json object does not contain an element with the given key
+	 */
+	public int getAsInt(String key) {
+		if (this.has(key)) {
+			return this.get(key).getAsInt();
+		}
+		throw new JsonException("No such json key: " + key);
+	}
+	
+	/**
+	 * Gets the json element with the given key as a {@link Long}
+	 * @param key The key of the element
+	 * @return The long value
+	 * @throws JsonException If this json object does not contain an element with the given key
+	 */
+	public long getAsLong(String key) {
+		if (this.has(key)) {
+			return this.get(key).getAsLong();
+		}
+		throw new JsonException("No such json key: " + key);
+	}
+	
+	/**
+	 * Gets the json element with the given key as a {@link Double}
+	 * @param key The key of the element
+	 * @return The double value
+	 * @throws JsonException If this json object does not contain an element with the given key
+	 */
+	public double getAsDouble(String key) {
+		if (this.has(key)) {
+			return this.get(key).getAsDouble();
+		}
+		throw new JsonException("No such json key: " + key);
+	}
+	
+	/**
+	 * @param key The key of the element
+	 * @return True if this json object contains an element with the given key and it is a {@link JsonString}, false otherwise
+	 */
+	public boolean isString(String key) {
+		return this.has(key) && this.get(key).isString();
+	}
+	
+	/**
+	 * Gets the json element with the given key as a {@link String}
+	 * @param key The key of the element
+	 * @return The string value
+	 * @throws JsonException If this json object does not contain an element with the given key
+	 */
+	public String getAsString(String key) {
+		if (this.has(key)) {
+			return this.get(key).getAsString();
+		}
+		throw new JsonException("No such json key: " + key);
+	}
+	//endregion
+	
+	//region JsonObject
+	
+	/**
+	 * @param key The key of the element
+	 * @return True if this json object contains an element with the given key and it is a {@link JsonObject}, false otherwise
+	 */
+	public boolean isObject(String key) {
+		return this.has(key) && this.get(key).isObject();
+	}
+	
+	/**
 	 * Gets the json element with the given key as a {@link JsonObject}
 	 * @param key The key of the element
 	 * @return The json object
@@ -248,6 +380,10 @@ public final class JsonObject implements Json, Iterable<Map.Entry<String, Json>>
 		throw new JsonException("No such json key: " + key);
 	}
 	//endregion
+	
+	public boolean isNull(String key) {
+		return this.has(key) && this.get(key).isNull();
+	}
 	
 	@Override
 	public @NotNull Iterator<Map.Entry<String, Json>> iterator() {
