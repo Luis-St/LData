@@ -29,27 +29,6 @@ tasks.register("run", JavaExec) {
 	enableAssertions = true
 }
 
-tasks.register("testJson", JavaExec) {
-	group = "tests"
-	getMainClass().set("net.luis.data.JsonTest")
-	classpath = sourceSets.test.runtimeClasspath
-	enableAssertions = true
-}
-
-tasks.register("testXml", JavaExec) {
-	group = "tests"
-	getMainClass().set("net.luis.data.XmlTest")
-	classpath = sourceSets.test.runtimeClasspath
-	enableAssertions = true
-}
-
-tasks.register("testProperty", JavaExec) {
-	group = "tests"
-	getMainClass().set("net.luis.data.PropertyTest")
-	classpath = sourceSets.test.runtimeClasspath
-	enableAssertions = true
-}
-
 java {
 	withSourcesJar()
 }
@@ -63,7 +42,7 @@ publishing {
 		mavenJava(MavenPublication) {
 			groupId = "net.luis"
 			artifactId = "LData"
-			version = "1.5"
+			version = "1.0.0"
 			artifact jar
 			artifact sourcesJar
 		}
